@@ -33,4 +33,12 @@ public class Util {
     public static List<Role> getRolesToRemove(Guild g) {
         return g.getRoles().filter(role -> CTFDiscordBot.ROLES_TO_REMOVE.contains(role.getName())).collect(Collectors.toList()).block();
     }
+    public static Role getRoleByName(String name, Guild g) {
+        for(Role r : g.getRoles().toIterable()) {
+            if(r.getName().equalsIgnoreCase(name)) {
+                return r;
+            }
+        }
+        return null;
+    }
 }

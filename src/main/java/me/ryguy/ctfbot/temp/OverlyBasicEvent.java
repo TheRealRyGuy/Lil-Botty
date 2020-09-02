@@ -86,5 +86,8 @@ public class OverlyBasicEvent {
     public Message getMessage() {
         return this.announcement;
     }
+    public String getName() {
+        return this.name;
+    }
 
 }

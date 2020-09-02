@@ -11,12 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BrawlCommand extends Command {
-    public BrawlCommand() {
-        super("brawl", "brool");
-    }
-
     private static final Map<String, String> servers = new HashMap<>();
-    private HashMap<String, String> result;
 
     static {
         servers.put("br_brawl_com", "Battle Royale");
@@ -35,21 +30,27 @@ public class BrawlCommand extends Command {
         servers.put("total", "Total");
     }
 
+    private HashMap<String, String> result;
+
+    public BrawlCommand() {
+        super("brawl", "brool");
+    }
+
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
         try {
             String s = WebUtil.getJSONApi("https://www.brawl.com/data/playerCount.json");
-                s = s.replaceAll("\"", "");
-                s = s.replace("{", "");
-                s = s.replace("}", "");
-                result = new HashMap<>();
-                for(String res : s.split(",")) {
-                    if(servers.containsKey(res.split(":")[0])) {
-                        result.put(servers.get(res.split(":")[0]), res.split(":")[1]);
-                    }
+            s = s.replaceAll("\"", "");
+            s = s.replace("{", "");
+            s = s.replace("}", "");
+            result = new HashMap<>();
+            for (String res : s.split(",")) {
+                if (servers.containsKey(res.split(":")[0])) {
+                    result.put(servers.get(res.split(":")[0]), res.split(":")[1]);
                 }
-        }catch(Exception e) {
-            if(e instanceof ConnectException) {
+            }
+        } catch (Exception e) {
+            if (e instanceof ConnectException) {
                 message.getChannel().block().createMessage(msg -> {
                     msg.setEmbed(embed -> {
                         embed.setColor(Color.TAHITI_GOLD);
@@ -57,7 +58,7 @@ public class BrawlCommand extends Command {
                     });
                 }).block();
                 return null;
-            }else {
+            } else {
                 message.getChannel().block().createMessage(msg -> {
                     msg.setEmbed(embed -> {
                         embed.setColor(Color.TAHITI_GOLD);
@@ -68,9 +69,9 @@ public class BrawlCommand extends Command {
                 return null;
             }
         }
-        if(result != null) {
+        if (result != null) {
             StringBuilder sb = new StringBuilder();
-            for(Map.Entry<String,String> entry : result.entrySet()) {
+            for (Map.Entry<String, String> entry : result.entrySet()) {
                 sb.append(String.format(":arrow_forward: **%s**: %s \n", entry.getKey(), entry.getValue()));
             }
             message.getChannel().block().createMessage(sb.toString()).block();

@@ -3,7 +3,6 @@ package me.ryguy.ctfbot.temp;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.rest.util.Color;
-import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.types.CTFDiscordOnlyCommand;
 import me.ryguy.ctfbot.util.Util;
 import reactor.core.publisher.Mono;
@@ -14,12 +13,18 @@ public class BasicSignUpCommand extends CTFDiscordOnlyCommand {
     }
 
     @Override
-    public Mono<Void> execute(Message message, String s, String[] strings) {
+    public Mono<Void> execute(Message message, String s, String[] args) {
 
-        if(!Util.isPpmHost(message.getAuthorAsMember().block())) {
+        if (!Util.isPpmHost(message.getAuthorAsMember().block())) {
             return null;
         }
-        OverlyBasicEvent obe = new OverlyBasicEvent("**" + message.getAuthorAsMember().block().getDisplayName() + " PPM!**", ReactionEmoji.unicode("✅"));
+        String name;
+        if(args.length == 0) {
+            name = message.getAuthorAsMember().block().getDisplayName() + " PPM!";
+        }else {
+            name = String.join(" ");
+        }
+        OverlyBasicEvent obe = new OverlyBasicEvent(String.format("**%s**", name), ReactionEmoji.unicode("✅"));
         obe.init();
         obe.setupSignups();
 

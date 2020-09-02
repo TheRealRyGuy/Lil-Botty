@@ -15,7 +15,7 @@ public class EventCommand extends CTFDiscordOnlyCommand {
 
     @Override
     public Mono<Void> execute(Message message, String s, String[] strings) {
-        if(!Util.isPpmHost(message.getAuthorAsMember().block())) return null;
+        if (!Util.isPpmHost(message.getAuthorAsMember().block())) return null;
         WorkFlow<Event> flow = new WorkFlow<>(new Event(), message.getChannel().block(), message.getAuthor().get());
         flow.addRule("!cancel", wf -> {
             wf.end();

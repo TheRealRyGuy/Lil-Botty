@@ -11,9 +11,6 @@ import java.util.List;
 public class Event {
 
     public static List<Event> events = new ArrayList<>();
-
-    public Event() {}
-
     private String name;
     private String description;
     private Message announcementMessage;
@@ -23,6 +20,8 @@ public class Event {
     private Role giveRole;
     private ReactionEmoji signUpEmoji;
     private ReactionEmoji rejectEmoji;
+    public Event() {
+    }
 
     public void init() {
 

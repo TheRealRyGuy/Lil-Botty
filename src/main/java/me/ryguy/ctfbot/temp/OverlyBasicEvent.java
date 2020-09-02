@@ -3,17 +3,14 @@ package me.ryguy.ctfbot.temp;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
-import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.discordapi.DiscordBot;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class OverlyBasicEvent {
 
@@ -33,8 +30,8 @@ public class OverlyBasicEvent {
     }
 
     public static OverlyBasicEvent getEvent(Message announcementMessage) {
-        for(OverlyBasicEvent e : events) {
-            if(e.getMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
+        for (OverlyBasicEvent e : events) {
+            if (e.getMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
                 return e;
         }
         return null;
@@ -49,6 +46,7 @@ public class OverlyBasicEvent {
         this.players.remove(player);
         this.setupSignups();
     }
+
     public void init() {
         MessageChannel ppms = (MessageChannel) DiscordBot.getBot().getGateway().getGuildById(Snowflake.of(CTFDiscordBot.CTF_DISCORD_ID)).block().getChannelById(Snowflake.of(CTFDiscordBot.PPM_CHANNEL)).block();
         MessageChannel signups = (MessageChannel) DiscordBot.getBot().getGateway().getGuildById(Snowflake.of(CTFDiscordBot.CTF_DISCORD_ID)).block().getChannelById(Snowflake.of(CTFDiscordBot.SIGNUPS_CHANNEL)).block();
@@ -57,37 +55,44 @@ public class OverlyBasicEvent {
         this.signups = signups.createMessage("aaaaaa").block();
         events.add(this);
     }
+
     private String grabPlayerList() {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < players.size(); i++) {
-            sb.append((i+1) + ": " + players.get(i).getMention() + "\n");
+        for (int i = 0; i < players.size(); i++) {
+            sb.append((i + 1) + ": " + players.get(i).getMention() + "\n");
         }
         return sb.toString();
     }
+
     public void setupSignups() {
         signups.edit(e -> {
             e.setEmbed(em -> {
-               em.setTitle(this.name);
-               em.setDescription("I really need to add functionality to put information here");
-               em.addField("Players", grabPlayerList().isEmpty() ? "no one :sob:" : grabPlayerList(), false);
-               em.setColor(Color.TAHITI_GOLD);
+                em.setTitle(this.name);
+                em.setDescription("I really need to add functionality to put information here");
+                em.addField("Players", grabPlayerList().isEmpty() ? "no one :sob:" : grabPlayerList(), false);
+                em.setColor(Color.TAHITI_GOLD);
             });
         }).subscribe();
     }
+
     public ReactionEmoji getEmoji() {
         return this.toSignUp;
     }
+
     public void setEmoji(ReactionEmoji gi) {
         this.toSignUp = gi;
     }
-    public void setName(String s) {
-        this.name = s;
-    }
+
     public Message getMessage() {
         return this.announcement;
     }
+
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String s) {
+        this.name = s;
     }
 
 }

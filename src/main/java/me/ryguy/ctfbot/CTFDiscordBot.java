@@ -1,13 +1,10 @@
 package me.ryguy.ctfbot;
 
 import com.google.gson.Gson;
-import me.ryguy.ctfbot.cmds.BrawlCommand;
-import me.ryguy.ctfbot.cmds.FindMap;
-import me.ryguy.ctfbot.temp.BasicSignUpCommand;
-import me.ryguy.ctfbot.cmds.RemoveRolesCommand;
-import me.ryguy.ctfbot.cmds.SetRolesCommand;
+import me.ryguy.ctfbot.cmds.*;
 import me.ryguy.ctfbot.listeners.MemeChatListeners;
 import me.ryguy.ctfbot.temp.BasicEventReactionsListener;
+import me.ryguy.ctfbot.temp.BasicSignUpCommand;
 import me.ryguy.discordapi.DiscordBot;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -23,19 +20,17 @@ public class CTFDiscordBot {
     public static final long SIGNUPS_CHANNEL = 483993420189138975L;
 
     public static final Gson GSON = new Gson();
+    public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
     public static File MAP_FILE;
+    private static DiscordBot bot;
+
     static {
-        if(SystemUtils.IS_OS_WINDOWS) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             MAP_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/maps.json");
-        }else {
+        } else {
             MAP_FILE = new File("/Shared/maps.json");
         }
     }
-
-    public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
-
-
-    private static DiscordBot bot;
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -50,7 +45,8 @@ public class CTFDiscordBot {
         new SetRolesCommand().register(); //DONE
         new BasicSignUpCommand().register(); //DONE
         new RemoveRolesCommand().register(); //DONE
-        new FindMap().register();
+        new FindMapCommand().register(); // DONE
+        new InviteCommand().register();
 
         new MemeChatListeners().register(); //DONE
         new BasicEventReactionsListener().register(); //DONE

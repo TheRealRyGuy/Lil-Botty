@@ -12,7 +12,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class WebUtil {
-    public static String getJSONApi(String string) throws Exception{
+    public static String getJSONApi(String string) throws Exception {
         Validate.notNull(string);
 
         CookieManager cookieManager = new CookieManager();

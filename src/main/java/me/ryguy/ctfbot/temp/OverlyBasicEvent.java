@@ -26,7 +26,6 @@ public class OverlyBasicEvent {
         this.name = name;
         this.toSignUp = emoji;
         this.players = new ArrayList<>();
-
     }
 
     public static OverlyBasicEvent getEvent(Message announcementMessage) {
@@ -52,6 +51,7 @@ public class OverlyBasicEvent {
         MessageChannel signups = (MessageChannel) DiscordBot.getBot().getGateway().getGuildById(Snowflake.of(CTFDiscordBot.CTF_DISCORD_ID)).block().getChannelById(Snowflake.of(CTFDiscordBot.SIGNUPS_CHANNEL)).block();
         Message ann = ppms.createMessage(name + "\n\nReact with :white_check_mark: to sign up!").block();
         announcement = ann;
+        ann.addReaction(ReactionEmoji.unicode("✅"));
         this.signups = signups.createMessage("aaaaaa").block();
         events.add(this);
     }

@@ -18,8 +18,8 @@ public class CTFDiscordBot {
     //List of many many things
     public static final long CTF_DISCORD_ID = 276518289289773067L;
     public static final long TEST_GUILD_ID = 433097833080684575L;
-    public static final long PPM_CHANNEL = 749940870496649237L;
-    public static final long SIGNUPS_CHANNEL = 749940922984300626L;
+    public static final long PPM_CHANNEL = 309172630814982156L;
+    public static final long SIGNUPS_CHANNEL = 483993420189138975L;
 
     public static final Gson GSON = new Gson();
     public static final File MAP_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/maps.json");

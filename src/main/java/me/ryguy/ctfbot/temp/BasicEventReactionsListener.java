@@ -22,7 +22,7 @@ public class BasicEventReactionsListener implements Listener {
 
         if(event.getMember().isPresent()) {
             if(Util.getRoleByName("playing", event.getGuild().block()) == null) return;
-            event.getMember().get().addRole(Util.getRoleByName("playing", event.getGuild().block()).getId(), "signed up to " + e.getName());
+            event.getMember().get().addRole(Util.getRoleByName("playing", event.getGuild().block()).getId(), "signed up to " + e.getName()).block();
         }
     }
 
@@ -39,7 +39,7 @@ public class BasicEventReactionsListener implements Listener {
             Member mem = event.getGuild().block().getMemberById(event.getUserId()).block();
             if(mem.getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("playing")) {
                 Role r = Util.getRoleByName("playing", event.getGuild().block());
-                mem.removeRole(r.getId(), "unsigned up from " + e.getName());
+                mem.removeRole(r.getId(), "unsigned up from " + e.getName()).block();
             }
         }
     }

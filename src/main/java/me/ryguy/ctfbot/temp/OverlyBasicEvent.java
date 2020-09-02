@@ -51,8 +51,8 @@ public class OverlyBasicEvent {
         MessageChannel signups = (MessageChannel) DiscordBot.getBot().getGateway().getGuildById(Snowflake.of(CTFDiscordBot.CTF_DISCORD_ID)).block().getChannelById(Snowflake.of(CTFDiscordBot.SIGNUPS_CHANNEL)).block();
         Message ann = ppms.createMessage(name + "\n\nReact with :white_check_mark: to sign up!").block();
         announcement = ann;
-        ann.addReaction(ReactionEmoji.unicode("✅"));
-        this.signups = signups.createMessage("aaaaaa").block();
+        ann.addReaction(ReactionEmoji.unicode("✅")).block();
+        this.signups = signups.createMessage(":wc:").block();
         events.add(this);
     }
 
@@ -72,6 +72,7 @@ public class OverlyBasicEvent {
                 em.addField("Players", grabPlayerList().isEmpty() ? "no one :sob:" : grabPlayerList(), false);
                 em.setColor(Color.TAHITI_GOLD);
             });
+            e.setContent(":wc:");
         }).subscribe();
     }
 

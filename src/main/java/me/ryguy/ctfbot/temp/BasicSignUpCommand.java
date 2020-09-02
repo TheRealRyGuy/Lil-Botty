@@ -24,7 +24,7 @@ public class BasicSignUpCommand extends CTFDiscordOnlyCommand {
         }else {
             name = String.join(" ");
         }
-        OverlyBasicEvent obe = new OverlyBasicEvent(String.format("**%s**", name), ReactionEmoji.unicode("✅"));
+        OverlyBasicEvent obe = new OverlyBasicEvent("**" + name + "**", ReactionEmoji.unicode("✅"));
         obe.init();
         obe.setupSignups();
 

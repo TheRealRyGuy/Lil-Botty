@@ -16,7 +16,8 @@ import java.net.URL
 class CTFGameStatsCommand : CTFDiscordOnlyCommand("gamestats", "ppmstats") {
     override fun execute(message: Message?, alias: String?, args: Array<out String>?): Mono<Void> {
         if (alias == "ppmstats") {
-            val n = Integer.parseInt(args?.get(0) ?: "3")
+            val n = if (args == null || args.isEmpty()) 3 else Integer.parseInt(args[0])
+
             val games = CTFGame.getMostRecentCTFGames(n) { CTFGame.isMatchServer(CTFGame.getServer(it)) }
 
             if (games.isEmpty()) {

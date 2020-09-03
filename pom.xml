@@ -10,12 +10,47 @@
     <packaging>jar</packaging>
 
     <properties>
+        <kotlin.version>1.4.0</kotlin.version>
         <sourceEncoding>UTF-8</sourceEncoding>
         <outputEncoding>UTF-8</outputEncoding>
     </properties>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <source>src/main/java</source>
+                                <source>src/main/kotlin</source>
+                                <source>src/main/resources</source>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <source>src/test/java</source>
+                                <source>src/test/kotlin</source>
+                                <source>src/test/resources</source>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -41,6 +76,22 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <source>8</source>
                     <target>8</target>
@@ -51,8 +102,8 @@
 
     <repositories>
         <repository>
-            <id>local-repo</id>
-            <url>${project.basedir}\src\main\resources</url>
+            <id>mvn-central</id>
+            <url>https://repo1.maven.org/maven2/</url>
         </repository>
     </repositories>
 
@@ -78,10 +129,39 @@
             <version>5.1.1</version>
         </dependency>
         <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>me.ryguy</groupId>
             <artifactId>Discord4JLib</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

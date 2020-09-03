@@ -1,10 +1,6 @@
 package me.ryguy.ctfbot;
 
 import com.google.gson.Gson;
-import me.ryguy.ctfbot.cmds.*;
-import me.ryguy.ctfbot.listeners.MemeChatListeners;
-import me.ryguy.ctfbot.temp.BasicEventReactionsListener;
-import me.ryguy.ctfbot.temp.BasicSignUpCommand;
 import me.ryguy.discordapi.DiscordBot;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -41,15 +37,8 @@ public class CTFDiscordBot {
         bot = new DiscordBot(args[0], "!");
         bot.loginBot();
 
-        new BrawlCommand().register(); //DONE
-        new SetRolesCommand().register(); //DONE
-        new BasicSignUpCommand().register(); //DONE
-        new RemoveRolesCommand().register(); //DONE
-        new FindMapCommand().register(); // DONE
-        new InviteCommand().register();
-
-        new MemeChatListeners().register(); //DONE
-        new BasicEventReactionsListener().register(); //DONE
+        Startup.INSTANCE.registerCommands();
+        Startup.INSTANCE.registerListeners();
 
         bot.endStartup();
     }

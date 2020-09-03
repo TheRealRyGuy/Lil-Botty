@@ -1,14 +1,16 @@
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import me.ryguy.ctfbot.cmds.BrawlCommand
+import me.ryguy.ctfbot.util.GET
 import me.ryguy.ctfbot.util.WebUtil
 import org.junit.Test
+import java.net.URL
 import kotlin.test.assertTrue
 
 class BrawlCountTest {
     @Test
     fun `test brawl count parsing`() {
-        val s = WebUtil.getWebResource("https://www.brawl.com/data/playerCount.json")
+        val s = URL("https://www.brawl.com/data/playerCount.json").GET()
         val result = Gson().fromJson<Map<String, String>>(s, object: TypeToken<Map<String, String>>() {}.type)
 
         assertTrue(result.isNotEmpty(), "Obtained empty brawl json")

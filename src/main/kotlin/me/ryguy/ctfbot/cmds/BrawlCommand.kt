@@ -6,9 +6,10 @@ import discord4j.core.`object`.entity.Message
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.core.spec.MessageCreateSpec
 import discord4j.rest.util.Color
-import me.ryguy.ctfbot.util.WebUtil.getWebResource
+import me.ryguy.ctfbot.util.GET
 import me.ryguy.discordapi.command.Command
 import reactor.core.publisher.Mono
+import java.net.URL
 
 class BrawlCommand : Command("brawl", "brool") {
     companion object {
@@ -31,10 +32,10 @@ class BrawlCommand : Command("brawl", "brool") {
 
     override fun execute(message: Message, alias: String, args: Array<String>): Mono<Void> {
         try {
-            val s = getWebResource("https://www.brawl.com/data/playerCount.json")
+            val s = URL("https://www.brawl.com/data/playerCount.json").GET()
             val result = Gson().fromJson<Map<String, String>>(s, object: TypeToken<Map<String, String>>() {}.type)
 
-            result.filterKeys { it in BrawlCommand.servers.keys }.map { (key, value) ->
+            result.filterKeys { it in servers.keys }.map { (key, value) ->
                 String.format(":arrow_forward: **%s**: %s", servers[key], value)
             }.joinToString("\n").run {
                 message.channel.block()?.createMessage(this)?.block()

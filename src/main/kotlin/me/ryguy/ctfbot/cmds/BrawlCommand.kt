@@ -37,7 +37,7 @@ class BrawlCommand : Command("brawl", "brool") {
 
             result.filterKeys { it in servers.keys }.map { (key, value) ->
                 String.format(":arrow_forward: **%s**: %s", servers[key], value)
-            }.joinToString("\n").run {
+            }.sorted().joinToString("\n").run {
                 message.channel.block()?.createMessage(this)?.block()
             }
         } catch (e: Exception) {

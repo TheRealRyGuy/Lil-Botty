@@ -16,7 +16,7 @@ fun Message?.replyWithFailure(msg: String) {
             it.setColor(Color.RED)
             it.setDescription(msg)
         }
-    }
+    }?.block()
 }
 
 fun Message?.replyWithSuccess(msg: String) {
@@ -25,5 +25,5 @@ fun Message?.replyWithSuccess(msg: String) {
             it.setColor(Color.TAHITI_GOLD)
             it.setDescription(msg)
         }
-    }
+    }?.block()
 }

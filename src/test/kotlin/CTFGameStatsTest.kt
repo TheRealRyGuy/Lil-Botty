@@ -1,9 +1,10 @@
-import me.ryguy.ctfbot.parseHtml
+import me.ryguy.ctfbot.util.parseHtml
 import me.ryguy.ctfbot.util.CTFGame
-import org.junit.Assert
 import org.junit.Test
 import java.net.URL
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class CTFGameStatsTest {
     @Test
@@ -15,13 +16,26 @@ class CTFGameStatsTest {
     }
 
     @Test
+    fun `test retrieving ppm stats`() {
+        var ppmGames = CTFGame.getMostRecentCTFGames(4) {
+            // retrieve casual games since match server ones aren't technically guaranteed
+            !CTFGame.isMatchServer(CTFGame.getServer(it))
+        }
+
+        assertEquals(ppmGames.size, 4)
+
+        // test clipping values to 0-5
+        ppmGames = CTFGame.getMostRecentCTFGames(10)
+        assertEquals(ppmGames.size, 5)
+
+        ppmGames = CTFGame.getMostRecentCTFGames(-3)
+        assertEquals(ppmGames.size, 0)
+    }
+
+    @Test
     fun `parse url finding`() {
         val doc = URL("${CTFGame.MPS_URL}?game=274595").parseHtml()
-
-        if (doc == null) {
-            Assert.fail("Could not retrieve document")
-            return
-        }
+                ?: throw AssertionError("Could not retrieve document")
 
         val url = CTFGame.getServer(doc)
 

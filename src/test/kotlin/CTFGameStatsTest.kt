@@ -16,7 +16,7 @@ class CTFGameStatsTest {
 
     @Test
     fun `parse url finding`() {
-        val doc = URL("https://www.brawl.com/MPS/MPSStatsCTF.php?game=274595").parseHtml()
+        val doc = URL("${CTFGame.MPS_URL}?game=274595").parseHtml()
 
         if (doc == null) {
             Assert.fail("Could not retrieve document")

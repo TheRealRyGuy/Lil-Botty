@@ -6,6 +6,8 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Role;
 import me.ryguy.ctfbot.CTFDiscordBot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

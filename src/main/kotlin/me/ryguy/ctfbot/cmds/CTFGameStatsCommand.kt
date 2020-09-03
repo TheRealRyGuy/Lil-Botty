@@ -7,6 +7,7 @@ import me.ryguy.ctfbot.types.CTFDiscordOnlyCommand
 import me.ryguy.ctfbot.util.CTFGame
 import me.ryguy.ctfbot.util.parseHtml
 import reactor.core.publisher.Mono
+import java.lang.NumberFormatException
 import java.net.URL
 
 /**
@@ -14,10 +15,22 @@ import java.net.URL
  * !ppmstats <#>
  */
 class CTFGameStatsCommand : CTFDiscordOnlyCommand("gamestats", "ppmstats") {
+    companion object {
+        fun parseArgs(args: Array<out String>?): Int {
+            if (args == null || args.isEmpty())
+                return 3
+
+            return try {
+                Integer.parseInt(args[0])
+            } catch (exception: NumberFormatException) {
+                0
+            }
+        }
+    }
+
     override fun execute(message: Message?, alias: String?, args: Array<out String>?): Mono<Void> {
         if (alias == "ppmstats") {
-            val n = if (args == null || args.isEmpty()) 3 else Integer.parseInt(args[0])
-
+            val n = parseArgs(args)
             val games = CTFGame.getMostRecentCTFGames(n) { CTFGame.isMatchServer(CTFGame.getServer(it)) }
 
             if (games.isEmpty()) {

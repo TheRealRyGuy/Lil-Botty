@@ -53,7 +53,11 @@ public class Event {
     public String buildRoleTagString() {
         StringBuilder sb = new StringBuilder();
         for(Long l : this.getTagRoles()) {
-            sb.append(this.guild.getRoleById(Snowflake.of(l)).block().getMention() + " ");
+            if(l == guild.getEveryoneRole().block().getId().asLong()) {
+                sb.append("@everyone ");
+            }else {
+                sb.append(this.guild.getRoleById(Snowflake.of(l)).block().getMention() + " ");
+            }
         }
         return sb.toString();
     }

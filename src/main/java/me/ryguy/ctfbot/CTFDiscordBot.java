@@ -3,6 +3,7 @@ package me.ryguy.ctfbot;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import me.ryguy.discordapi.DiscordBot;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -17,7 +18,14 @@ public class CTFDiscordBot {
 
     public static final Gson GSON = new Gson();
     public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
-    public static File MAP_FILE = new File("/Shared/maps.json");;
+    public static File MAP_FILE;
+    static {
+        if(SystemUtils.IS_OS_WINDOWS) {
+            MAP_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/maps.json"); //running it locally
+        }else {
+            MAP_FILE = new File("/Shared/maps.json"); //running on vps
+        }
+    }
     private static DiscordBot bot;
 
     public static void main(String[] args) {

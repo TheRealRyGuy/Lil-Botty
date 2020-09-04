@@ -7,7 +7,6 @@ import discord4j.core.object.entity.Role;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
-import discord4j.rest.util.Color;
 import discord4j.rest.util.Image;
 import lombok.Getter;
 import lombok.Setter;

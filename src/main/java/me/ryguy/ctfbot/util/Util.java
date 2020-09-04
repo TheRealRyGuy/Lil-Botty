@@ -6,8 +6,6 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Role;
 import me.ryguy.ctfbot.CTFDiscordBot;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +22,7 @@ public class Util {
                 mention = mention.substring(1);
             }
             return mention;
-        }else if(toCheck.startsWith("<#") && toCheck.endsWith(">")) { //channels
-            return toCheck.substring(2, toCheck.length() - 1);
+        }else if(toCheck.startsWith("<#") && toCheck.endsWith(">")) { //channels            return toCheck.substring(2, toCheck.length() - 1);
         }
         return null;
     }

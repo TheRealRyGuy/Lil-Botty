@@ -3,8 +3,6 @@ package me.ryguy.ctfbot
 import discord4j.core.`object`.entity.Member
 import discord4j.core.`object`.entity.Message
 import discord4j.rest.util.Color
-import org.jsoup.Jsoup
-import java.net.URL
 
 fun Member.isPpmHost(): Boolean {
     return this.roles.map { it.name }.collectList().block()?.contains("PPM Host") ?: false

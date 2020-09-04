@@ -1,6 +1,5 @@
 package me.ryguy.ctfbot.util
 
-import me.ryguy.ctfbot.util.parseHtml
 import org.jsoup.nodes.Document
 import java.lang.Integer.max
 import java.lang.Integer.min

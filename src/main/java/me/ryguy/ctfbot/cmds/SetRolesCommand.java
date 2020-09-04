@@ -5,7 +5,6 @@ import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
-import me.ryguy.ctfbot.types.CTFDiscordOnlyCommand;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;

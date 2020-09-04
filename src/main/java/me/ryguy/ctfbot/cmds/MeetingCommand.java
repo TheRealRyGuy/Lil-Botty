@@ -3,17 +3,21 @@ package me.ryguy.ctfbot.cmds;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
+import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.types.Meeting;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import me.ryguy.discordapi.util.WorkFlow;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
+
 
 public class MeetingCommand extends Command {
 
     public MeetingCommand() {
         super("setupmeetingtimes");
+        setPermsFilter(Arrays.asList(Permission.MANAGE_ROLES));
         setGuildOnly(true);
     }
 

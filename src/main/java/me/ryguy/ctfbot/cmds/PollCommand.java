@@ -3,6 +3,8 @@ package me.ryguy.ctfbot.cmds;
 import com.vdurmont.emoji.EmojiManager;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.channel.GuildMessageChannel;
+import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.types.Poll;
 import me.ryguy.ctfbot.util.Util;
@@ -11,6 +13,7 @@ import me.ryguy.discordapi.util.WorkFlow;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class PollCommand extends Command {
     public PollCommand() {
@@ -100,8 +103,16 @@ public class PollCommand extends Command {
             if(!message.getContent().isEmpty()) {
                 if(Util.parseMention(message.getContent()) != null) {
                     if(message.getGuild().block().getChannelById(Snowflake.of(Util.parseMention(message.getContent()))).blockOptional().isPresent()) {
-                        poll.setChannelToPost(Long.valueOf(Util.parseMention(message.getContent())));
-                        workflow.nextStep();
+                        GuildMessageChannel channel = (GuildMessageChannel) message.getGuild().block().getChannelById(Snowflake.of(Util.parseMention(message.getContent()))).block();
+                        if(channel.getMembers().collect(Collectors.toList()).block().contains(message.getAuthorAsMember().block())) {
+                            poll.setChannelToPost(Long.valueOf(Util.parseMention(message.getContent())));
+                            workflow.nextStep();
+                        }else {
+                            message.getChannel().block().createEmbed(e -> {
+                                e.setDescription(":x: Invalid channel: You cannot talk in this channel!");
+                                e.setColor(Color.RED);
+                            }).block();
+                        }
                     }else {
                         message.getChannel().block().createEmbed(e -> {
                             e.setDescription(":x: Invalid channel: This guild doesn't have this channel!");

@@ -80,6 +80,7 @@ public class Poll {
     public String toString() {
         String ret = "**Name: **" + this.name + "\n" +
                 "**Description: **" +  this.description + "\n" +
+                "**Channel: ** <#" + this.getChannelToPost() + ">\n" +
                 "**Options: ** \n";
         for(Option o : this.options) {
             ret += o.getEmoji() + " - " + o.getDescription() + "\n";

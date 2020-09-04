@@ -49,7 +49,7 @@ public class PollListeners implements Listener {
         for(Poll.Option o : e.getOptions()) {
             if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
                 o.removePlayer(event.getUser().block());
-                shouldHandle = true;;
+                shouldHandle = true;
             }
         }
         if(shouldHandle) {

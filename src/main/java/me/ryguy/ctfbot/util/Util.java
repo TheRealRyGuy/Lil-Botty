@@ -42,9 +42,7 @@ public class Util {
 
     public static boolean isValidMention(String input, Guild guild) {
         if (parseMention(input) == null) return false;
-        if (guild.getRoleById(Snowflake.of(parseMention(input))).blockOptional().isPresent() || guild.getMemberById(Snowflake.of(parseMention(input))).blockOptional().isPresent())
-            return true;
-        return false;
+        return guild.getRoleById(Snowflake.of(parseMention(input))).blockOptional().isPresent() || guild.getMemberById(Snowflake.of(parseMention(input))).blockOptional().isPresent();
     }
 
     public static List<Role> getRolesToRemove(Guild g) {

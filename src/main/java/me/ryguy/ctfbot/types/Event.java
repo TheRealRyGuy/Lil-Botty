@@ -10,6 +10,7 @@ import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.rest.util.Image;
 import lombok.Getter;
 import lombok.Setter;
+import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 
 import java.util.ArrayList;
@@ -96,27 +97,16 @@ public class Event {
         events.add(this);
     }
     public void handleReaction() {
-        System.out.println("Calling handleReaction");
-
         listMessage.edit(m -> {
            m.setContent("");
            m.setEmbed(e -> {
                e.setTitle(this.getName());
                e.setDescription(this.getDescription());
-               e.addField(this.signUpEmoji + " Players: " + this.getPlaying().size(), buildPlayerList(this.getPlaying()).isEmpty() ? "no one :c :sob:" : buildPlayerList(this.getPlaying()), false);
-               e.addField(this.rejectEmoji + " Can't Play: " + this.getNotPlaying().size(), buildPlayerList(this.getNotPlaying()).isEmpty() ? "NO ONE :tada:" : buildPlayerList(this.getNotPlaying()), false);
+               e.addField(this.signUpEmoji + " Players: " + this.getPlaying().size(), Util.buildPlayerList(this.getPlaying()).isEmpty() ? "no one :c :sob:" : Util.buildPlayerList(this.getPlaying()), false);
+               e.addField(this.rejectEmoji + " Can't Play: " + this.getNotPlaying().size(), Util.buildPlayerList(this.getNotPlaying()).isEmpty() ? "NO ONE :tada:" : Util.buildPlayerList(this.getNotPlaying()), false);
                e.setFooter("love and waffles!", null);
            });
         }).block();
-    }
-    private String buildPlayerList(List<User> users) {
-        synchronized(users) {
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < users.size(); i++) {
-                sb.append((i + 1) + ": " + users.get(i).getMention() + "\n");
-            }
-            return sb.toString();
-        }
     }
     @Override
     public String toString() {

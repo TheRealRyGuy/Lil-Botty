@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class EventCommand extends Command {
     public EventCommand() {
-        super("event", "ppm");
+        super("event");
         setGuildOnly(true);
     }
 

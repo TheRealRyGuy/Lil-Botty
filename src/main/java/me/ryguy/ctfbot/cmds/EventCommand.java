@@ -45,11 +45,6 @@ public class EventCommand extends Command {
                 if(!message.getContent().toLowerCase().startsWith("!event")) { //idk why i need to put this check in but this is running differently on windows vs linux
                     event.setName(message.getContent());
                     workflow.nextStep();
-                }else {
-                    message.getChannel().block().createEmbed(e -> {
-                        e.setDescription(":x: Invalid name!");
-                        e.setColor(Color.RED);
-                    }).block();
                 }
             }else {
                 message.getChannel().block().createEmbed(e -> {

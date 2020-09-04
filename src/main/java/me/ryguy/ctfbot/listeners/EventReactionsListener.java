@@ -14,17 +14,13 @@ import java.util.stream.Collectors;
 public class EventReactionsListener implements Listener {
     @DiscordEvent
     public void onReactAdd(ReactionAddEvent event) {
-        System.out.println("Add");
         if (Event.getEvent(event.getMessage().block()) == null) {
-            System.out.println("Null event");
             return;
         }
         if (event.getUser().block().isBot()) {
-            System.out.println("Bot User");
             return;
         }
         if(!event.getEmoji().asUnicodeEmoji().isPresent()) {
-            System.out.println("Unicode emoji not present");
             return;
         }
 
@@ -46,17 +42,13 @@ public class EventReactionsListener implements Listener {
 
     @DiscordEvent
     public void onReactRemove(ReactionRemoveEvent event) {
-        System.out.println("Remove");
         if (Event.getEvent(event.getMessage().block()) == null) {
-            System.out.println("Null event");
             return;
         }
         if (event.getUser().block().isBot()) {
-            System.out.println("Bot User");
             return;
         }
         if(!event.getEmoji().asUnicodeEmoji().isPresent()) {
-            System.out.println("Unicode emoji not present");
             return;
         }
         Event e = Event.getEvent(event.getMessage().block());

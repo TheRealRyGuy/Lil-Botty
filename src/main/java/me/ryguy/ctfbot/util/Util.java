@@ -22,7 +22,8 @@ public class Util {
                 mention = mention.substring(1);
             }
             return mention;
-        }else if(toCheck.startsWith("<#") && toCheck.endsWith(">")) { //channels            return toCheck.substring(2, toCheck.length() - 1);
+        }else if(toCheck.startsWith("<#") && toCheck.endsWith(">")) { //channels
+            return toCheck.substring(2, toCheck.length() - 1);
         }
         return null;
     }

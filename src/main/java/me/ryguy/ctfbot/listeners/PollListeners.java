@@ -25,6 +25,9 @@ public class PollListeners implements Listener {
             if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
                 o.addPlayer(event.getUser().block());
                 shouldHandle = true;
+                if(!e.isShowVotes()) {
+                    e.getMessage().removeReaction(event.getEmoji(), event.getUserId()).block();
+                }
             }
         }
         if(shouldHandle) {

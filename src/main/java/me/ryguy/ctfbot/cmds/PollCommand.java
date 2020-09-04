@@ -6,6 +6,7 @@ import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
+import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.types.Poll;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
@@ -104,7 +105,7 @@ public class PollCommand extends Command {
                 if(Util.parseMention(message.getContent()) != null) {
                     if(message.getGuild().block().getChannelById(Snowflake.of(Util.parseMention(message.getContent()))).blockOptional().isPresent()) {
                         GuildMessageChannel channel = (GuildMessageChannel) message.getGuild().block().getChannelById(Snowflake.of(Util.parseMention(message.getContent()))).block();
-                        if(channel.getMembers().collect(Collectors.toList()).block().contains(message.getAuthorAsMember().block())) {
+                        if(channel.getMembers().collect(Collectors.toList()).block().contains(message.getAuthorAsMember().block()) && channel.getEffectivePermissions(message.getAuthorAsMember().block().getId()).block().contains(Permission.SEND_MESSAGES)) {
                             poll.setChannelToPost(Long.valueOf(Util.parseMention(message.getContent())));
                             workflow.nextStep();
                         }else {

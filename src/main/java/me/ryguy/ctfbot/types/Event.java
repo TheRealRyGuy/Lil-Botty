@@ -50,7 +50,13 @@ public class Event {
         this.announcementMessage = null;
         this.listMessage = null;
     }
-
+    public String buildRoleTagString() {
+        StringBuilder sb = new StringBuilder();
+        for(Long l : this.getTagRoles()) {
+            sb.append(this.guild.getRoleById(Snowflake.of(l)).block().getMention() + " ");
+        }
+        return sb.toString();
+    }
     public void addPlayer(User user) {
         this.getPlaying().add(user);
         this.handleReaction();
@@ -71,15 +77,15 @@ public class Event {
     public void init() {
         String desc = this.getDescription() + "\n";
         if(this.signUpEmoji != null)
-            desc += "\n React with " + signUpEmoji + "to play";
+            desc += "\n React with " + signUpEmoji + " to play";
         if(this.rejectEmoji != null)
-            desc += "\n React with " + rejectEmoji + "if you can't play";
+            desc += "\n React with " + rejectEmoji + " if you can't play";
 
         String finalDesc = desc;
         this.announcementMessage = ((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(this.announceChannel)).block())
                 .createMessage(m -> {
                     if(!this.getTagRoles().isEmpty()) {
-                        m.setContent(this.getTagRoles().parallelStream().map(l -> guild.getRoleById(Snowflake.of(l)).block().getMention()).collect(Collectors.toList()).toString());
+                        m.setContent(this.buildRoleTagString());
                     }
                     m.setEmbed(e -> {
                         e.setTitle(this.getName());

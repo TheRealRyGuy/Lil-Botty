@@ -28,7 +28,10 @@ public class EventCommand extends Command {
         WorkFlow<Event> flow = new WorkFlow<Event>(toUse, msg.getChannel().block(), msg.getAuthor().get());
         flow.deletePreviousStep();
         flow.addRule("!cancel", e -> {
-            msg.getChannel().block().createMessage(":x: Event Creation Cancelled!").block();
+            msg.getChannel().block().createEmbed(em -> {
+                em.setDescription(":white_check_mark: Event Creation Cancelled!");
+                em.setColor(Color.GREEN);
+            }).block();
             flow.end();
         }).andThen(ev -> {
             flow.sendMessage(msg.getChannel().block().createEmbed(e -> {
@@ -39,8 +42,15 @@ public class EventCommand extends Command {
             }));
         }, ((event, workflow, message) ->  {
             if(!message.getContent().isEmpty()) {
-                event.setName(message.getContent());
-                workflow.nextStep();
+                if(!message.getContent().toLowerCase().startsWith("!event")) { //idk why i need to put this check in but this is running differently on windows vs linux
+                    event.setName(message.getContent());
+                    workflow.nextStep();
+                }else {
+                    message.getChannel().block().createEmbed(e -> {
+                        e.setDescription(":x: Invalid name!");
+                        e.setColor(Color.RED);
+                    }).block();
+                }
             }else {
                 message.getChannel().block().createEmbed(e -> {
                    e.setDescription(":x: You need to include content in the message!");

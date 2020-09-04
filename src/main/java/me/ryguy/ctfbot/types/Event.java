@@ -69,11 +69,11 @@ public class Event {
     }
 
     public void init() {
-        String desc = this.getDescription();
+        String desc = this.getDescription() + "\n";
         if(this.signUpEmoji != null)
-            desc += "\n To Sign up: React with " + signUpEmoji;
+            desc += "\n React with " + signUpEmoji + "to play";
         if(this.rejectEmoji != null)
-            desc += "\n If you can't play, react with " + rejectEmoji;
+            desc += "\n React with " + rejectEmoji + "if you can't play";
 
         String finalDesc = desc;
         this.announcementMessage = ((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(this.announceChannel)).block())

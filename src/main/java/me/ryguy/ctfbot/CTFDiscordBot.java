@@ -1,8 +1,8 @@
 package me.ryguy.ctfbot;
 
 import com.google.gson.Gson;
+import discord4j.discordjson.json.gateway.StatusUpdate;
 import me.ryguy.discordapi.DiscordBot;
-import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -17,16 +17,8 @@ public class CTFDiscordBot {
 
     public static final Gson GSON = new Gson();
     public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
-    public static File MAP_FILE;
+    public static File MAP_FILE = new File("/Shared/maps.json");;
     private static DiscordBot bot;
-
-    static {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            MAP_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/maps.json");
-        } else {
-            MAP_FILE = new File("/Shared/maps.json");
-        }
-    }
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -36,6 +28,7 @@ public class CTFDiscordBot {
         }
         bot = new DiscordBot(args[0], "!");
         bot.loginBot();
+        bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
 
         Startup.INSTANCE.registerCommands();
         Startup.INSTANCE.registerListeners();

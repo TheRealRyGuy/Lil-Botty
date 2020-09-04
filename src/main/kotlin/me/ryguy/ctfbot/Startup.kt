@@ -2,6 +2,7 @@ package me.ryguy.ctfbot
 
 import me.ryguy.ctfbot.cmds.*
 import me.ryguy.ctfbot.listeners.MemeChatListeners
+import me.ryguy.ctfbot.listeners.EventReactionsListener
 import me.ryguy.ctfbot.temp.BasicEventReactionsListener
 import me.ryguy.ctfbot.temp.BasicSignUpCommand
 
@@ -23,5 +24,6 @@ object Startup {
     fun registerListeners() {
         MemeChatListeners().register() //DONE
         BasicEventReactionsListener().register() //DONE
+        EventReactionsListener().register()
     }
 }

@@ -18,12 +18,14 @@ public class Util {
 
     public static String parseMention(String input) {
         String toCheck = input.replaceAll("\n", "").trim();
-        if (toCheck.startsWith("<@") && toCheck.endsWith(">")) {
+        if (toCheck.startsWith("<@") && toCheck.endsWith(">")) { //user or role mentions
             String mention = toCheck.substring(2, toCheck.length() - 1);
             if (mention.startsWith("!") || mention.startsWith("&")) {
                 mention = mention.substring(1);
             }
             return mention;
+        }else if(toCheck.startsWith("<#") && toCheck.endsWith(">")) { //channels
+            return toCheck.substring(2, toCheck.length() - 1);
         }
         return null;
     }

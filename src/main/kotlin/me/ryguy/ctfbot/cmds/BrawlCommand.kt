@@ -28,6 +28,21 @@ class BrawlCommand : Command("brawl", "brool") {
             "wildwest_brawl_com" to "Wild West",
             "kit_brawl_com" to "KitBrawl",
             "total" to "Total")
+
+        val emojis = mapOf(
+            "br_brawl_com" to ":drop_of_blood:",
+            "ctfmatch_brawl_com" to ":triangular_flag_on_post:",
+            "lobby_brawl_com" to ":couch:",
+            "mc_hg_com" to ":drop_of_blood:",
+            "mc_war_com" to ":gun:",
+            "mc_warz_com" to ":zombie:",
+            "mcctf_com" to ":triangular_flag_on_post:",
+            "minecraftbuild_com" to ":construction_site:",
+            "minecraftparty_com" to ":tada:",
+            "raid_mcpvp_com" to ":map:",
+            "test_brawl_com" to ":gear:",
+            "wildwest_brawl_com" to ":cowboy:",
+            "kit_brawl_com" to ":crossed_swords:")
     }
 
     override fun execute(message: Message, alias: String, args: Array<String>): Mono<Void> {
@@ -35,10 +50,17 @@ class BrawlCommand : Command("brawl", "brool") {
             val s = URL("https://www.brawl.com/data/playerCount.json").GET()
             val result = Gson().fromJson<Map<String, String>>(s, object: TypeToken<Map<String, String>>() {}.type)
 
-            result.filterKeys { it in servers.keys }.map { (key, value) ->
-                String.format(":arrow_forward: **%s**: %s", servers[key], value)
+            result.filterKeys { it in servers.keys && it != "total" }.map { (url, count) ->
+                String.format("${emojis[url]} **%s**: %s", servers[url], count)
             }.sorted().joinToString("\n").run {
-                message.channel.block()?.createMessage(this)?.block()
+
+                val total = result.filterKeys { it in servers.keys && it != "total" }
+                        .values.sumBy { Integer.parseInt(it) }
+
+                message.channel.block()?.createEmbed {
+                    it.setDescription(this)
+                    it.setFooter("Total: $total", null)
+                }?.block()
             }
         } catch (e: Exception) {
             message.channel.block()?.createMessage { msg: MessageCreateSpec ->

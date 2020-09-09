@@ -110,6 +110,10 @@ public class RemoveRolesCommand extends Command {
                 });
             }).block();
             for(String s : args) {
+                if(!s.equalsIgnoreCase("red team") && !s.equalsIgnoreCase("blue team") && !s.equalsIgnoreCase("playing")) {
+                    skippedLines.add(s);
+                    continue;
+                }
                 if(message.getGuild().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains(s)) {
                     Role role = Util.getRoleByName(s, message.getGuild().block());
                     Set<Snowflake> settest = new HashSet<>(Collections.singleton(role.getId()));

@@ -17,18 +17,24 @@ import java.util.stream.Collectors;
 public class QuoteListener implements Listener {
     @DiscordEvent
     public void onReactAdd(ReactionAddEvent event) {
-        if(!(event.getChannel().block() instanceof GuildMessageChannel)) return;
+        if (!(event.getChannel().block() instanceof GuildMessageChannel)) return;
+
         GuildMessageChannel chan = (GuildMessageChannel) event.getChannel().block();
-        if(!chan.getMembers().map(Member::getId).collect(Collectors.toList()).block().contains(event.getUser().block().getId())) return;
-        if(!chan.getEffectivePermissions(event.getUserId()).block().contains(Permission.SEND_MESSAGES)) return;
-        if(!isQuoteEmoji(event.getEmoji())) return;
-        if(!event.getMember().isPresent()) return;
+
+        if (!chan.getMembers().map(Member::getId).collect(Collectors.toList()).block().contains(event.getUser().block().getId()))
+            return;
+        if (!chan.getEffectivePermissions(event.getUserId()).block().contains(Permission.SEND_MESSAGES)) return;
+        if (!isQuoteEmoji(event.getEmoji())) return;
+        if (!event.getMember().isPresent()) return;
         System.out.println("0");
-        if(event.getMessage().block().getContent() == null) return;
+        if (event.getMessage().block().getContent() == null) return;
         System.out.println("1");
+
         String content = event.getMessage().block().getContent().trim();
-        if(content.isEmpty() || content.equalsIgnoreCase("")) return;
+
+        if (content.isEmpty() || content.equalsIgnoreCase("")) return;
         System.out.println("2");
+
         Member member = event.getMember().get();
         Member author = event.getMessage().block().getAuthorAsMember().block();
         event.getChannel().block().createEmbed(e -> {
@@ -38,12 +44,15 @@ public class QuoteListener implements Listener {
             e.setColor(member.getColor().block());
             e.setFooter("Quoted by " + member.getDisplayName(), member.getAvatarUrl());
         }).block();
+
+        event.getMessage().block().removeReaction(event.getEmoji(), member.getId()).block();
     }
+
     private boolean isQuoteEmoji(ReactionEmoji e) {
         List<String> unicodeQuotes = new ArrayList<>(Arrays.asList("🗨", "🗨️", "💬", "👁️"));
-        if(e.asUnicodeEmoji().isPresent()) {
+        if (e.asUnicodeEmoji().isPresent()) {
             return unicodeQuotes.contains(e.asUnicodeEmoji().get().getRaw());
-        }else if(e.asCustomEmoji().isPresent()) {
+        } else if (e.asCustomEmoji().isPresent()) {
             return e.asCustomEmoji().get().getName().equalsIgnoreCase("quote");
         }
         return false;

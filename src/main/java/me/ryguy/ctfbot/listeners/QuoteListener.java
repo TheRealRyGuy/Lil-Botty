@@ -23,8 +23,12 @@ public class QuoteListener implements Listener {
         if(!chan.getEffectivePermissions(event.getUserId()).block().contains(Permission.SEND_MESSAGES)) return;
         if(!isQuoteEmoji(event.getEmoji())) return;
         if(!event.getMember().isPresent()) return;
+        System.out.println("0");
         if(event.getMessage().block().getContent() == null) return;
-        if(event.getMessage().block().getContent().trim().isEmpty() || event.getMessage().block().getContent().trim().equalsIgnoreCase("")) return;
+        System.out.println("1");
+        String content = event.getMessage().block().getContent().trim();
+        if(content.isEmpty() || content.equalsIgnoreCase("")) return;
+        System.out.println("2");
         Member member = event.getMember().get();
         Member author = event.getMessage().block().getAuthorAsMember().block();
         event.getChannel().block().createEmbed(e -> {

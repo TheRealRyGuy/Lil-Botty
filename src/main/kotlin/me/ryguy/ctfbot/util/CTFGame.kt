@@ -80,3 +80,19 @@ object CTFGame {
                 .text()
     }
 }
+
+fun Document.isMatchServer(): Boolean {
+    return CTFGame.isMatchServer(CTFGame.getServer(this))
+}
+
+fun Document.getMatchServer(): Int {
+    return Integer.parseInt(CTFGame.getServer(this)[0].toString())
+}
+
+fun Document.map(): String {
+    return CTFGame.getMapName(this)
+}
+
+fun Document.mvp(): String {
+    return CTFGame.getMapMVP(this)
+}

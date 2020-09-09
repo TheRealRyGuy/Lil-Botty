@@ -1,6 +1,5 @@
 import me.ryguy.ctfbot.cmds.CTFGameStatsCommand
-import me.ryguy.ctfbot.util.parseHtml
-import me.ryguy.ctfbot.util.CTFGame
+import me.ryguy.ctfbot.util.*
 import org.junit.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -66,5 +65,23 @@ class CTFGameStatsTest {
         assertEquals("1.mcctf.com", url)
         assertFalse(CTFGame.isMatchServer(url), "URL shouldn't be considered match server")
         assertTrue(CTFGame.isMatchServer("2.ctfmatch.brawl.com"), "2.ctfmatch.brawl.com should be match server")
+    }
+
+    @Test
+    fun `parse map and mvp`() {
+        val doc = URL("${CTFGame.MPS_URL}?game=275693").parseHtml()
+                ?: throw AssertionError("Could not retrieve document")
+
+        assertEquals("Cypridiot7", doc.mvp(), "Failed at retrieving mvp")
+        assertEquals("Blackout", doc.map(), "Failed at map parsing")
+    }
+
+    @Test
+    fun `parse server number`() {
+        val doc = URL("${CTFGame.MPS_URL}?game=275739").parseHtml()
+                ?: throw AssertionError("Could not retrieve document")
+
+        assertTrue(doc.isMatchServer(), "Game should be match server")
+        assertEquals(1, doc.getMatchServer(), "Failed to parse match server number")
     }
 }

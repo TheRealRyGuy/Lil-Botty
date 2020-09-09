@@ -40,7 +40,7 @@ public class CTFDiscordBot {
         bot.loginBot();
         bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
 
-        bot.setCommandErrorHandler((ex, cmd) -> {
+        /*bot.setCommandErrorHandler((ex, cmd) -> {
             ex.printStackTrace();
             bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
                 e.setColor(Color.RED);
@@ -55,7 +55,7 @@ public class CTFDiscordBot {
                 e.setTitle("Error running event  " + event.getClass().getName() + " - " + ex.getClass().getName() + "!");
                 e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ");
             }).block();
-        });
+        });*/
 
         Startup.INSTANCE.registerCommands();
         Startup.INSTANCE.registerListeners();

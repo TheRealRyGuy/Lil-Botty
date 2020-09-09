@@ -67,7 +67,11 @@ public class EventReactionsListener implements Listener {
         if (event.getGuild().block().getMemberById(event.getUserId()).blockOptional().isPresent()) {
             Member mem = event.getGuild().block().getMemberById(event.getUserId()).block();
             if(mem.getRoles().collect(Collectors.toList()).block().contains(e.getGiveRole()))
-                mem.removeRole(e.getGiveRole().getId());
+                try {
+                    mem.removeRole(e.getGiveRole().getId());
+                }catch(Exception ex) {
+                    //handle this
+                }
         }
     }
 }

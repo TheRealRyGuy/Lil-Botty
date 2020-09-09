@@ -14,6 +14,7 @@ object Startup {
         MeetingCommand().register()
         RemoveRolesCommand().register()
         HelpCommand().register()
+        MemCommand().register()
         //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()

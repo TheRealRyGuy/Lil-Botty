@@ -28,5 +28,6 @@ object Startup {
         EventReactionsListener().register()
         MeetingListeners().register()
         MainListener().register()
+        QuoteListener().register()
     }
 }

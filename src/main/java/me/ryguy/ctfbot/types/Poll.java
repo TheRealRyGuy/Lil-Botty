@@ -36,7 +36,7 @@ public class Poll {
     public void init() {
         this.message = ((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(this.channelToPost)).block())
                 .createEmbed(e -> {
-                    e.setTitle(this.name);
+                    e.setTitle(this.name + " (ID: " + polls.size() + ")");
                     e.setDescription(this.description);
                     e.setFooter("React with the corresponding emoji to vote for an option!", null);
                     e.setColor(Color.TAHITI_GOLD);

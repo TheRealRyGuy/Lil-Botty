@@ -12,8 +12,9 @@ object Startup {
         InviteCommand().register()
         PollCommand().register()
         MeetingCommand().register()
-        //PPM / CTF Commands
         RemoveRolesCommand().register()
+        HelpCommand().register()
+        //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()
         CTFStatsCommand().register()

@@ -2,7 +2,6 @@ package me.ryguy.ctfbot.cmds;
 
 import com.vdurmont.emoji.EmojiManager;
 import discord4j.common.util.Snowflake;
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;

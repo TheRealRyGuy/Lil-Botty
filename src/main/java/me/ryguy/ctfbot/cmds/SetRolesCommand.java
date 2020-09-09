@@ -73,7 +73,6 @@ public class SetRolesCommand extends Command {
             });
         }).block();
         int rolesSet = 0;
-        //for(String s : String.join(" ", args).split("\n")) {
         for (String s : message.getContent().split("\n")) {
             if (s.trim().equalsIgnoreCase(DiscordBot.getBot().getPrefix() + "setroles")) continue;
             if (s.trim() == "" || s.trim().isEmpty() || s == null) {
@@ -97,6 +96,7 @@ public class SetRolesCommand extends Command {
                                 message.getChannel().block().getRestChannel().getData().block().name().get()).block();
                         rolesSet++;
                     } catch (Exception e) {
+                        Util.sendErrorMessage(e, message);
                         errors.add(s);
                         continue;
                     }

@@ -1,11 +1,16 @@
 package me.ryguy.ctfbot.util;
 
 import discord4j.common.util.Snowflake;
-import discord4j.core.object.entity.Guild;
-import discord4j.core.object.entity.Member;
-import discord4j.core.object.entity.Role;
-import discord4j.core.object.entity.User;
+import discord4j.core.event.domain.Event;
+import discord4j.core.object.entity.*;
+import discord4j.core.object.entity.channel.MessageChannel;
+import discord4j.core.object.entity.channel.PrivateChannel;
+import discord4j.rest.util.Color;
+import discord4j.rest.util.Image;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.discordapi.DiscordBot;
+import me.ryguy.discordapi.listeners.Listener;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -81,5 +86,42 @@ public class Util {
                 return string;
         }
         return null;
+    }
+
+    public static void sendErrorMessage(Exception ex, Message msg) {
+        DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
+            e.setColor(Color.RED);
+            e.setTitle("Custom Error: " + ex.getClass().getName());
+            if(msg.getChannel().block() instanceof PrivateChannel) {
+                e.setFooter(msg.getAuthor().get().getTag(), null);
+            }else if(msg.getChannel().block() instanceof MessageChannel){
+                e.setFooter(msg.getChannel().block().getMention() + " - " + msg.getGuild().block().getName(), null);
+            }else {
+                e.setFooter("This shouldn't be the footer", null);
+            }
+            if(msg.getGuild().block().getIconUrl(Image.Format.JPEG).isPresent()) {
+                e.setThumbnail(msg.getGuild().block().getIconUrl(Image.Format.JPEG).get());
+            }
+            if(msg.getAuthor().isPresent()) {
+                if(msg.getAuthor().get().getAvatarUrl(Image.Format.JPEG).isPresent()) {
+                    e.setAuthor(msg.getAuthor().get().getTag(), null, msg.getAuthor().get().getAvatarUrl(Image.Format.JPEG).get());
+                }else {
+                    e.setAuthor(msg.getAuthor().get().getTag(), null, null);
+                }
+            }
+            e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+        }).block();
+    }
+    public static void sendErrorMessage(Exception ex, Listener listener, Event event) {
+        DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
+            e.setColor(Color.RED);
+            e.setTitle("Custom Error: " + listener.getClass().getName());
+            e.setAuthor(event.getClass().getName(), null, null);
+            e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+        }).block();
+    }
+
+    public static void messageMe(String s) {
+        DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createMessage(s).block();
     }
 }

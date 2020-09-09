@@ -1,10 +1,7 @@
 package me.ryguy.ctfbot
 
 import me.ryguy.ctfbot.cmds.*
-import me.ryguy.ctfbot.listeners.MemeChatListeners
-import me.ryguy.ctfbot.listeners.EventReactionsListener
-import me.ryguy.ctfbot.listeners.MeetingListeners
-import me.ryguy.ctfbot.listeners.PollListeners
+import me.ryguy.ctfbot.listeners.*
 
 object Startup {
     fun registerCommands() {
@@ -28,5 +25,6 @@ object Startup {
         MemeChatListeners().register()
         EventReactionsListener().register()
         MeetingListeners().register()
+        MainListener().register()
     }
 }

@@ -2,7 +2,6 @@ package me.ryguy.ctfbot.listeners;
 
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.event.domain.message.ReactionRemoveEvent;
-import discord4j.core.object.reaction.ReactionEmoji;
 import me.ryguy.ctfbot.types.Meeting;
 import me.ryguy.discordapi.listeners.DiscordEvent;
 import me.ryguy.discordapi.listeners.Listener;

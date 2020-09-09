@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
@@ -42,6 +43,7 @@ public class FindMapCommand extends Command {
                 });
             }).block();
             ex.printStackTrace();
+            Util.sendErrorMessage(ex, message);
             return null;
         }
 

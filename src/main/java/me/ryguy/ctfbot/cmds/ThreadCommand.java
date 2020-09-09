@@ -47,6 +47,7 @@ public class ThreadCommand extends Command {
                 em.setDescription(":x: Error grabbing team threads!");
                 em.setColor(Color.RED);
             }).block();
+            Util.sendErrorMessage(e, message);
             e.printStackTrace();
             return null;
         }

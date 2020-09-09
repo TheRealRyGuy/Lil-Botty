@@ -1,9 +1,12 @@
 package me.ryguy.ctfbot;
 
 import com.google.gson.Gson;
+import discord4j.common.util.Snowflake;
 import discord4j.discordjson.json.gateway.StatusUpdate;
+import discord4j.rest.util.Color;
 import me.ryguy.discordapi.DiscordBot;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -13,8 +16,7 @@ public class CTFDiscordBot {
     //List of many many things
     public static final long CTF_DISCORD_ID = 276518289289773067L;
     public static final long TEST_GUILD_ID = 433097833080684575L;
-    public static final long PPM_CHANNEL = 309172630814982156L;
-    public static final long SIGNUPS_CHANNEL = 483993420189138975L;
+    public static final long BOT_OWNER = 151474463550996480L;
 
     public static final Gson GSON = new Gson();
     public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
@@ -37,6 +39,25 @@ public class CTFDiscordBot {
         bot = new DiscordBot(args[0], "!");
         bot.loginBot();
         bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
+
+        bot.setCommandErrorHandler((ex, cmd) -> {
+            ex.printStackTrace();
+            bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
+                e.setColor(Color.RED);
+                e.setTitle("Error using command " + cmd.getName() + "!");
+                e.setDescription("Error: " + ex.getClass().getName());
+                e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+            }).block();
+        });
+        bot.setEventErrorHandler((ex, event) -> {
+            ex.printStackTrace();
+            bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
+                e.setColor(Color.RED);
+                e.setTitle("Error running event  " + event.getClass().getName() + "!");
+                e.setDescription("Error: " + ex.getClass().getName());
+                e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+            }).block();
+        });
 
         Startup.INSTANCE.registerCommands();
         Startup.INSTANCE.registerListeners();

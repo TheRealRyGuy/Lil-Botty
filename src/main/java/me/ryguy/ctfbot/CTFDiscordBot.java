@@ -44,18 +44,16 @@ public class CTFDiscordBot {
             ex.printStackTrace();
             bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
                 e.setColor(Color.RED);
-                e.setTitle("Error using command " + cmd.getName() + "!");
-                e.setDescription("Error: " + ex.getClass().getName());
-                e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+                e.setTitle("Error using command " + cmd.getName() + " - " + ex.getClass().getName() + "!");
+                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ");
             }).block();
         });
         bot.setEventErrorHandler((ex, event) -> {
             ex.printStackTrace();
             bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
                 e.setColor(Color.RED);
-                e.setTitle("Error running event  " + event.getClass().getName() + "!");
-                e.setDescription("Error: " + ex.getClass().getName());
-                e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+                e.setTitle("Error running event  " + event.getClass().getName() + " - " + ex.getClass().getName() + "!");
+                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ");
             }).block();
         });
 

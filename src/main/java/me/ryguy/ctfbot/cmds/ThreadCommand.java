@@ -1,6 +1,5 @@
 package me.ryguy.ctfbot.cmds;
 
-import discord4j.core.object.Embed;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.util.Util;
@@ -13,10 +12,7 @@ import reactor.core.publisher.Mono;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ThreadCommand extends Command {

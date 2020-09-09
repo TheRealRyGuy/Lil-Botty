@@ -17,18 +17,12 @@ import java.util.stream.Collectors;
 public class QuoteListener implements Listener {
     @DiscordEvent
     public void onReactAdd(ReactionAddEvent event) {
-        System.out.println("0");
         if(!(event.getChannel().block() instanceof GuildMessageChannel)) return;
-        System.out.println("1");
         GuildMessageChannel chan = (GuildMessageChannel) event.getChannel().block();
         if(!chan.getMembers().map(Member::getId).collect(Collectors.toList()).block().contains(event.getUser().block().getId())) return;
-        System.out.println("2");
         if(!chan.getEffectivePermissions(event.getUserId()).block().contains(Permission.SEND_MESSAGES)) return;
-        System.out.println("3");
         if(!isQuoteEmoji(event.getEmoji())) return;
-        System.out.println("4");
         if(!event.getMember().isPresent()) return;
-        System.out.println("5");
         Member member = event.getMember().get();
         Member author = event.getMessage().block().getAuthorAsMember().block();
         event.getChannel().block().createEmbed(e -> {
@@ -42,10 +36,8 @@ public class QuoteListener implements Listener {
     private boolean isQuoteEmoji(ReactionEmoji e) {
         List<String> unicodeQuotes = new ArrayList<>(Arrays.asList("🗨", "🗨️", "💬", "👁️"));
         if(e.asUnicodeEmoji().isPresent()) {
-            System.out.println("Unicode: Returning " + unicodeQuotes.contains(e.asUnicodeEmoji().get().getRaw()));
             return unicodeQuotes.contains(e.asUnicodeEmoji().get().getRaw());
         }else if(e.asCustomEmoji().isPresent()) {
-            System.out.println("Custom: Returning " + e.asCustomEmoji().get().getName().equalsIgnoreCase("quote"));
             return e.asCustomEmoji().get().getName().equalsIgnoreCase("quote");
         }
         return false;

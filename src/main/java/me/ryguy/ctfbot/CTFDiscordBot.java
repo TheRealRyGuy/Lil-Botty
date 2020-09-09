@@ -46,7 +46,7 @@ public class CTFDiscordBot {
                 e.setColor(Color.RED);
                 e.setTitle("Error using command " + cmd.getName() + "!");
                 e.setDescription("Error: " + ex.getClass().getName());
-                e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+                e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
             }).block();
         });
         bot.setEventErrorHandler((ex, event) -> {
@@ -55,7 +55,7 @@ public class CTFDiscordBot {
                 e.setColor(Color.RED);
                 e.setTitle("Error running event  " + event.getClass().getName() + "!");
                 e.setDescription("Error: " + ex.getClass().getName());
-                e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+                e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
             }).block();
         });
 

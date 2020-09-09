@@ -109,7 +109,7 @@ public class Util {
                     e.setAuthor(msg.getAuthor().get().getTag(), null, null);
                 }
             }
-            e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+            e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
         }).block();
     }
     public static void sendErrorMessage(Exception ex, Listener listener, Event event) {
@@ -117,7 +117,7 @@ public class Util {
             e.setColor(Color.RED);
             e.setTitle("Custom Error: " + listener.getClass().getName());
             e.setAuthor(event.getClass().getName(), null, null);
-            e.addField("StackTrace", "```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
+            e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ", false);
         }).block();
     }
 

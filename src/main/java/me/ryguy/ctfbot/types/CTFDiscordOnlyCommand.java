@@ -14,7 +14,7 @@ public abstract class CTFDiscordOnlyCommand extends Command {
     }
 
     @Override
-    public boolean canExecute(Message message) {
+    public boolean canExecute(Message message, boolean b) {
         if (!message.getGuildId().isPresent()) return false;
         return message.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID || message.getGuildId().get().asLong() == CTFDiscordBot.TEST_GUILD_ID;
     }

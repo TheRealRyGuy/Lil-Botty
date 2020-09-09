@@ -2,7 +2,6 @@ package me.ryguy.ctfbot.cmds;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
-import discord4j.rest.util.Image;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
 import me.ryguy.discordapi.command.CommandManager;
@@ -17,7 +16,7 @@ public class HelpCommand extends Command {
     public Mono<Void> execute(Message message, String alias, String[] args) {
         StringBuilder commands = new StringBuilder();
         for(Command c : CommandManager.getRegisteredCommands()) {
-            if(c.canExecute(message)) {
+            if(c.canExecute(message, false)) {
                 commands.append(c.getName() + "\n");
             }
         }

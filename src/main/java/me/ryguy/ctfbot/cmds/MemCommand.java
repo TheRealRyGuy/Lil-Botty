@@ -7,7 +7,6 @@ import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.types.Event;
 import me.ryguy.ctfbot.types.Meeting;
 import me.ryguy.ctfbot.types.Poll;
-import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
@@ -42,7 +41,7 @@ public class MemCommand extends Command {
                 "Mem: " + freeMem + " / " + totalMem;
     }
     @Override
-    public boolean canExecute(Message e) {
+    public boolean canExecute(Message e, boolean asdf) {
         if(e.getAuthor().isPresent()) {
             return e.getAuthor().get().getId().asLong() == CTFDiscordBot.BOT_OWNER;
         }

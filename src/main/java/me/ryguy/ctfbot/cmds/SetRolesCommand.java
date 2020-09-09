@@ -1,7 +1,6 @@
 package me.ryguy.ctfbot.cmds;
 
 import discord4j.common.util.Snowflake;
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.Role;
@@ -23,17 +22,19 @@ public class SetRolesCommand extends Command {
     }
 
     @Override
-    public boolean canExecute(Message e) {
+    public boolean canExecute(Message e, boolean shouldSend) {
         if(e.getGuildId().isPresent()) {
             if(e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
                 if(e.getAuthorAsMember().blockOptional().isPresent()) {
                     if(e.getAuthorAsMember().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
                         return true;
                     }else {
-                        e.getChannel().block().createEmbed(em -> {
-                            em.setColor(Color.RED);
-                            em.setDescription(":x: You need to have the role `PPM Host` to use this command!");
-                        }).block();
+                        if(shouldSend) {
+                            e.getChannel().block().createEmbed(em -> {
+                                em.setColor(Color.RED);
+                                em.setDescription(":x: You need to have the role `PPM Host` to use this command!");
+                            }).block();
+                        }
                         return false;
                     }
                 }
@@ -42,10 +43,12 @@ public class SetRolesCommand extends Command {
                     if(e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
                         return true;
                     }else {
-                        e.getChannel().block().createEmbed(em -> {
-                            em.setColor(Color.RED);
-                            em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
-                        }).block();
+                        if(shouldSend) {
+                            e.getChannel().block().createEmbed(em -> {
+                                em.setColor(Color.RED);
+                                em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
+                            }).block();
+                        }
                         return false;
                     }
                 }

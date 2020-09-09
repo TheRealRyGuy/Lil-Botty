@@ -3,9 +3,7 @@ package me.ryguy.ctfbot.listeners;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.event.domain.message.ReactionRemoveEvent;
 import discord4j.core.object.entity.Member;
-import discord4j.core.object.entity.Role;
 import me.ryguy.ctfbot.types.Event;
-import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.listeners.DiscordEvent;
 import me.ryguy.discordapi.listeners.Listener;
 
@@ -27,15 +25,21 @@ public class EventReactionsListener implements Listener {
         Event e = Event.getEvent(event.getMessage().block());
         if (event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(e.getSignUpEmoji())) {
             e.addPlayer(event.getUser().block());
-            if (event.getMember().isPresent()) {
-                if (Util.getRoleByName("playing", event.getGuild().block()) == null) return;
-                event.getMember().get().addRole(Util.getRoleByName("playing", event.getGuild().block()).getId(), "signed up to " + e.getName()).block();
+            if (event.getMember().isPresent() && !event.getMember().get().getRoles().collect(Collectors.toList()).block().contains(e.getGiveRole())) {
+                try {
+                    event.getMember().get().addRole(e.getGiveRole().getId());
+                }catch(Exception ex) {
+                    //handle exception
+                }
             }
         }else if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(e.getRejectEmoji())) {
             e.addNonPlayer(event.getUser().block());
-            if (event.getMember().isPresent()) {
-                if (Util.getRoleByName("playing", event.getGuild().block()) == null) return;
-                event.getMember().get().removeRole(Util.getRoleByName("playing", event.getGuild().block()).getId(), "rejected event " + e.getName()).block();
+            if (event.getMember().isPresent() && event.getMember().get().getRoles().collect(Collectors.toList()).block().contains(e.getGiveRole())) {
+                try {
+                    event.getMember().get().removeRole(e.getGiveRole().getId());
+                }catch(Exception ex) {
+                    //handle exception
+                }
             }
         }
     }
@@ -61,12 +65,9 @@ public class EventReactionsListener implements Listener {
 
         //why does this event not have a member getter? no one knows
         if (event.getGuild().block().getMemberById(event.getUserId()).blockOptional().isPresent()) {
-            if (Util.getRoleByName("playing", event.getGuild().block()) == null) return;
             Member mem = event.getGuild().block().getMemberById(event.getUserId()).block();
-            if (mem.getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("playing")) {
-                Role r = Util.getRoleByName("playing", event.getGuild().block());
-                mem.removeRole(r.getId(), "unsigned up from " + e.getName()).block();
-            }
+            if(mem.getRoles().collect(Collectors.toList()).block().contains(e.getGiveRole()))
+                mem.removeRole(e.getGiveRole().getId());
         }
     }
 }

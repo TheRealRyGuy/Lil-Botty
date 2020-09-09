@@ -5,7 +5,6 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
-import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.types.Event;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
@@ -13,16 +12,14 @@ import me.ryguy.discordapi.util.WorkFlow;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class EventCommand extends Command {
     public EventCommand() {
         super("event");
-        setPermsFilter(Arrays.asList(Permission.MANAGE_ROLES));
-        setGuildOnly(true);
     }
+
 
     @Override
     public Mono<Void> execute(Message msg, String s, String[] strings) {

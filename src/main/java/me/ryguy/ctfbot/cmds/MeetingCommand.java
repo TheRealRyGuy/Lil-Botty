@@ -1,19 +1,14 @@
 package me.ryguy.ctfbot.cmds;
 
 import discord4j.common.util.Snowflake;
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
-import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.types.Meeting;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import me.ryguy.discordapi.util.WorkFlow;
 import reactor.core.publisher.Mono;
-
-import java.util.stream.Collectors;
 
 
 public class MeetingCommand extends Command {
@@ -24,36 +19,21 @@ public class MeetingCommand extends Command {
 
     @Override
     public boolean canExecute(Message e, boolean shouldSend) {
-        if(e.getGuildId().isPresent()) {
-            if(e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
-                if(e.getAuthorAsMember().blockOptional().isPresent()) {
-                    if(e.getAuthorAsMember().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
-                        return true;
-                    }else {
-                        if(shouldSend) {
-                            e.getChannel().block().createEmbed(em -> {
-                                em.setColor(Color.RED);
-                                em.setDescription(":x: You need to have the role `PPM Host` to use this command!");
-                            }).block();
-                        }
-                        return false;
+        if (e.getGuildId().isPresent()) {
+            if (e.getAuthorAsMember().blockOptional().isPresent()) {
+                if (e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
+                    return true;
+                } else {
+                    if (shouldSend) {
+                        e.getChannel().block().createEmbed(em -> {
+                            em.setColor(Color.RED);
+                            em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
+                        }).block();
                     }
-                }
-            }else {
-                if(e.getAuthorAsMember().blockOptional().isPresent()) {
-                    if(e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
-                        return true;
-                    }else {
-                        if(shouldSend) {
-                            e.getChannel().block().createEmbed(em -> {
-                                em.setColor(Color.RED);
-                                em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
-                            }).block();
-                        }
-                        return false;
-                    }
+                    return false;
                 }
             }
+            return false;
         }
         return false;
     }
@@ -76,13 +56,13 @@ public class MeetingCommand extends Command {
                 e.addField("To Start", "Enter the name of your meeting!", false);
                 e.setFooter("Use !cancel to cancel the meeting setup", null);
             }));
-        }, ((meeting, workflow, message) ->  {
-            if(!message.getContent().isEmpty()) {
-                if(!message.getContent().toLowerCase().startsWith("!meeting")) { //idk why i need to put this check in but this is running differently on windows vs linux
+        }, ((meeting, workflow, message) -> {
+            if (!message.getContent().isEmpty()) {
+                if (!message.getContent().toLowerCase().startsWith("!meeting")) { //idk why i need to put this check in but this is running differently on windows vs linux
                     meeting.setName(message.getContent());
                     workflow.nextStep();
                 }
-            }else {
+            } else {
                 message.getChannel().block().createEmbed(e -> {
                     e.setDescription(":x: You need to include content in the message!");
                     e.setColor(Color.RED);
@@ -95,11 +75,11 @@ public class MeetingCommand extends Command {
                 e.addField("Next", "Enter the information about your meeting!", false);
                 e.setFooter("Use !cancel to cancel the meeting setup", null);
             }));
-        }, ((meeting, workflow, message) ->  {
-            if(!message.getContent().isEmpty()) {
+        }, ((meeting, workflow, message) -> {
+            if (!message.getContent().isEmpty()) {
                 meeting.setDesc(message.getContent());
                 workflow.nextStep();
-            }else {
+            } else {
                 message.getChannel().block().createEmbed(e -> {
                     e.setDescription(":x: You need to include content in the message!");
                     e.setColor(Color.RED);
@@ -112,25 +92,25 @@ public class MeetingCommand extends Command {
                 e.addField("Next", "Enter channel where meeting should be posted \n (write the full channel mention, i.e. like with the #!", false);
                 e.setFooter("Use !cancel to cancel the event", null);
             }));
-        }, ((meeting, workflow, message) ->  {
-            if(!message.getContent().isEmpty()) {
-                if(Util.parseMention(message.getContent()) != null) {
-                    if(message.getGuild().block().getChannelById(Snowflake.of(Util.parseMention(message.getContent()))).blockOptional().isPresent()) {
+        }, ((meeting, workflow, message) -> {
+            if (!message.getContent().isEmpty()) {
+                if (Util.parseMention(message.getContent()) != null) {
+                    if (message.getGuild().block().getChannelById(Snowflake.of(Util.parseMention(message.getContent()))).blockOptional().isPresent()) {
                         meeting.setChannelToPost(Long.valueOf(Util.parseMention(message.getContent())));
                         workflow.nextStep();
-                    }else {
+                    } else {
                         message.getChannel().block().createEmbed(e -> {
                             e.setDescription(":x: Invalid channel: This guild doesn't have this channel!");
                             e.setColor(Color.RED);
                         }).block();
                     }
-                }else {
+                } else {
                     message.getChannel().block().createEmbed(e -> {
                         e.setDescription(":x: Invalid channel: This is not a valid channel mention!!");
                         e.setColor(Color.RED);
                     }).block();
                 }
-            }else {
+            } else {
                 message.getChannel().block().createEmbed(e -> {
                     e.setDescription(":x: You need to include content in the message!");
                     e.setColor(Color.RED);
@@ -143,18 +123,18 @@ public class MeetingCommand extends Command {
                 e.addField("Next", "Enter your meeting times! \n To do this: just enter any text (preferably a date and time), and the bot will use that text \n To finish meeting, type !finish", false);
                 e.setFooter("Use !cancel to cancel the meeting setup", null);
             }));
-        }, ((meeting, workflow, message) ->  {
-            if(!message.getContent().isEmpty()) {
-                if(message.getContent().toLowerCase().startsWith("!finish")) {
-                    if(meeting.getTimes().size() <= 1) {
+        }, ((meeting, workflow, message) -> {
+            if (!message.getContent().isEmpty()) {
+                if (message.getContent().toLowerCase().startsWith("!finish")) {
+                    if (meeting.getTimes().size() <= 1) {
                         message.getChannel().block().createEmbed(e -> {
                             e.setColor(Color.RED);
                             e.setDescription(String.format(":x: Invalid meeting, you only have %s options chosen!", meeting.getTimes().size()));
                         }).block();
-                    }else {
+                    } else {
                         workflow.nextStep();
                     }
-                }else {
+                } else {
                     Meeting.TimeEntry entry = new Meeting.TimeEntry();
                     entry.setTime(message.getContent());
                     meeting.getTimes().add(entry);
@@ -163,7 +143,7 @@ public class MeetingCommand extends Command {
                         e.setColor(Color.GREEN);
                     }).block();
                 }
-            }else {
+            } else {
                 message.getChannel().block().createEmbed(e -> {
                     e.setDescription(":x: You need to include content in the message!");
                     e.setColor(Color.RED);
@@ -177,14 +157,14 @@ public class MeetingCommand extends Command {
                 e.addField("Summary", toUse.toString(), false);
             }));
         }, ((meeting, workflow, message) -> {
-            if(message.getContent().equalsIgnoreCase("!confirm")) {
+            if (message.getContent().equalsIgnoreCase("!confirm")) {
                 message.getChannel().block().createEmbed(e -> {
                     e.setDescription(":white_check_mark: Meeting Setup!");
                     e.setColor(Color.GREEN);
                 }).block();
                 meeting.init();
                 workflow.end();
-            }else {
+            } else {
                 message.getChannel().block().createEmbed(e -> {
                     e.setDescription(":x: Invalid input! Use `!confirm` or `!cancel`!");
                     e.setColor(Color.RED);

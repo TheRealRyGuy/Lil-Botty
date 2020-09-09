@@ -1,5 +1,6 @@
 package me.ryguy.ctfbot.cmds;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
@@ -12,10 +13,7 @@ import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RemoveRolesCommand extends Command {
@@ -114,6 +112,11 @@ public class RemoveRolesCommand extends Command {
             for(String s : args) {
                 if(message.getGuild().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains(s)) {
                     Role role = Util.getRoleByName(s, message.getGuild().block());
+                    Set<Snowflake> settest = new HashSet<>(Collections.singleton(role.getId()));
+                    if(!message.getAuthorAsMember().block().hasHigherRoles(settest).block()) {
+                        skippedLines.add(s);
+                        continue;
+                    }
                     int roles = 0;
                     for (Member m : message.getGuild().block().getMembers().toIterable()) {
                         if (m.getRoleIds().contains(role.getId())) {

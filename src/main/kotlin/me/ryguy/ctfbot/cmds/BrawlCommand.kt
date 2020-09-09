@@ -51,7 +51,7 @@ class BrawlCommand : Command("brawl", "brool") {
             val result = Gson().fromJson<Map<String, String>>(s, object: TypeToken<Map<String, String>>() {}.type)
 
             result.filterKeys { it in servers.keys && it != "total" }.map { (url, count) ->
-                String.format("${emojis[url]} **%s**: %s", servers[url], count)
+                "${emojis[url]} **${servers[url]}**: $count"
             }.sorted().joinToString("\n").run {
 
                 val total = result.filterKeys { it in servers.keys && it != "total" }

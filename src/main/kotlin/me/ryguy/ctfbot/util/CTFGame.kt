@@ -67,4 +67,16 @@ object CTFGame {
     fun isMatchServer(url: String): Boolean {
         return url.contains("ctfmatch")
     }
+
+    fun getMapName(doc: Document): String {
+        return doc.getElementById("map-name").text()
+                .let {
+                    it.substring(5 until it.length)
+                }
+    }
+
+    fun getMapMVP(doc: Document): String {
+        return doc.getElementsByTag("a").first()
+                .text()
+    }
 }

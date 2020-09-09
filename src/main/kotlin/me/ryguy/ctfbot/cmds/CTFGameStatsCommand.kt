@@ -38,12 +38,16 @@ class CTFGameStatsCommand : CTFDiscordOnlyCommand("gamestats", "ppmstats") {
                 return Mono.empty()
             }
 
-            message.replyWithSuccess("Found ${games.size} games!\n"
-                    .plus(games.keys.sorted()
-                            .map { "${CTFGame.FRIENDLY_URL}/$it/" }
-                            .joinToString("\n")
-                    )
-            )
+            message?.channel?.block()?.createEmbed {
+                it.setTitle("Recent PPM Games")
+                it.setDescription(games.entries.sortedBy { it.key }
+                        .map { (id, doc) -> Pair(CTFGame.getMapName(doc), CTFGame.getMapMVP(doc)) to "${CTFGame.FRIENDLY_URL}/$id/" }
+                        .map { (pair, url) -> "**:map: ${pair.first} | :trophy: ${pair.second}**\n" +
+                                              "$url\n"
+                        }
+                        .joinToString("\n")
+                )
+            }?.block()
 
         } else {
             if (args?.isEmpty() != false) {

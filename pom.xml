@@ -13,6 +13,7 @@
         <kotlin.version>1.4.0</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+        <kotlin.compiler.jvmTarget>9</kotlin.compiler.jvmTarget>
     </properties>
 
     <build>
@@ -93,8 +94,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

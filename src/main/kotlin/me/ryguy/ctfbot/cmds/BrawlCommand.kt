@@ -10,6 +10,7 @@ import me.ryguy.ctfbot.util.GET
 import me.ryguy.discordapi.command.Command
 import reactor.core.publisher.Mono
 import java.net.URL
+import java.util.Comparator
 
 class BrawlCommand : Command("brawl", "brool") {
     companion object {
@@ -50,9 +51,9 @@ class BrawlCommand : Command("brawl", "brool") {
             val s = URL("https://www.brawl.com/data/playerCount.json").GET()
             val result = Gson().fromJson<Map<String, String>>(s, object: TypeToken<Map<String, String>>() {}.type)
 
-            result.filterKeys { it in servers.keys && it != "total" }.map { (url, count) ->
+            result.filterKeys { it in servers.keys && it != "total" }.toSortedMap(Comparator.comparing { servers[it] ?: error("") }).map { (url, count) ->
                 "${emojis[url]} **${servers[url]}**: $count"
-            }.sorted().joinToString("\n").run {
+            }.joinToString("\n").run {
 
                 val total = result.filterKeys { it in servers.keys && it != "total" }
                         .values.sumBy { Integer.parseInt(it) }

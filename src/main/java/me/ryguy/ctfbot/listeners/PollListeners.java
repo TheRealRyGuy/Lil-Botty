@@ -23,6 +23,7 @@ public class PollListeners implements Listener {
         boolean shouldHandle = false;
         for(Poll.Option o : e.getOptions()) {
             if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
+                if(o.getPlayers().contains(event.getUser().block())) return;
                 o.addPlayer(event.getUser().block());
                 shouldHandle = true;
                 if(!e.isShowVotes()) {
@@ -51,6 +52,7 @@ public class PollListeners implements Listener {
         boolean shouldHandle = false;
         for(Poll.Option o : e.getOptions()) {
             if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
+                if(o.getPlayers().contains(event.getUser().block())) return;
                 o.removePlayer(event.getUser().block());
                 shouldHandle = true;
             }

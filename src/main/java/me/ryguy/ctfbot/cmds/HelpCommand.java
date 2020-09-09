@@ -24,7 +24,7 @@ public class HelpCommand extends Command {
            e.setTitle("Welcome to WaffleBot2!");
            e.setThumbnail(DiscordBot.getBot().getGateway().getSelf().block().getAvatarUrl());
            e.setColor(Color.TAHITI_GOLD);
-           e.setDescription("Welcome to WaffleBot, coded initially by RyGuy#0001, and with a lot of help from 915 and mikye!");
+           e.setDescription("Welcome to WaffleBot, coded initially by redslime / hallopiu, then taken over and redone by RyGuy#0001 and with a lot of help from 915 and mikye!");
            e.addField("Commands you can use", commands.toString(), false);
            e.addField("Contributing", "To contribute to WaffleBot, you can contribute at <https://github.com/TheRealRyGuy/CTF-Community-Discord-Bot>! Any contributions are welcome!", false);
            e.addField("Inviting", "To invite the bot to your server, use this invite: <https://discord.com/oauth2/authorize?client_id=749700983105257482&scope=bot&permissions=2146958847>", false);

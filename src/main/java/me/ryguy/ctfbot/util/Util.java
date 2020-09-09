@@ -13,6 +13,7 @@ import java.net.URL;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Util {
@@ -72,6 +73,13 @@ public class Util {
         else if(s.equalsIgnoreCase("false") || s.equalsIgnoreCase("no"))
             return false;
 
+        return null;
+    }
+    public static String containsStringFragment(Set<String> s, String toCheck) {
+        for(String string : s) {
+            if(string.toLowerCase().contains(toCheck.toLowerCase()))
+                return string;
+        }
         return null;
     }
 }

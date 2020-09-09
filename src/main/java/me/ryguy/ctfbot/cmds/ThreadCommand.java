@@ -24,7 +24,7 @@ public class ThreadCommand extends Command {
     }
 
     @Override
-    public Mono<Void> execute(Message message, String s, String[] strings) {
+    public Mono<Void> execute(Message message, String alias, String[] args) {
         Map<String, String> res = new HashMap<>();
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -42,14 +42,6 @@ public class ThreadCommand extends Command {
                     res.put(title, buildDesc(author, link, date));
                 }
             }
-            message.getChannel().block().createEmbed(e -> {
-               e.setColor(Color.TAHITI_GOLD);
-               e.setTitle("Official Team Threads!");
-               e.setFooter("love and pugs :D", null);
-                for(Map.Entry<String, String> entry : res.entrySet()) {
-                    e.addField(entry.getKey(), entry.getValue(), true);
-                }
-            }).block();
         }catch(Exception e) {
             message.getChannel().block().createEmbed(em -> {
                 em.setDescription(":x: Error grabbing team threads!");
@@ -58,11 +50,53 @@ public class ThreadCommand extends Command {
             e.printStackTrace();
             return null;
         }
+        if(args.length == 0) {
+            message.getChannel().block().createEmbed(em -> {
+                StringBuilder possible = new StringBuilder();
+                for(String s : res.keySet()) {
+                    possible.append(s + ", ");
+                }
+                possible.append("all");
+                em.setDescription(":x: You need to include arguments!\nPossible arguments: `" + possible.toString() + "`");
+                em.setColor(Color.RED);
+            }).block();
+        }else {
+            if(args[0].equalsIgnoreCase("all")) {
+                message.getChannel().block().createEmbed(e -> {
+                    e.setColor(Color.TAHITI_GOLD);
+                    e.setTitle("Official Team Threads!");
+                    e.setFooter("love and pugs :D", null);
+                    for(Map.Entry<String, String> entry : res.entrySet()) {
+                        e.addField(entry.getKey(), entry.getValue(), true);
+                    }
+                }).block();
+            }else {
+                if(Util.containsStringFragment(res.keySet(), args[0]) != null) {
+                    String teamName = Util.containsStringFragment(res.keySet(), args[0]);
+                    message.getChannel().block().createEmbed(e -> {
+                        e.setColor(Color.TAHITI_GOLD);
+                        e.setTitle(teamName + "'s Official Thread!");
+                        e.setDescription(res.getOrDefault(teamName, "Well something broke, oopsies"));
+                        e.setFooter("love and pugs :D", null);
+                    }).block();
+                }else {
+                    message.getChannel().block().createEmbed(em -> {
+                        StringBuilder possible = new StringBuilder();
+                        for(String s : res.keySet()) {
+                            possible.append(s + ", ");
+                        }
+                        possible.append("all");
+                        em.setDescription(":x: Invalid Argument `" + args[0] + "`!\nPossible arguments: `" + possible.toString() + "`");
+                        em.setColor(Color.RED);
+                    }).block();
+                }
+            }
+        }
         return null;
     }
     private String buildDesc(String author, String link, String date) {
         return "**Creator: ** " + author + "\n " +
-                "**Created at: **" + date + "\n" +
+                "**Last Comment at: **" + date + "\n" +
                 "**URL: **" + link;
     }
 

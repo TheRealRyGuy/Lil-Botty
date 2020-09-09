@@ -45,7 +45,7 @@ public class CTFDiscordBot {
             bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
                 e.setColor(Color.RED);
                 e.setTitle("Error using command " + cmd.getName() + " - " + ex.getClass().getName() + "!");
-                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ");
+                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ");
             }).block();
         });
         bot.setEventErrorHandler((ex, event) -> {
@@ -53,7 +53,7 @@ public class CTFDiscordBot {
             bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
                 e.setColor(Color.RED);
                 e.setTitle("Error running event  " + event.getClass().getName() + " - " + ex.getClass().getName() + "!");
-                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex) + "``` ");
+                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ");
             }).block();
         });
 

@@ -7,9 +7,9 @@ import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.CTFDiscordBot;
-import me.ryguy.ctfbot.types.CTFDiscordOnlyCommand;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
+import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -18,20 +18,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class RemoveRolesCommand extends CTFDiscordOnlyCommand {
+public class RemoveRolesCommand extends Command {
     public RemoveRolesCommand() {
         super("removeroles", "rr");
     }
 
     @Override
-    public boolean canExecute(MessageCreateEvent e) {
+    public boolean canExecute(Message e) {
         if(e.getGuildId().isPresent()) {
             if(e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
-                if(e.getMember().isPresent()) {
-                    if(e.getMember().get().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
+                if(e.getAuthorAsMember().blockOptional().isPresent()) {
+                    if(e.getAuthorAsMember().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
                         return true;
                     }else {
-                        e.getMessage().getChannel().block().createEmbed(em -> {
+                        e.getChannel().block().createEmbed(em -> {
                             em.setColor(Color.RED);
                             em.setDescription(":x: You need to have the role `PPM Host` to use this command!");
                         }).block();
@@ -39,11 +39,11 @@ public class RemoveRolesCommand extends CTFDiscordOnlyCommand {
                     }
                 }
             }else {
-                if(e.getMember().isPresent()) {
-                    if(e.getMember().get().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
+                if(e.getAuthorAsMember().blockOptional().isPresent()) {
+                    if(e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
                         return true;
                     }else {
-                        e.getMessage().getChannel().block().createEmbed(em -> {
+                        e.getChannel().block().createEmbed(em -> {
                             em.setColor(Color.RED);
                             em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
                         }).block();

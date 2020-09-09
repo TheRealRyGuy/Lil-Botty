@@ -2,13 +2,10 @@ package me.ryguy.ctfbot.cmds;
 
 import com.vdurmont.emoji.EmojiManager;
 import discord4j.common.util.Snowflake;
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.Role;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
-import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.types.Poll;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
@@ -21,38 +18,6 @@ import java.util.stream.Collectors;
 public class PollCommand extends Command {
     public PollCommand() {
         super("poll");
-    }
-
-    @Override
-    public boolean canExecute(MessageCreateEvent e) {
-        if(e.getGuildId().isPresent()) {
-            if(e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
-                if(e.getMember().isPresent()) {
-                    if(e.getMember().get().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
-                        return true;
-                    }else {
-                        e.getMessage().getChannel().block().createEmbed(em -> {
-                            em.setColor(Color.RED);
-                            em.setDescription(":x: You need to have the role `PPM Host` to use this command!");
-                        }).block();
-                        return false;
-                    }
-                }
-            }else {
-                if(e.getMember().isPresent()) {
-                    if(e.getMember().get().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
-                        return true;
-                    }else {
-                        e.getMessage().getChannel().block().createEmbed(em -> {
-                            em.setColor(Color.RED);
-                            em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
-                        }).block();
-                        return false;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     @Override

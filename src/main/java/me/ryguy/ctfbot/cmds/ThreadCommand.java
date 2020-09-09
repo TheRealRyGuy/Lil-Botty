@@ -107,7 +107,7 @@ public class ThreadCommand extends Command {
         for(String s : args) {
             if(s.contains("Recruiting"))
                 continue;
-            if(s.matches(".*\\d.*") && (s.contains("/") || s.contains("\\") || s.contains("[") || s.contains("(")))
+            if(s.matches(".*\\d.*") && (s.contains("/") || s.contains("\\") || s.contains("[") || s.contains("(") || s.contains("]") || s.contains(")")))
                 continue;
 
             ret.append(s + " ");

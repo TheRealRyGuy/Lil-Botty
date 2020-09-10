@@ -28,7 +28,7 @@ public class EventReactionsListener implements Listener {
             e.addPlayer(event.getUser().block());
             if (event.getMember().isPresent() && !event.getMember().get().getRoles().collect(Collectors.toList()).block().contains(e.getGiveRole())) {
                 try {
-                    event.getMember().get().addRole(e.getGiveRole().getId());
+                    event.getMember().get().addRole(e.getGiveRole().getId()).block();
                 }catch(Exception ex) {
                     ex.printStackTrace();
                     Util.sendErrorMessage(ex, this, event);
@@ -38,7 +38,7 @@ public class EventReactionsListener implements Listener {
             e.addNonPlayer(event.getUser().block());
             if (event.getMember().isPresent() && event.getMember().get().getRoles().collect(Collectors.toList()).block().contains(e.getGiveRole())) {
                 try {
-                    event.getMember().get().removeRole(e.getGiveRole().getId());
+                    event.getMember().get().removeRole(e.getGiveRole().getId()).block();
                 }catch(Exception ex) {
                     ex.printStackTrace();
                     Util.sendErrorMessage(ex, this, event);
@@ -71,7 +71,7 @@ public class EventReactionsListener implements Listener {
             Member mem = event.getGuild().block().getMemberById(event.getUserId()).block();
             if(mem.getRoles().collect(Collectors.toList()).block().contains(e.getGiveRole()))
                 try {
-                    mem.removeRole(e.getGiveRole().getId());
+                    mem.removeRole(e.getGiveRole().getId()).block();
                 }catch(Exception ex) {
                     ex.printStackTrace();
                     Util.sendErrorMessage(ex, this, event);

@@ -29,14 +29,11 @@ public class QuoteListener implements Listener {
         if (!chan.getEffectivePermissions(event.getUserId()).block().contains(Permission.SEND_MESSAGES)) return;
         if (!isQuoteEmoji(event.getEmoji())) return;
         if (!event.getMember().isPresent()) return;
-        System.out.println("0");
         if (event.getMessage().block().getContent() == null) return;
-        System.out.println("1");
 
         String content = event.getMessage().block().getContent().trim();
 
         if (content.isEmpty() || content.equalsIgnoreCase("")) return;
-        System.out.println("2");
 
         Member member = event.getMember().get(); // person who quoted
         Member author = event.getMessage().block().getAuthorAsMember().block(); // original message author
@@ -50,7 +47,7 @@ public class QuoteListener implements Listener {
             cooldowns.put(member.getId(), System.currentTimeMillis());
         }
 
-
+        removeReactionEmoji(event.getMessage().block(), event.getEmoji(), member.getId());
         event.getChannel().block().createEmbed(e -> {
             e.setAuthor(author.getDisplayName(), null, author.getAvatarUrl());
             e.setDescription(event.getMessage().block().getContent());

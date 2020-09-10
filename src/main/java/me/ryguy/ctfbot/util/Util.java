@@ -124,4 +124,7 @@ public class Util {
     public static void messageMe(String s) {
         DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createMessage(s).block();
     }
+    public static enum Direction {
+        UP, DOWN, LEFT, RIGHT;
+    }
 }

@@ -80,7 +80,7 @@ public class Util {
 
         return null;
     }
-    public static String containsStringFragment(Set<String> s, String toCheck) {
+    public static String matchStringFragment(Set<String> s, String toCheck) {
         for(String string : s) {
             if(string.toLowerCase().contains(toCheck.toLowerCase()))
                 return string;

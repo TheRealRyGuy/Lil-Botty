@@ -29,7 +29,8 @@ class CTFStatsCommand : Command("ctfstats") {
                     """.trimIndent()
             )
             it.setFooter("Last updated 2020-09-11", null)
-        }
+        }?.block()
+
         return Mono.empty()
     }
 }

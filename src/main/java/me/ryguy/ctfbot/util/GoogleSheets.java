@@ -51,7 +51,7 @@ public class GoogleSheets {
      */
     private static Credential getCredentials() throws IOException {
         // Load client secrets.
-        InputStream in = GoogleSheets.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = new FileInputStream(CTFDiscordBot.SHEETS_CREDENTIALS);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -70,13 +70,13 @@ public class GoogleSheets {
      * Prints the names and majors of students in a sample spreadsheet:
      * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
      *
-     * Test method pulled directly from https://developers.google.com/sheets/api/quickstart/java
+     * Test method pulled directly from https://developers.google.com/sheets/api/quickstart/java, rewritten slightly for ss testing
      */
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-        final String range = "Class Data!A2:E";
+        final String spreadsheetId = "1CrQOxzaXC6iSjwZwQvu6DNIYsCDg-uQ4x5UiaWLHzxg";
+        final String range = "Upcoming Matches!C10:T60";
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials())
                 .setApplicationName(APPLICATION_NAME)
                 .build();
@@ -87,10 +87,9 @@ public class GoogleSheets {
         if (values == null || values.isEmpty()) {
             System.out.println("No data found.");
         } else {
-            System.out.println("Name, Major");
             for (List row : values) {
                 // Print columns A and E, which correspond to indices 0 and 4.
-                System.out.printf("%s, %s\n", row.get(0), row.get(4));
+                System.out.println(((List<String>) row).toString());
             }
         }
     }
@@ -104,8 +103,5 @@ public class GoogleSheets {
         return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, cred)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
-    }
-    public static class Cell {
-
     }
 }

@@ -20,6 +20,8 @@ object Startup {
         CTFGameStatsCommand().register()
         CTFStatsCommand().register()
         ThreadCommand().register()
+        SSCommand().register()
+        SS2Command().register()
     }
 
     fun registerListeners() {

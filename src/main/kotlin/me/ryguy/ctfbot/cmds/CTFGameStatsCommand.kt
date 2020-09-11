@@ -2,13 +2,11 @@ package me.ryguy.ctfbot.cmds
 
 import discord4j.core.`object`.entity.Message
 import me.ryguy.ctfbot.replyWithFailure
-import me.ryguy.ctfbot.replyWithSuccess
 import me.ryguy.ctfbot.types.CTFDiscordOnlyCommand
 import me.ryguy.ctfbot.util.*
 import org.jsoup.nodes.Document
 import reactor.core.publisher.Mono
 import java.lang.NumberFormatException
-import java.net.URL
 
 /**
  * Syntax: !gamestats <id>

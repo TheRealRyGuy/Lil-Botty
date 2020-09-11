@@ -40,15 +40,15 @@ public class SSHelper {
 
     public ValueRange getValueRange() throws IOException {
         if(lastCache == 0 || System.currentTimeMillis() - lastCache > TimeUnit.MINUTES.toMillis(1)) {
-            vr = SHEETS.spreadsheets().values().get(SHEET_ID, RANGE).execute();
+            this.vr = SHEETS.spreadsheets().values().get(SHEET_ID, RANGE).execute();
             lastCache = System.currentTimeMillis();
         }
-        return vr;
+        return this.vr;
     }
     //redslimes cell getters <3
     public List<Cell> getAllCells() throws IOException {
         List<Cell> cells = new ArrayList<>();
-        List<List<Object>> data = getValueRange().getValues();
+        List<List<Object>> data = this.getValueRange().getValues();
         for(int rowIndex = 0; rowIndex < MAX_ROW; rowIndex++) {
             for(int columnIndex = 0; columnIndex < MAX_COLUMN; columnIndex++) {
                 if(data.size() > rowIndex) {

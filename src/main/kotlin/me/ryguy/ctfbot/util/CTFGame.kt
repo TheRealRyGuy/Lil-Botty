@@ -76,8 +76,12 @@ object CTFGame {
     }
 
     fun getMapMVP(doc: Document): String {
-        return doc.getElementsByTag("a").first()
-                .text()
+        val ret = doc.getElementsByTag("a").first()
+        ret?.let {
+            return ret.text()
+        } ?: run {
+            return "No One"
+        }
     }
 }
 

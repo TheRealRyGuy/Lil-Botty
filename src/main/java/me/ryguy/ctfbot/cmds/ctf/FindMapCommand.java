@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.cmds;
+package me.ryguy.ctfbot.cmds.ctf;
 
 import com.google.gson.reflect.TypeToken;
 import discord4j.core.object.entity.Message;

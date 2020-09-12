@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.cmds;
+package me.ryguy.ctfbot.cmds.ctf;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
-public class SSCommand extends Command {
-    public SSCommand() {
-        super("spreadsheet", "ss");
+public class SS2Command extends Command {
+    public SS2Command() {
+        super("spreadsheet2", "ss2");
     }
 
     @Override
-    public Mono<Void> execute(Message message, String alias, String[] args) {
+    public Mono<Void> execute(Message message, String alais, String[] args) {
         if(args.length != 1) {
             message.getChannel().block().createEmbed(e -> {
                 e.setColor(Color.RED);
@@ -40,7 +40,7 @@ public class SSCommand extends Command {
             e.setDescription(":arrows_counterclockwise: Fetching Match data!");
         }).block();
         try {
-            SSHelper ss = new SSHelper("1CrQOxzaXC6iSjwZwQvu6DNIYsCDg-uQ4x5UiaWLHzxg", "Upcoming Matches!C10:T60");
+            SSHelper ss = new SSHelper("1CrQOxzaXC6iSjwZwQvu6DNIYsCDg-uQ4x5UiaWLHzxg", "Upcoming Matches (Server 2)!C10:T60");
             List<SSHelper.Match> matches = ss.getMatches();
             switch(args[0].toLowerCase()) {
                 case "upcoming":

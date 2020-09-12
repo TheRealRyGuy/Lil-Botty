@@ -1,6 +1,9 @@
 package me.ryguy.ctfbot
 
 import me.ryguy.ctfbot.cmds.*
+import me.ryguy.ctfbot.cmds.ctf.*;
+import me.ryguy.ctfbot.cmds.games.*;
+import me.ryguy.ctfbot.cmds.general.*;
 import me.ryguy.ctfbot.listeners.*
 
 object Startup {
@@ -15,6 +18,11 @@ object Startup {
         RemoveRolesCommand().register()
         HelpCommand().register()
         MemCommand().register()
+        EightBallCommand().register()
+        CoinFlipCommand().register()
+        DiceRollCommand().register()
+        RockPaperScissorsCommand().register()
+        RestartCommand().register()
         //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()

@@ -11,11 +11,7 @@ import discord4j.core.`object`.entity.channel.MessageChannel
  * Class to help GSON understand Discord types
  *
  * To use,
- * kotlin:
- *  TypeSerializer.gson.doSomething()
- *
- * java:
- *  TypeSerializer.INSTANCE.getGson().doSomething()
+ * CTFDiscordBot.gson().doSomething()
  */
 object TypeSerializer {
     val gson: Gson

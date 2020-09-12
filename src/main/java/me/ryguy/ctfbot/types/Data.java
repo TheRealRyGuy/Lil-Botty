@@ -7,8 +7,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.ryguy.ctfbot.CTFDiscordBot.GSON;
-
 @Getter
 public class Data {
     public List<Event> events = new ArrayList<>();
@@ -22,7 +20,7 @@ public class Data {
             dataFile.createNewFile();
 
         BufferedReader br = new BufferedReader(new FileReader(dataFile));
-        Data loadedData = TypeSerializer.INSTANCE.getGson().fromJson(br, Data.class);
+        Data loadedData = CTFDiscordBot.gson().fromJson(br, Data.class);
         br.close();
         if(loadedData != null) {
             loadedData.reminders.forEach(r -> r.schedule(r.getChannel()));
@@ -36,7 +34,7 @@ public class Data {
             dataFile.createNewFile();
 
         BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile));
-        bw.write(TypeSerializer.INSTANCE.getGson().toJson(CTFDiscordBot.data));
+        bw.write(CTFDiscordBot.gson().toJson(CTFDiscordBot.data));
         bw.close();
     }
 }

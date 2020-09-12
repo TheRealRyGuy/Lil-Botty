@@ -3,6 +3,7 @@ package me.ryguy.ctfbot;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import me.ryguy.ctfbot.types.Data;
+import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -17,7 +18,6 @@ public class CTFDiscordBot {
     public static final long TEST_GUILD_ID = 433097833080684575L;
     public static final long BOT_OWNER = 151474463550996480L;
 
-    public static final Gson GSON = new Gson();
     public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
     public static File MAP_FILE;
     public static File SHEETS_CREDENTIALS;
@@ -78,4 +78,6 @@ public class CTFDiscordBot {
 
         bot.endStartup();
     }
+
+    public static Gson gson() { return TypeSerializer.INSTANCE.getGson(); }
 }

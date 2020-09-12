@@ -33,8 +33,7 @@ public class FindMapCommand extends Command {
         }
         try {
             BufferedReader br = new BufferedReader(new FileReader(CTFDiscordBot.MAP_FILE));
-            maps = TypeSerializer.INSTANCE.getGson().fromJson(br, new TypeToken<List<Map>>() {
-            }.getType());
+            maps = CTFDiscordBot.gson().fromJson(br, new TypeToken<List<Map>>() {}.getType());
             br.close();
         } catch (Exception ex) {
             message.getChannel().block().createMessage(m -> {

@@ -7,14 +7,17 @@ import discord4j.rest.util.Color;
 import lombok.Getter;
 import lombok.Setter;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.util.DelayedMessage;
 import me.ryguy.discordapi.DiscordBot;
 
 import java.io.IOException;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
-@Getter @Setter
+@Getter
+@Setter
 public class PPMStrike {
+    public static final MessageChannel PPM_STRIKE_CHANNEL = (MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block();
 
     private long timestamp;
     private long striked;
@@ -36,24 +39,24 @@ public class PPMStrike {
         CTFDiscordBot.data.strikes.add(this);
         try {
             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     protected class Reminder extends me.ryguy.ctfbot.types.Reminder {
         public Reminder(Tier tier) {
-            super(striked, (MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block(), (System.currentTimeMillis() + tier.getDuration()), ch -> {
-                ch.createEmbed(em -> {
-                    em.setTitle(":zap: Strike expired");
-                    em.setColor(Color.TAHITI_GOLD);
-                    em.setDescription(tier.getEmoji() + " <@" + striked + ">, striked by <@" + strikedBy + ">, " + "\n" +
-                            "Reason: " + reason);
-                    em.setTimestamp(Instant.now());
-                }).block();
-            });
+            super(striked, PPM_STRIKE_CHANNEL,
+                    (System.currentTimeMillis() + tier.getDuration()),
+                    new DelayedMessage(PPM_STRIKE_CHANNEL,
+                            ":zap: Strike expired",
+                            tier.getEmoji() + " <@" + striked + ">, striked by <@" + strikedBy + ">, " + "\n" +
+                                    "Reason: " + reason,
+                            Color.TAHITI_GOLD
+                    ));
         }
     }
+
     public enum Tier {
         @SerializedName("1") FIRST(2),
         @SerializedName("2") SECOND(5),

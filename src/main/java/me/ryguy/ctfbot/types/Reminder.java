@@ -3,33 +3,33 @@ package me.ryguy.ctfbot.types;
 import discord4j.core.object.entity.channel.MessageChannel;
 import lombok.Getter;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.util.DelayedMessage;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Consumer;
 
 @Getter
 public class Reminder {
 
-    private long owner;
-    private MessageChannel channel;
-    private long timestamp;
-    private Consumer<MessageChannel> toSend; //TODO: rewrite in a way we can serialize
+    private final long owner;
+    private final MessageChannel channel;
+    private final long timestamp;
+    private final DelayedMessage toSend;
     private boolean sent;
 
-    public Reminder(long owner, MessageChannel channel, long timestamp, Consumer<MessageChannel> consumer) {
+    public Reminder(long owner, MessageChannel channel, long timestamp, DelayedMessage message) {
         this.owner = owner;
         this.channel = channel;
         this.timestamp = timestamp;
-        this.toSend = consumer;
+        this.toSend = message;
 
         this.schedule(channel);
         CTFDiscordBot.data.reminders.add(this);
         try {
             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-        }catch(IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
@@ -38,8 +38,9 @@ public class Reminder {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                toSend.accept(ch);
-                sent = false;
+                toSend.setChannel(ch);
+                toSend.send();
+                sent = true;
             }
         }, new Date(timestamp));
     }

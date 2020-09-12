@@ -10,17 +10,16 @@ import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.rest.util.Image;
 import lombok.Getter;
 import lombok.Setter;
+import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter @Setter
 public class Event {
-
-    public static List<Event> events = new ArrayList<>();
 
     private String name;
     private String description;
@@ -104,7 +103,12 @@ public class Event {
         this.announcementMessage.addReaction(ReactionEmoji.unicode(this.signUpEmoji)).block();
         this.announcementMessage.addReaction(ReactionEmoji.unicode(this.rejectEmoji)).block();
         this.handleReaction();
-        events.add(this);
+        CTFDiscordBot.data.events.add(this);
+        try {
+            CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
     }
     public void handleReaction() {
         listMessage.edit(m -> {
@@ -129,7 +133,7 @@ public class Event {
                 "**Reject emoji:** " + this.rejectEmoji;
     }
     public static Event getEvent(Message announcementMessage) {
-        for (Event e : events) {
+        for (Event e : CTFDiscordBot.data.events) {
             if (e.getAnnouncementMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
                 return e;
         }

@@ -8,9 +8,11 @@ import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.rest.util.Color;
 import lombok.Getter;
 import lombok.Setter;
+import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +22,6 @@ import java.util.Map;
 @Setter
 public class Meeting {
 
-    public static List<Meeting> meetings = new ArrayList<>();
     private Long channelToPost;
     private String name;
     private String desc;
@@ -38,7 +39,7 @@ public class Meeting {
     }
 
     public static Meeting getMeeting(Message toCheck) {
-        for (Meeting m : meetings) {
+        for (Meeting m : CTFDiscordBot.data.meetings) {
             for (Map.Entry<Message, TimeEntry> entry : m.getEntries().entrySet()) {
                 if (entry.getKey().getId().asString().equalsIgnoreCase(toCheck.getId().asString()))
                     return m;
@@ -63,7 +64,12 @@ public class Meeting {
             message.addReaction(ReactionEmoji.unicode("✅")).block();
             this.entries.put(message, t);
         }
-        meetings.add(this);
+        CTFDiscordBot.data.meetings.add(this);
+        try {
+            CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleReaction() {

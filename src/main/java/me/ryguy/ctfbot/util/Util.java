@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,7 +51,6 @@ public class Util {
         if (parseMention(input) == null) return false;
         return guild.getRoleById(Snowflake.of(parseMention(input))).blockOptional().isPresent() || guild.getMemberById(Snowflake.of(parseMention(input))).blockOptional().isPresent();
     }
-
     public static List<Role> getRolesToRemove(Guild g) {
         return g.getRoles().filter(role -> CTFDiscordBot.ROLES_TO_REMOVE.contains(role.getName())).collect(Collectors.toList()).block();
     }

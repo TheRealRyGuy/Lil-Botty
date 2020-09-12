@@ -2,10 +2,12 @@ package me.ryguy.ctfbot;
 
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
+import me.ryguy.ctfbot.types.Data;
 import me.ryguy.discordapi.DiscordBot;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,16 +21,27 @@ public class CTFDiscordBot {
     public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
     public static File MAP_FILE;
     public static File SHEETS_CREDENTIALS;
+    public static File DATA_FILE;
+    public static Data data;
 
     static {
         if(SystemUtils.IS_OS_WINDOWS) {
             SHEETS_CREDENTIALS = new File(System.getProperty("user.dir") + "/src/main/resources/credentials.json");
             MAP_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/maps.json"); //running it locally
+            DATA_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/data.json");
         }else {
             MAP_FILE = new File("/Shared/maps.json"); //running on vps
             SHEETS_CREDENTIALS = new File("/Shared/credentials.json");
+            DATA_FILE = new File("/Shared/data.json");
+        }
+        try {
+            data = Data.load(DATA_FILE);
+        }catch(IOException ex) {
+            ex.printStackTrace();
+            System.exit(0);
         }
     }
+
     private static DiscordBot bot;
 
     public static void main(String[] args) {
@@ -40,6 +53,8 @@ public class CTFDiscordBot {
         bot = new DiscordBot(args[0], "!");
         bot.loginBot();
         bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
+
+
 
         /*bot.setCommandErrorHandler((ex, cmd) -> {
             ex.printStackTrace();

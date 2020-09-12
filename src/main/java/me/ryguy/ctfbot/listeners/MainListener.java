@@ -8,6 +8,7 @@ import me.ryguy.discordapi.listeners.Listener;
 public class MainListener implements Listener {
     @DiscordEvent
     public void onConnect(GatewayLifecycleEvent e) {
+        System.out.println(e.getClass().getName() + " called!");
         Util.messageMe(e.getClass().getName() + " called!");
     }
 

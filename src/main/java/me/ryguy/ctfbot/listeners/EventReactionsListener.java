@@ -74,7 +74,7 @@ public class EventReactionsListener implements Listener {
                     mem.removeRole(e.getGiveRole().getId()).block();
                 }catch(Exception ex) {
                     ex.printStackTrace();
-                    Util.sendErrorMessage(ex, this, event);
+                    //Util.sendErrorMessage(ex, this, event);
                 }
         }
     }

@@ -8,16 +8,16 @@ import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.rest.util.Color;
 import lombok.Getter;
 import lombok.Setter;
+import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
 public class Poll {
-
-    public static List<Poll> polls = new ArrayList<>();
 
     private String name;
     private String description;
@@ -36,7 +36,7 @@ public class Poll {
     public void init() {
         this.message = ((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(this.channelToPost)).block())
                 .createEmbed(e -> {
-                    e.setTitle(this.name + " (ID: " + polls.size() + ")");
+                    e.setTitle(this.name + " (ID: " + CTFDiscordBot.data.polls.size() + ")");
                     e.setDescription(this.description);
                     e.setFooter("React with the corresponding emoji to vote for an option!", null);
                     e.setColor(Color.TAHITI_GOLD);
@@ -47,7 +47,12 @@ public class Poll {
         for(Option o : this.options) {
             this.message.addReaction(ReactionEmoji.unicode(o.getEmoji())).block();
         }
-        polls.add(this);
+        CTFDiscordBot.data.polls.add(this);
+        try {
+            CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
     }
     public void handleReaction() {
         this.message.edit(m -> {
@@ -88,7 +93,7 @@ public class Poll {
         return ret;
     }
     public static Poll getPoll(Message announcementMessage) {
-        for (Poll e : polls) {
+        for (Poll e : CTFDiscordBot.data.polls) {
             if (e.getMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
                 return e;
         }

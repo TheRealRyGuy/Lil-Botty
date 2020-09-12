@@ -22,7 +22,7 @@ public class Data {
             dataFile.createNewFile();
 
         BufferedReader br = new BufferedReader(new FileReader(dataFile));
-        Data loadedData = GSON.fromJson(br, Data.class);
+        Data loadedData = TypeSerializer.INSTANCE.getGson().fromJson(br, Data.class);
         br.close();
         if(loadedData != null) {
             loadedData.reminders.forEach(r -> r.schedule(r.getChannel()));
@@ -36,7 +36,7 @@ public class Data {
             dataFile.createNewFile();
 
         BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile));
-        bw.write(GSON.toJson(CTFDiscordBot.data));
+        bw.write(TypeSerializer.INSTANCE.getGson().toJson(CTFDiscordBot.data));
         bw.close();
     }
 }

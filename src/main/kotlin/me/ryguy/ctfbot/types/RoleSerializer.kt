@@ -6,6 +6,16 @@ import discord4j.core.`object`.entity.Role
 import me.ryguy.discordapi.DiscordBot
 import java.lang.reflect.Type
 
+/**
+ * Store Role in format of
+ * {
+ *  "id": <role id>,
+ *  "guild": <guild id>
+ * }
+ *
+ * where <guild id> is the id of the guild that the role belongs to
+ */
+
 class RoleSerializer : JsonSerializer<Role> {
     override fun serialize(p0: Role?, p1: Type?, p2: JsonSerializationContext?): JsonElement {
         val json = JsonObject()

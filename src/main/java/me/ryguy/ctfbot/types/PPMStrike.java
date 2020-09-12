@@ -1,5 +1,6 @@
 package me.ryguy.ctfbot.types;
 
+import com.google.gson.annotations.SerializedName;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
@@ -54,9 +55,9 @@ public class PPMStrike {
         }
     }
     public enum Tier {
-        FIRST(2),
-        SECOND(5),
-        THIRD(14);
+        @SerializedName("1") FIRST(2),
+        @SerializedName("2") SECOND(5),
+        @SerializedName("3") THIRD(14);
 
         int length;
 

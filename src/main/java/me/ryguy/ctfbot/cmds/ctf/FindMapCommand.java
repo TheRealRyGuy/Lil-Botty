@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
@@ -32,7 +33,7 @@ public class FindMapCommand extends Command {
         }
         try {
             BufferedReader br = new BufferedReader(new FileReader(CTFDiscordBot.MAP_FILE));
-            maps = CTFDiscordBot.GSON.fromJson(br, new TypeToken<List<Map>>() {
+            maps = TypeSerializer.INSTANCE.getGson().fromJson(br, new TypeToken<List<Map>>() {
             }.getType());
             br.close();
         } catch (Exception ex) {

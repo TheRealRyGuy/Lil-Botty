@@ -16,7 +16,7 @@ public class Reminder {
     private long owner;
     private MessageChannel channel;
     private long timestamp;
-    private Consumer<MessageChannel> toSend;
+    private Consumer<MessageChannel> toSend; //TODO: rewrite in a way we can serialize
     private boolean sent;
 
     public Reminder(long owner, MessageChannel channel, long timestamp, Consumer<MessageChannel> consumer) {

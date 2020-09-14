@@ -133,6 +133,8 @@ public class Event {
                 "**Reject emoji:** " + this.rejectEmoji;
     }
     public static Event getEvent(Message announcementMessage) {
+        if(CTFDiscordBot.data == null) return null;
+        if(CTFDiscordBot.data.events == null) return null;
         for (Event e : CTFDiscordBot.data.events) {
             if (e.getAnnouncementMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
                 return e;

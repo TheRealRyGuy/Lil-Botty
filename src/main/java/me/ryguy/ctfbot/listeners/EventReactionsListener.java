@@ -50,6 +50,7 @@ public class EventReactionsListener implements Listener {
                 }
             }
         }
+        CTFDiscordBot.save();
     }
 
     @DiscordEvent
@@ -88,5 +89,6 @@ public class EventReactionsListener implements Listener {
                     //Util.sendErrorMessage(ex, this, event);
                 }
         }
+        CTFDiscordBot.save();
     }
 }

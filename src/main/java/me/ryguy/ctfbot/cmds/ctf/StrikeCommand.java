@@ -3,6 +3,7 @@ package me.ryguy.ctfbot.cmds.ctf;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.Role;
+import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
@@ -16,7 +17,6 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,11 +28,11 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
 
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
-        if(args.length != 0) {
+        if(args.length == 0) {
             message.getChannel().block().createEmbed(em -> {
                 em.setColor(Color.RED);
                 em.setTitle(":x: You need to have some arguments!");
-                em.setDescription("Possible Arguments: \n`!strike @user [reason]`\n`!strike listactive`\n`!strike listexpired`\n`!strike info @user`\n`!strike remove [id]");
+                em.setDescription("Possible Arguments: \n`!strike @user [reason]`\n`!strike listactive`\n`!strike listexpired`\n`!strike info @user`\n`!strike remove [id]`");
             }).block();
         }else {
             if(args[0].equalsIgnoreCase("info")) {
@@ -44,7 +44,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                     }).block();
                     return null;
                 }
-                if(DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
+                if(!DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setColor(Color.RED);
                         em.setDescription(":x: You need to use a valid user mention!");
@@ -52,20 +52,19 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                     return null;
                 }
                 List<PPMStrike> strikes = StrikeUtil.getStrikes(message.getAuthor().get());
-                String id = DiscordUtil.parseMention(args[0]);
                 if(strikes.size() == 0) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setTitle(":zap: Strike Information");
-                        em.setDescription("Strike list for user " + DiscordUtil.getUserTag(id));
+                        em.setDescription("Strike list for user " + DiscordUtil.getUserTag(args[1]));
                         em.addField("Strikes", "This user has never been striked!", false);
                         em.setColor(Color.TAHITI_GOLD);
-                    });
+                    }).block();
                 }else {
                     List<PPMStrike> active = strikes.parallelStream().filter(PPMStrike::isActive).collect(Collectors.toList());
                     List<PPMStrike> inactive = strikes.parallelStream().filter(s -> !s.isActive()).collect(Collectors.toList());
                     message.getChannel().block().createEmbed(em -> {
                         em.setTitle(":zap: Strike Information");
-                        em.setDescription("Strike list for user " + DiscordUtil.getUserTag(id));
+                        em.setDescription("Strike list for user " + DiscordUtil.getUserTag(args[1]));
                         if(active.size() == 0) {
                             em.addField("Active Strikes", "This user has no active strikes!", false);
                         }else {
@@ -92,19 +91,15 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                 message.getChannel().block().createEmbed(em -> {
                     em.setTitle(":zap: Expired Strikes");
                     em.setColor(Color.TAHITI_GOLD);
-                    if(StrikeUtil.getExpiredStrikes().size() == 0) {
-                        em.addField("Expired Strikes", "There are no Expired strikes!", false);
+                    if(StrikeUtil.getActiveStrikes().size() == 0) {
+                        em.addField("Active Strikes", "There are no expired strikes!", false);
                     }else {
-                        StringBuilder sb = new StringBuilder();
-                        for(PPMStrike strike : StrikeUtil.getExpiredStrikes()) {
-                            sb.append(strike.getTier().getEmoji() + DiscordUtil.getUserTag(strike.getStriked()) + "was striked by " + DiscordUtil.getUserTag(strike.getStrikedBy()) + "\n");
-                        }
-                        em.addField("Expired Strikes", sb.toString(), false);
+                        em.addField("Active Strikes", StrikeUtil.buildStrikeList(StrikeUtil.getExpiredStrikes()), false);
                     }
                 }).block();
             }else if(args[0].equalsIgnoreCase("remove")) {
-                if(DiscordUtil.isValidUserMention(args[0], message.getGuild().block())) {
-                    List<PPMStrike> strikes = StrikeUtil.getStrikes(DiscordUtil.getUserByMention(args[0])).parallelStream().filter(PPMStrike::isActive).collect(Collectors.toList());
+                if(DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
+                    List<PPMStrike> strikes = StrikeUtil.getStrikes(DiscordUtil.getUserByMention(args[1])).parallelStream().filter(PPMStrike::isActive).collect(Collectors.toList());
                     if(strikes.size() == 0) {
                         message.getChannel().block().createEmbed(em -> {
                             em.setColor(Color.RED);
@@ -117,6 +112,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
                             message.getChannel().block().createEmbed(em -> {
                                 em.setTitle(":zap: Strikes Removed");
+                                em.setColor(Color.TAHITI_GOLD);
                                 em.setDescription("Cleared these active strikes for " + args[0] + "!");
                                 int i = 0;
                                 for(PPMStrike strike : strikes) {
@@ -143,14 +139,21 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                     }).block();
                     return null;
                 }
-                PPMStrike strike = new PPMStrike(StrikeUtil.getNextTier(DiscordUtil.getUserByMention(args[0])),
-                        Util.connectArray(args, 1), DiscordUtil.getUserByMention(args[0]).getId().asLong(),
+                User striked = DiscordBot.getBot().getGateway().getUserById(Snowflake.of(args[0])).block();
+                PPMStrike strike = new PPMStrike(StrikeUtil.getNextTier(striked),
+                        Util.connectArray(args, 1), striked.getId().asLong(),
                         message.getAuthor().get().getId().asLong());
                 if(StrikeUtil.strikeUser(strike)) {
                     ((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(276518289289773067L)).block()).createEmbed(em -> {
                         em.setColor(Color.TAHITI_GOLD);
                         em.setTitle(":zap: Player Striked!");
-                        em.setDescription(String.format("%s has been striked\n Reason: %s\nThis is their %s strike", args[0], String.join(" ", Arrays.asList(args).remove(0)), strike.getTier().name().toLowerCase()));
+                        em.setDescription(String.format("%s has been striked\n Reason: %s\nThis is their %s strike", striked.getMention(), String.join(" ", Util.connectArray(args, 1)), strike.getTier().name().toLowerCase()));
+                        em.setTimestamp(Instant.now());
+                    }).block();
+                    message.getChannel().block().createEmbed(em -> {
+                        em.setColor(Color.GREEN);
+                        em.setTitle(":white_check_mark: Success!");
+                        em.setDescription("User " + striked.getMention() + " has been striked!");
                         em.setTimestamp(Instant.now());
                     }).block();
                 }else {
@@ -164,7 +167,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                 message.getChannel().block().createEmbed(em -> {
                     em.setColor(Color.RED);
                     em.setTitle(":x: Invalid Arguments!");
-                    em.setDescription("Possible Arguments: \n`!strike @user [reason]`\n`!strike listactive`\n`!strike listexpired`\n`!strike info @user`\n`!strike remove [id]");
+                    em.setDescription("Possible Arguments: \n`!strike @user [reason]`\n`!strike listactive`\n`!strike listexpired`\n`!strike info @user`\n`!strike remove [id]`");
                 }).block();
             }
         }

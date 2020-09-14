@@ -12,13 +12,12 @@ import me.ryguy.ctfbot.util.DiscordUtil;
 import me.ryguy.discordapi.DiscordBot;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 @Getter
 @Setter
 public class PPMStrike {
-    public static final MessageChannel PPM_STRIKE_CHANNEL = (MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block();
+    public static final MessageChannel PPM_STRIKE_CHANNEL = (MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(462631709804855296L)).block();
 
     private long timestamp;
     private long striked;
@@ -39,15 +38,9 @@ public class PPMStrike {
 
         Reminder r = new Reminder();
         r.schedule((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block());
-        CTFDiscordBot.data.strikes.add(this);
-        try {
-            CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
     public boolean isActive() {
-        return System.currentTimeMillis() > this.expiration;
+        return System.currentTimeMillis() < this.expiration;
     }
     private class Reminder extends me.ryguy.ctfbot.types.Reminder {
         public Reminder() {
@@ -64,7 +57,7 @@ public class PPMStrike {
 
     @Override
     public String toString() {
-        return "(ID: " + this.id + ") " + this.getTier().getEmoji() + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " + DiscordUtil.getUserTag(this.getStrikedBy());
+        return "(ID: " + this.id + ") " + this.getTier().getEmoji() + " " + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " + DiscordUtil.getUserTag(this.getStrikedBy());
     }
 
     public enum Tier {

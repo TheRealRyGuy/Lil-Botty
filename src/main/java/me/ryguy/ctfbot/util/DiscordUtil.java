@@ -19,8 +19,9 @@ public class DiscordUtil {
             return String.format("<@%s>", id);
     }
     public static boolean isValidUserMention(String input, Guild guild) {
+        if(guild.getMemberById(Snowflake.of(input)).block() != null) return true;
         String mention = parseMention(input);
-        return guild.getMemberById(Snowflake.of(input)).blockOptional().isPresent();
+        return guild.getMemberById(Snowflake.of(mention)) != null;
     }
     public static String parseMention(String input) {
         String toCheck = input.replaceAll("\n", "").trim();
@@ -36,6 +37,7 @@ public class DiscordUtil {
         return null;
     }
     public static User getUserByMention(String mention) {
+        if(DiscordBot.getBot().getGateway().getUserById(Snowflake.of(mention)).blockOptional().isPresent()) return DiscordBot.getBot().getGateway().getUserById(Snowflake.of(mention)).block();
         String id = parseMention(mention);
         return DiscordBot.getBot().getGateway().getUserById(Snowflake.of(id)).block();
     }

@@ -26,7 +26,7 @@ public class StrikeUtil {
         return getActiveStrikes().parallelStream().filter(s -> s.getStriked() == user.getId().asLong()).collect(Collectors.toList()).size() != 0;
     }
     public static PPMStrike.Tier getNextTier(User user) {
-        Optional<PPMStrike> strike = getStrikes(user).parallelStream().max(Comparator.comparing(PPMStrike::getTier));
+        Optional<PPMStrike> strike = getStrikes(user).parallelStream().filter(PPMStrike::isActive).max(Comparator.comparing(PPMStrike::getTier));
         if(strike.isPresent()) {
             return strike.get().getTier().getNextLevel();
         }else {

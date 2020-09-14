@@ -3,6 +3,7 @@ package me.ryguy.ctfbot;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import me.ryguy.ctfbot.types.Data;
+import me.ryguy.ctfbot.types.Event;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
 import org.apache.commons.lang3.SystemUtils;
@@ -72,6 +73,8 @@ public class CTFDiscordBot {
 
         try {
             data = Data.load(DATA_FILE);
+            if(data.reminders != null)
+                data.reminders.forEach(r -> r.schedule(r.getChannel()));
         }catch(IOException ex) {
             ex.printStackTrace();
             System.exit(0);
@@ -81,4 +84,11 @@ public class CTFDiscordBot {
     }
 
     public static Gson gson() { return TypeSerializer.INSTANCE.getGson(); }
+    public static void save() {
+        try {
+            data.save(CTFDiscordBot.DATA_FILE);
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

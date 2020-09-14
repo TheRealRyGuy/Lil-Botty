@@ -93,6 +93,8 @@ public class Poll {
         return ret;
     }
     public static Poll getPoll(Message announcementMessage) {
+        if(CTFDiscordBot.data == null) return null;
+        if(CTFDiscordBot.data.polls == null) return null;
         for (Poll e : CTFDiscordBot.data.polls) {
             if (e.getMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
                 return e;

@@ -23,8 +23,6 @@ public class Data {
         Data loadedData = CTFDiscordBot.gson().fromJson(br, Data.class);
         br.close();
         if(loadedData != null) {
-            loadedData.reminders.forEach(r -> r.schedule(r.getChannel()));
-            loadedData.events.forEach(Event::handleReaction);
             return loadedData;
         }else
             return new Data();

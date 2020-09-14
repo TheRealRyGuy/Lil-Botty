@@ -2,6 +2,7 @@ package me.ryguy.ctfbot.listeners;
 
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.event.domain.message.ReactionRemoveEvent;
+import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.types.Meeting;
 import me.ryguy.discordapi.listeners.DiscordEvent;
 import me.ryguy.discordapi.listeners.Listener;
@@ -28,6 +29,7 @@ public class MeetingListeners implements Listener {
         if(shouldHandle) {
             e.handleReaction();
         }
+        CTFDiscordBot.save();
     }
 
     @DiscordEvent
@@ -51,5 +53,6 @@ public class MeetingListeners implements Listener {
         if(shouldHandle) {
             e.handleReaction();
         }
+        CTFDiscordBot.save();
     }
 }

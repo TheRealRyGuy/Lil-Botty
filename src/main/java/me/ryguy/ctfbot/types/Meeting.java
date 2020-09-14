@@ -39,6 +39,8 @@ public class Meeting {
     }
 
     public static Meeting getMeeting(Message toCheck) {
+        if(CTFDiscordBot.data == null) return null;
+        if(CTFDiscordBot.data.meetings == null) return null;
         for (Meeting m : CTFDiscordBot.data.meetings) {
             for (Map.Entry<Message, TimeEntry> entry : m.getEntries().entrySet()) {
                 if (entry.getKey().getId().asString().equalsIgnoreCase(toCheck.getId().asString()))

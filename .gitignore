@@ -2,6 +2,7 @@
 
 # Bot specific things to block
 src/main/resources/credentials.json
+src/main/resources/data.json
 tokens/*
 tokens/
 tokens

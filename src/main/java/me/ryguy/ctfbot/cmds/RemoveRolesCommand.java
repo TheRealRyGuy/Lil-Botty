@@ -1,7 +1,6 @@
 package me.ryguy.ctfbot.cmds;
 
 import discord4j.common.util.Snowflake;
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.Role;
@@ -85,11 +84,15 @@ public class RemoveRolesCommand extends Command {
                 msg.edit(m -> {
                     m.setEmbed(e -> {
                         e.setColor(Color.GREEN);
+                        e.setTitle(":white_check_mark: Success!");
                         StringBuilder sb = new StringBuilder();
                         for(String string : set.keySet()) {
-                            sb.append(String.format("%s %s roles!\n", set.get(string), string));
+                            sb.append(String.format(" - %s `%s` roles  were removed!\n", set.get(string), string));
                         }
                         e.setDescription(sb.toString());
+                        if(!skippedLines.isEmpty()) {
+                            e.addField("Skipped Roles", skippedLines.toString(), false);
+                        }
                     });
                 }).block();
                 return null;
@@ -141,7 +144,7 @@ public class RemoveRolesCommand extends Command {
                     e.setTitle(":white_check_mark: Success!");
                     StringBuilder sb = new StringBuilder();
                     for(String string : set.keySet()) {
-                        sb.append(String.format(" - %s `%s` roles removed!\n", set.get(string), string));
+                        sb.append(String.format(" - %s `%s` roles  were removed!\n", set.get(string), string));
                     }
                     e.setDescription(sb.toString());
                     if(!skippedLines.isEmpty()) {

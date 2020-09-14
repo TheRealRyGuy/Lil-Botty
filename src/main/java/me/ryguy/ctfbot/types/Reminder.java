@@ -43,5 +43,10 @@ public class Reminder {
                 sent = true;
             }
         }, new Date(timestamp));
+        try {
+            CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }

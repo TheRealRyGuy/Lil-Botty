@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.util.DelayedMessage;
+import me.ryguy.ctfbot.util.DiscordUtil;
 import me.ryguy.discordapi.DiscordBot;
 
 import java.io.IOException;
@@ -25,16 +26,18 @@ public class PPMStrike {
     private Tier tier;
     private String reason;
     private int id;
+    private long expiration;
 
-    public PPMStrike(Tier tier, String reason, long timestamp, long striked, long strikedBy) {
+    public PPMStrike(Tier tier, String reason, long striked, long strikedBy) {
         this.tier = tier;
         this.reason = reason;
-        this.timestamp = timestamp;
+        this.timestamp = System.currentTimeMillis();
+        this.expiration = timestamp + tier.getDuration();
         this.striked = striked;
         this.strikedBy = strikedBy;
         this.id = CTFDiscordBot.data.strikes.size();
 
-        Reminder r = new Reminder(tier);
+        Reminder r = new Reminder();
         r.schedule((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block());
         CTFDiscordBot.data.strikes.add(this);
         try {
@@ -43,11 +46,13 @@ public class PPMStrike {
             e.printStackTrace();
         }
     }
-
-    protected class Reminder extends me.ryguy.ctfbot.types.Reminder {
-        public Reminder(Tier tier) {
+    public boolean isActive() {
+        return System.currentTimeMillis() > this.expiration;
+    }
+    private class Reminder extends me.ryguy.ctfbot.types.Reminder {
+        public Reminder() {
             super(striked, PPM_STRIKE_CHANNEL,
-                    (System.currentTimeMillis() + tier.getDuration()),
+                    (expiration),
                     new DelayedMessage(PPM_STRIKE_CHANNEL,
                             ":zap: Strike expired",
                             tier.getEmoji() + " <@" + striked + ">, striked by <@" + strikedBy + ">, " + "\n" +
@@ -55,6 +60,11 @@ public class PPMStrike {
                             Color.TAHITI_GOLD
                     ));
         }
+    }
+
+    @Override
+    public String toString() {
+        return "(ID: " + this.id + ") " + this.getTier().getEmoji() + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " + DiscordUtil.getUserTag(this.getStrikedBy());
     }
 
     public enum Tier {

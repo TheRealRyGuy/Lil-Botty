@@ -23,6 +23,7 @@ object Startup {
         DiceRollCommand().register()
         RockPaperScissorsCommand().register()
         RestartCommand().register()
+        ReminderCommand().register()
         //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()
@@ -30,6 +31,7 @@ object Startup {
         ThreadCommand().register()
         SSCommand().register()
         SS2Command().register()
+        StrikeCommand().register()
     }
 
     fun registerListeners() {

@@ -1,0 +1,45 @@
+{
+  "events": [
+    {
+      "name": "ahsd",
+      "description": "jaidwo",
+      "tagRoles": [
+        433097833080684575
+      ],
+      "announceChannel": 754614497590902855,
+      "listChannel": 754614497590902855,
+      "signUpEmoji": "🚾",
+      "rejectEmoji": "🔢",
+      "playing": [],
+      "notPlaying": [],
+      "announcementMessage": {
+        "id": 754616091275427900,
+        "channel": 754614497590902855
+      },
+      "listMessage": {
+        "id": 754616091464171551,
+        "channel": 754614497590902855
+      },
+      "guild": 433097833080684575
+    }
+  ],
+  "polls": [],
+  "meetings": [],
+  "strikes": [],
+  "reminders": [
+    {
+      "owner": 151474463550996480,
+      "channel": 753148387716628480,
+      "timestamp": 1600076742325,
+      "toSend": {
+        "channel": 753148387716628480,
+        "title": "Reminder",
+        "contents": "be happy",
+        "color": {
+          "rgb": 15105570
+        }
+      },
+      "sent": false
+    }
+  ]
+}

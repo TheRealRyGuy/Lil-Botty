@@ -33,7 +33,7 @@ class MessageDeserializer : JsonDeserializer<Message> {
         val id = p0?.asJsonObject?.get("id")?.asLong ?: throw Exception("Null message id")
         val channelId = p0.asJsonObject.get("channel").asLong
 
-        return DiscordBot.getBot().gateway.getMessageById(Snowflake.of(id), Snowflake.of(channelId)).block()
+        return DiscordBot.getBot().gateway.getMessageById(Snowflake.of(channelId), Snowflake.of(id)).block()
                 ?: throw Exception("Failed to retrieve Message {id: $id, channel: $channelId}")
     }
 

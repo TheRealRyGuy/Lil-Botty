@@ -34,12 +34,6 @@ public class CTFDiscordBot {
             SHEETS_CREDENTIALS = new File("/Shared/credentials.json");
             DATA_FILE = new File("/Shared/data.json");
         }
-        try {
-            data = Data.load(DATA_FILE);
-        }catch(IOException ex) {
-            ex.printStackTrace();
-            System.exit(0);
-        }
     }
 
     private static DiscordBot bot;
@@ -75,6 +69,13 @@ public class CTFDiscordBot {
 
         Startup.INSTANCE.registerCommands();
         Startup.INSTANCE.registerListeners();
+
+        try {
+            data = Data.load(DATA_FILE);
+        }catch(IOException ex) {
+            ex.printStackTrace();
+            System.exit(0);
+        }
 
         bot.endStartup();
     }

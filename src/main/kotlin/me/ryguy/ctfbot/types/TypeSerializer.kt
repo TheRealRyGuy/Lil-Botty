@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import discord4j.core.`object`.entity.Guild
 import discord4j.core.`object`.entity.Message
 import discord4j.core.`object`.entity.Role
+import discord4j.core.`object`.entity.User
 import discord4j.core.`object`.entity.channel.MessageChannel
 
 /**
@@ -19,8 +20,8 @@ object TypeSerializer {
     init {
         val builder = GsonBuilder()
 
-        builder.registerTypeAdapter(Event::class.java, UserSerializer())
-        builder.registerTypeAdapter(Event::class.java, UserDeserializer())
+        builder.registerTypeAdapter(User::class.java, UserSerializer())
+        builder.registerTypeAdapter(User::class.java, UserDeserializer())
 
         builder.registerTypeAdapter(Role::class.java, RoleSerializer())
         builder.registerTypeAdapter(Role::class.java, RoleDeserializer())
@@ -34,6 +35,6 @@ object TypeSerializer {
         builder.registerTypeAdapter(MessageChannel::class.java, MessageChannelSerializer())
         builder.registerTypeAdapter(MessageChannel::class.java, MessageChannelDeserializer())
 
-        gson = builder.create()
+        gson = builder.setPrettyPrinting().create()
     }
 }

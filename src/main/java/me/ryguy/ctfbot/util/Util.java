@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -73,12 +72,7 @@ public class Util {
         }
     }
     public static Boolean getBoolean(String s) {
-        if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("yes"))
-            return true;
-        else if(s.equalsIgnoreCase("false") || s.equalsIgnoreCase("no"))
-            return false;
-
-        return null;
+        return s.equalsIgnoreCase("true") || s.equalsIgnoreCase("yes");
     }
     public static String matchStringFragment(Set<String> s, String toCheck) {
         for(String string : s) {
@@ -120,9 +114,26 @@ public class Util {
             e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ", false);
         }).block();
     }
-
+    public static boolean isInteger(String s) {
+        try {
+            Integer.valueOf(s);
+            return true;
+        }catch(Exception e) {
+            return false;
+        }
+    }
     public static void messageMe(String s) {
         DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createMessage(s).block();
+    }
+    public static String connectArray(String[] array, int start) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < array.length; i++) {
+            if(i >= start) {
+                sb.append(array[i]).append(" ");
+            }
+        }
+        sb.delete(sb.length() - 1, sb.length());
+        return sb.toString();
     }
     public static enum Direction {
         UP, DOWN, LEFT, RIGHT;

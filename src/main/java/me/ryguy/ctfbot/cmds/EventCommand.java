@@ -93,7 +93,7 @@ public class EventCommand extends Command {
             flow.sendMessage(msg.getChannel().block().createEmbed(e -> {
                 e.setColor(Color.TAHITI_GOLD);
                 e.setDescription("Set name to \"" + toUse.getName() + "\" !");
-                e.addField("Next", "Enter an event description!", false);
+                e.addField("Next", "Enter the event information here!", false);
                 e.setFooter("Use !cancel to cancel the event", null);
             }));
         }, ((event, workflow, message) ->  {

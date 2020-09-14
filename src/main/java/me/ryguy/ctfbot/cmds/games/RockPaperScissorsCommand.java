@@ -80,22 +80,21 @@ public class RockPaperScissorsCommand extends Command {
         }
         return null;
     }
-    @Getter
-    private enum Result {
-        ROCK(RPS.ROCK, RPS.PAPER),
-        PAPER(RPS.PAPER, RPS.SCISSORS),
-        SCISSORS(RPS.SCISSORS, RPS.ROCK);
-        Result(RPS type, RPS killer) {
-            this.type = type;
-            this.killer = killer;
-        }
-        private RPS type;
-        private RPS killer;
-    }
     private enum RPS {
         ROCK, PAPER, SCISSORS;
         private boolean isWin(RPS attack) {
-            return Result.valueOf(this.name()).getKiller().equals(attack);
+            return !this.getKiller().equals(attack);
+        }
+        private RPS getKiller() {
+            switch(this) {
+                case ROCK:
+                    return PAPER;
+                case PAPER:
+                    return SCISSORS;
+                case SCISSORS:
+                default:
+                    return ROCK;
+            }
         }
         private String getEmoji() {
             switch(this) {

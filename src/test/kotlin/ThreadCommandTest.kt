@@ -1,4 +1,4 @@
-import me.ryguy.ctfbot.cmds.ThreadCommand
+import me.ryguy.ctfbot.modules.ctf.ThreadCommand
 import org.junit.Test
 import kotlin.test.assertEquals
 

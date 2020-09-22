@@ -1,4 +1,4 @@
-import me.ryguy.ctfbot.cmds.CTFGameStatsCommand
+import me.ryguy.ctfbot.modules.ctf.CTFGameStatsCommand
 import me.ryguy.ctfbot.util.*
 import org.junit.Test
 import java.net.URL

@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot
+package me.ryguy.ctfbot.util
 
 import discord4j.core.`object`.entity.Member
 import discord4j.core.`object`.entity.Message

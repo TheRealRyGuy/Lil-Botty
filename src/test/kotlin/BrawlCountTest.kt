@@ -1,8 +1,7 @@
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import me.ryguy.ctfbot.cmds.BrawlCommand
+import me.ryguy.ctfbot.modules.ctf.BrawlCommand
 import me.ryguy.ctfbot.util.GET
-import me.ryguy.ctfbot.util.WebUtil
 import org.junit.Test
 import java.net.URL
 import kotlin.test.assertTrue

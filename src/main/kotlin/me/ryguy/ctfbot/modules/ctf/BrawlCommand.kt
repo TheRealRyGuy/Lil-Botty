@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.cmds
+package me.ryguy.ctfbot.modules.ctf
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

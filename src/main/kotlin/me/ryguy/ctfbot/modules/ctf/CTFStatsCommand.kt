@@ -1,7 +1,6 @@
-package me.ryguy.ctfbot.cmds
+package me.ryguy.ctfbot.modules.ctf
 
 import discord4j.core.`object`.entity.Message
-import me.ryguy.ctfbot.replyWithSuccess
 import me.ryguy.discordapi.command.Command
 import reactor.core.publisher.Mono
 

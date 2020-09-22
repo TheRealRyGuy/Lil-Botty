@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.cmds
+package me.ryguy.ctfbot.modules.ctf
 
 import discord4j.core.`object`.entity.Message
 import discord4j.core.spec.EmbedCreateSpec

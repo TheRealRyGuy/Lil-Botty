@@ -2,6 +2,11 @@ package me.ryguy.ctfbot.types;
 
 import lombok.Getter;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.modules.ctf.PPMStrike;
+import me.ryguy.ctfbot.modules.events.Event;
+import me.ryguy.ctfbot.modules.meetings.Meeting;
+import me.ryguy.ctfbot.modules.poll.Poll;
+import me.ryguy.ctfbot.modules.reminders.Reminder;
 
 import java.io.*;
 import java.util.ArrayList;

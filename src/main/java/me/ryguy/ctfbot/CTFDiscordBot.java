@@ -3,7 +3,6 @@ package me.ryguy.ctfbot;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import me.ryguy.ctfbot.types.Data;
-import me.ryguy.ctfbot.types.Event;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
 import org.apache.commons.lang3.SystemUtils;

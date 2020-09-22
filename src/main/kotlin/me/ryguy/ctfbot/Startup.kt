@@ -1,10 +1,22 @@
 package me.ryguy.ctfbot
 
 import me.ryguy.ctfbot.cmds.*
-import me.ryguy.ctfbot.cmds.ctf.*;
-import me.ryguy.ctfbot.cmds.games.*;
-import me.ryguy.ctfbot.cmds.general.*;
-import me.ryguy.ctfbot.listeners.*
+import me.ryguy.ctfbot.modules.ctf.*
+import me.ryguy.ctfbot.modules.events.EventCommand
+import me.ryguy.ctfbot.modules.events.EventReactionsListener
+import me.ryguy.ctfbot.modules.games.CoinFlipCommand
+import me.ryguy.ctfbot.modules.games.DiceRollCommand
+import me.ryguy.ctfbot.modules.games.EightBallCommand
+import me.ryguy.ctfbot.modules.games.RockPaperScissorsCommand
+import me.ryguy.ctfbot.modules.main.*
+import me.ryguy.ctfbot.modules.meetings.MeetingCommand
+import me.ryguy.ctfbot.modules.meetings.MeetingListeners
+import me.ryguy.ctfbot.modules.poll.PollCommand
+import me.ryguy.ctfbot.modules.poll.PollListeners
+import me.ryguy.ctfbot.modules.quotes.QuoteListener
+import me.ryguy.ctfbot.modules.reminders.ReminderCommand
+import me.ryguy.ctfbot.modules.roles.RemoveRolesCommand
+import me.ryguy.ctfbot.modules.roles.SetRolesCommand
 
 object Startup {
     fun registerCommands() {

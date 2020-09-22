@@ -2,7 +2,7 @@ package me.ryguy.ctfbot.util;
 
 import discord4j.core.object.entity.User;
 import me.ryguy.ctfbot.CTFDiscordBot;
-import me.ryguy.ctfbot.types.PPMStrike;
+import me.ryguy.ctfbot.modules.ctf.PPMStrike;
 
 import java.util.Comparator;
 import java.util.List;

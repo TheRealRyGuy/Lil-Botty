@@ -2,7 +2,7 @@ package me.ryguy.ctfbot.cmds
 
 import discord4j.core.`object`.entity.Message
 import me.ryguy.ctfbot.replyWithFailure
-import me.ryguy.ctfbot.types.CTFDiscordOnlyCommand
+import me.ryguy.ctfbot.modules.ctf.CTFDiscordOnlyCommand
 import me.ryguy.ctfbot.util.*
 import org.jsoup.nodes.Document
 import reactor.core.publisher.Mono

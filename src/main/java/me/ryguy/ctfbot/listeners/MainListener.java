@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.modules.main;
+package me.ryguy.ctfbot.listeners;
 
 import discord4j.core.event.domain.lifecycle.GatewayLifecycleEvent;
 import me.ryguy.ctfbot.util.Util;

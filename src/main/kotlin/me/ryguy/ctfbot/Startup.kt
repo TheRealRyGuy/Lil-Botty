@@ -1,5 +1,10 @@
 package me.ryguy.ctfbot
 
+import me.ryguy.ctfbot.cmds.HelpCommand
+import me.ryguy.ctfbot.cmds.InviteCommand
+import me.ryguy.ctfbot.cmds.MemCommand
+import me.ryguy.ctfbot.cmds.RestartCommand
+import me.ryguy.ctfbot.listeners.MainListener
 import me.ryguy.ctfbot.modules.ctf.BrawlCommand
 import me.ryguy.ctfbot.modules.ctf.CTFGameStatsCommand
 import me.ryguy.ctfbot.modules.ctf.CTFStatsCommand
@@ -11,7 +16,6 @@ import me.ryguy.ctfbot.modules.games.CoinFlipCommand
 import me.ryguy.ctfbot.modules.games.DiceRollCommand
 import me.ryguy.ctfbot.modules.games.EightBallCommand
 import me.ryguy.ctfbot.modules.games.RockPaperScissorsCommand
-import me.ryguy.ctfbot.modules.main.*
 import me.ryguy.ctfbot.modules.meetings.MeetingCommand
 import me.ryguy.ctfbot.modules.meetings.MeetingListeners
 import me.ryguy.ctfbot.modules.poll.PollCommand

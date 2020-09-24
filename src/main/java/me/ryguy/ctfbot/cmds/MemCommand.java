@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.modules.main;
+package me.ryguy.ctfbot.cmds;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;

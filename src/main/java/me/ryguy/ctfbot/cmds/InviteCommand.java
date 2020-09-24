@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.modules.main;
+package me.ryguy.ctfbot.cmds;
 
 import discord4j.core.object.entity.Message;
 import me.ryguy.discordapi.command.Command;

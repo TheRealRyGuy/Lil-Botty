@@ -17,7 +17,8 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @Setter
 public class PPMStrike {
-    public static final MessageChannel PPM_STRIKE_CHANNEL = (MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(462631709804855296L)).block();
+    public static final MessageChannel PPM_HOST_CHANNEL = (MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block();
+    public static final MessageChannel CTF_GENERAL_CHANNEL = (MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(276518289289773067L)).block();
 
     private long timestamp;
     private long striked;
@@ -38,7 +39,7 @@ public class PPMStrike {
         this.id = CTFDiscordBot.data.strikes.size();
 
         this.reminder = new Reminder();
-        this.reminder.schedule((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block());
+        this.reminder.schedule(CTF_GENERAL_CHANNEL);
         this.reminder.store();
     }
     public boolean isActive() {
@@ -46,9 +47,9 @@ public class PPMStrike {
     }
     public class Reminder extends me.ryguy.ctfbot.modules.reminders.Reminder {
         public Reminder() {
-            super(striked, PPM_STRIKE_CHANNEL,
+            super(striked, PPM_HOST_CHANNEL,
                     (expiration),
-                    new DelayedMessage(PPM_STRIKE_CHANNEL,
+                    new DelayedMessage(PPM_HOST_CHANNEL,
                             ":zap: Strike expired",
                             tier.getEmoji() + " <@" + striked + ">, striked by <@" + strikedBy + ">, " + "\n" +
                                     "Reason: " + reason,

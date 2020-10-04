@@ -107,6 +107,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                     }else {
                         try {
                             CTFDiscordBot.data.strikes.removeAll(strikes);
+                            CTFDiscordBot.data.strikeReminders.removeAll(strikes.stream().map(PPMStrike::getReminder).collect(Collectors.toList()));
                             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
                             message.getChannel().block().createEmbed(em -> {
                                 em.setTitle(":zap: Strikes Removed");

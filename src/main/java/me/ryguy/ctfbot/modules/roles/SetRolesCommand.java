@@ -13,6 +13,8 @@ import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,7 +89,12 @@ public class SetRolesCommand extends Command {
                 continue;
             }
             if (message.getGuild().block().getRoleIds().contains(Snowflake.of(Long.valueOf(Util.parseMention(s))))) {
-                currentRole = message.getGuild().block().getRoleById(Snowflake.of(Long.valueOf(Util.parseMention(s)))).block();
+                if(message.getAuthorAsMember().block().hasHigherRoles(Collections.singleton(Snowflake.of(Long.valueOf(Util.parseMention(s))))).block())
+                    currentRole = message.getGuild().block().getRoleById(Snowflake.of(Long.valueOf(Util.parseMention(s)))).block();
+                else {
+                    skippedLines.add(s);
+                    continue;
+                }
             } else if (message.getGuild().block().getMembers().map(Member::getId).collect(Collectors.toList()).block().contains(Snowflake.of(Util.parseMention(s)))) {
                 if (currentRole == null) {
                     skippedLines.add(s);

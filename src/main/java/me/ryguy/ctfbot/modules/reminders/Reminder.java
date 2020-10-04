@@ -26,6 +26,8 @@ public class Reminder {
         this.toSend = message;
 
         this.schedule(channel);
+    }
+    public void store() {
         CTFDiscordBot.data.reminders.add(this);
         try {
             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);

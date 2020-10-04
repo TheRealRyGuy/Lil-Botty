@@ -64,6 +64,7 @@ public class ReminderCommand extends Command {
                 System.currentTimeMillis() + timeUnit.toMillis(length), new DelayedMessage(message.getAuthor().get().getPrivateChannel().block(),
                 ":zap: Reminder!!!!!",
                 Util.connectArray(args, 1), Color.TAHITI_GOLD));
+        reminder.store();
         message.getChannel().block().createEmbed(em -> {
             em.setColor(Color.TAHITI_GOLD);
             em.setTitle(":white_check_mark: Success!");

@@ -19,6 +19,7 @@ public class Data {
     public List<Meeting> meetings = new ArrayList<>();
     public List<PPMStrike> strikes = new ArrayList<>();
     public List<Reminder> reminders = new ArrayList<>();
+    public List<PPMStrike.Reminder> strikeReminders = new ArrayList<>();
 
     public static Data load(File dataFile) throws IOException {
         if(!dataFile.exists())

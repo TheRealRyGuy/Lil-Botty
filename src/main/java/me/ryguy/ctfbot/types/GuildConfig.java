@@ -12,4 +12,5 @@ public class GuildConfig {
     long guildId;
     List<Module> modules;
     String prefix;
+    Data data;
 }

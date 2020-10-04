@@ -100,43 +100,40 @@ public class RemoveRolesCommand extends Command {
                 message.getChannel().block().createMessage(m -> {
                     m.setEmbed(e -> {
                         e.setColor(Color.RED);
-                        e.setDescription(":x: You need to include some arguments!\ni.e. `!removeroles role 1,role 2, role3`");
+                        e.setDescription(":x: You need to include some arguments!\ni.e. `!removeroles @role 1 @role2`");
                     });
                 }).block();
                 return null;
             }
         }else {
+            if(message.getRoleMentions().collectList().block().size() == 0) {
+                message.getChannel().block().createMessage(m -> {
+                    m.setEmbed(e -> {
+                        e.setColor(Color.RED);
+                        e.setDescription(":x: You need to mention some roles to remove!\ni.e. `!removeroles @role 1 @role2`");
+                    });
+                }).block();
+                return null;
+            }
             Message msg = message.getChannel().block().createMessage(m -> {
                 m.setEmbed(e -> {
                     e.setColor(Color.TAHITI_GOLD);
                     e.setDescription(":arrows_clockwise: Removing Roles!");
                 });
             }).block();
-            for(String s : args) {
-                if(!s.equalsIgnoreCase("red team") && !s.equalsIgnoreCase("blue team") && !s.equalsIgnoreCase("playing")) {
-                    skippedLines.add(s);
-                    continue;
-                }
-                if(message.getGuild().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains(s)) {
-                    Role role = Util.getRoleByName(s, message.getGuild().block());
-                    Set<Snowflake> settest = new HashSet<>(Collections.singleton(role.getId()));
-                    if(!message.getAuthorAsMember().block().hasHigherRoles(settest).block()) {
-                        skippedLines.add(s);
-                        continue;
-                    }
+            for(Role r : message.getRoleMentions().collect(Collectors.toList()).block()) {
+                if(message.getAuthorAsMember().block().hasHigherRoles(Collections.singleton(r.getId())).block()) {
                     int roles = 0;
                     for (Member m : message.getGuild().block().getMembers().toIterable()) {
-                        if (m.getRoleIds().contains(role.getId())) {
-                            m.removeRole(role.getId(), DiscordBot.getBot().getPrefix() + "removeroles done by " +
+                        if (m.getRoleIds().contains(r.getId())) {
+                            m.removeRole(r.getId(), DiscordBot.getBot().getPrefix() + "removeroles done by " +
                                     message.getAuthorAsMember().block().getDisplayName() + " in " + message.getChannel().block().getRestChannel().getData().block().name().get()).block();
                             roles++;
                         }
                     }
-                    int finalRoles = roles;
-                    set.put(role.getName(), finalRoles);
-                }else {
-                    skippedLines.add(s);
-                }
+                    set.put(r.getName(), roles);
+                }else
+                    skippedLines.add(r.getName());
             }
             msg.edit(m -> {
                 m.setEmbed(e -> {
@@ -144,7 +141,7 @@ public class RemoveRolesCommand extends Command {
                     e.setTitle(":white_check_mark: Success!");
                     StringBuilder sb = new StringBuilder();
                     for(String string : set.keySet()) {
-                        sb.append(String.format(" - %s `%s` roles  were removed!\n", set.get(string), string));
+                        sb.append(String.format("- %s `%s` roles  were removed!\n", set.get(string), string));
                     }
                     e.setDescription(sb.toString());
                     if(!skippedLines.isEmpty()) {

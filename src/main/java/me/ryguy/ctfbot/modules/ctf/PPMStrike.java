@@ -11,6 +11,7 @@ import me.ryguy.ctfbot.util.DelayedMessage;
 import me.ryguy.ctfbot.util.DiscordUtil;
 import me.ryguy.discordapi.DiscordBot;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -25,6 +26,7 @@ public class PPMStrike {
     private String reason;
     private int id;
     private long expiration;
+    private Reminder reminder;
 
     public PPMStrike(Tier tier, String reason, long striked, long strikedBy) {
         this.tier = tier;
@@ -35,13 +37,14 @@ public class PPMStrike {
         this.strikedBy = strikedBy;
         this.id = CTFDiscordBot.data.strikes.size();
 
-        Reminder r = new Reminder();
-        r.schedule((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block());
+        this.reminder = new Reminder();
+        this.reminder.schedule((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(313870688727597058L)).block());
+        this.reminder.store();
     }
     public boolean isActive() {
         return System.currentTimeMillis() < this.expiration;
     }
-    private class Reminder extends me.ryguy.ctfbot.modules.reminders.Reminder {
+    public class Reminder extends me.ryguy.ctfbot.modules.reminders.Reminder {
         public Reminder() {
             super(striked, PPM_STRIKE_CHANNEL,
                     (expiration),
@@ -51,6 +54,16 @@ public class PPMStrike {
                                     "Reason: " + reason,
                             Color.TAHITI_GOLD
                     ));
+        }
+
+        @Override
+        public void store() {
+            CTFDiscordBot.data.strikeReminders.add(this);
+            try {
+                CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

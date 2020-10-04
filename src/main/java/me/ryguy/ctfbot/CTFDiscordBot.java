@@ -72,8 +72,10 @@ public class CTFDiscordBot {
 
         try {
             data = Data.load(DATA_FILE);
-            if(data.reminders != null)
+            if(data.reminders != null) {
                 data.reminders.forEach(r -> r.schedule(r.getChannel()));
+                data.strikeReminders.forEach(r -> r.schedule(r.getChannel()));
+            }
         }catch(IOException ex) {
             ex.printStackTrace();
             System.exit(0);

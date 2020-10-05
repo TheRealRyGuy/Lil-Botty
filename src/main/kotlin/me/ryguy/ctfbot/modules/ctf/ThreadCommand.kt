@@ -48,7 +48,7 @@ class ThreadCommand : Command("thread", "teamthread") {
                 em.setColor(Color.RED)
             }?.block()
         } else {
-            if (args[0].equals("all", ignoreCase = true) || args[0].equals("*", ignoreCase = true)) {
+            if (args[0].equals("all", ignoreCase = true) || args[0].contains("*")) {
                 message.channel.block()?.createEmbed { e: EmbedCreateSpec ->
                     e.setColor(Color.TAHITI_GOLD)
                     e.setTitle("Official Team Threads!")
@@ -58,8 +58,8 @@ class ThreadCommand : Command("thread", "teamthread") {
                     }
                 }?.block()
             } else {
-                if (Util.matchStringFragment(res.keys, args[0]) != null) {
-                    val teamName = Util.matchStringFragment(res.keys, args[0])
+                val teamName = Util.matchStringFragment(res.keys, args.joinToString(" "))
+                if (teamName != null) {
                     message.channel.block()?.createEmbed { e: EmbedCreateSpec ->
                         e.setColor(Color.TAHITI_GOLD)
                         e.setTitle("$teamName's Official Thread!")
@@ -104,8 +104,11 @@ class ThreadCommand : Command("thread", "teamthread") {
 //            ret.append("$s ")
 //        }
 
-            val idx = threadName.indexOfFirst { it.isDigit() || it == '[' || it == '(' }
-            return if (idx == -1) threadName else threadName.substring(0 until idx).trim()
+            val idx = threadName.indexOfFirst { it.isDigit() || it == '[' || it == '(' } // stop processing after member count
+            return (if (idx == -1) threadName else threadName.substring(0 until idx).trim())
+                .split(" ")
+                .filter { it.isNotEmpty() && it[0].isUpperCase() } // get only words that start uppercase
+                .joinToString(" ")
         }
     }
 }

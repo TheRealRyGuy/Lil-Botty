@@ -19,5 +19,8 @@ class ThreadCommandTest {
 
         name = "CITRIX (23/25) [Recruiting Defense]"
         assertEquals("CITRIX", ThreadCommand.parseName(name), "Failed to parse double tag thread name")
+
+        name = "The Roxerces recuting archer/ninja/bulk d (22/25)"
+        assertEquals("The Roxerces", ThreadCommand.parseName(name), "Failed to get only capitalized words")
     }
 }

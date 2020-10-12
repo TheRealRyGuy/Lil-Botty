@@ -4,9 +4,9 @@ import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Image;
 import lombok.Getter;
+import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
-import org.apache.commons.lang3.EnumUtils;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class RockPaperScissorsCommand extends Command {
                 em.setDescription(":x: You need to play something!");
             }).block();
         }else {
-            if(!EnumUtils.isValidEnumIgnoreCase(RPS.class, args[0])) {
+            if(!Util.isValidEnumValue(RPS.class, args[0])) {
                 message.getChannel().block().createEmbed(em -> {
                     em.setColor(Color.RED);
                     em.setTitle("Rock Paper Scissors");

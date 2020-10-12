@@ -10,7 +10,6 @@ import discord4j.rest.util.Image;
 import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.listeners.Listener;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -103,7 +102,7 @@ public class Util {
                     e.setAuthor(msg.getAuthor().get().getTag(), null, null);
                 }
             }
-            e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ", false);
+            e.addField("StackTrace", ":wc: ```" + ex.getLocalizedMessage() + "``` ", false);
         }).block();
     }
     public static void sendErrorMessage(Exception ex, Listener listener, Event event) {
@@ -111,7 +110,7 @@ public class Util {
             e.setColor(Color.RED);
             e.setTitle("Custom Error: " + listener.getClass().getName());
             e.setAuthor(event.getClass().getName(), null, null);
-            e.addField("StackTrace", ":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ", false);
+            e.addField("StackTrace", ":wc: ```" + ex.getLocalizedMessage() + "``` ", false);
         }).block();
     }
     public static boolean isInteger(String s) {
@@ -134,6 +133,14 @@ public class Util {
         }
         sb.delete(sb.length() - 1, sb.length());
         return sb.toString();
+    }
+    public static <E extends Enum<E>> boolean isValidEnumValue(Class<E> enumClass, String enumValue) {
+        if(!enumClass.isEnum()) return false;
+        for(Enum e : (Enum[]) enumClass.getEnumConstants()) {
+            if(e.name().equalsIgnoreCase(enumValue))
+                return true;
+        }
+        return false;
     }
     public static enum Direction {
         UP, DOWN, LEFT, RIGHT;

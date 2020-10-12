@@ -6,7 +6,6 @@ import lombok.Getter;
 import me.ryguy.ctfbot.types.Data;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
-import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +25,7 @@ public class CTFDiscordBot {
     public static Data data;
 
     static {
-        if(SystemUtils.IS_OS_WINDOWS) {
+        if(System.getProperty("os.name").toLowerCase().contains("windows")) {
             SHEETS_CREDENTIALS = new File(System.getProperty("user.dir") + "/src/main/resources/credentials.json");
             MAP_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/maps.json"); //running it locally
             DATA_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/data.json");

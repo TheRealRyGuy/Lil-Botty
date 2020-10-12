@@ -99,9 +99,9 @@ public class RockPaperScissorsCommand extends Command {
         private String getEmoji() {
             switch(this) {
                 case ROCK:
-                    return ":curling_stone:";
+                    return ":moyai:";
                 case PAPER:
-                    return ":newspaper:";
+                    return ":page_facing_up:";
                 case SCISSORS:
                     return ":scissors:";
                 default:

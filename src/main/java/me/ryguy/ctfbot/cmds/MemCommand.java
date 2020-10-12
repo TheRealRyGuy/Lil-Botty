@@ -5,6 +5,7 @@ import discord4j.rest.util.Color;
 import discord4j.rest.util.Image;
 import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.ctfbot.types.*;
+import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
@@ -31,11 +32,13 @@ public class MemCommand extends Command {
         String polls = String.valueOf(CTFDiscordBot.data.polls.size());
         String meetings = String.valueOf(CTFDiscordBot.data.meetings.size());
         String events = String.valueOf(CTFDiscordBot.data.events.size());
+        String guilds = String.valueOf(DiscordBot.getBot().getClient().getGuilds().collectList().block().size());
         String freeMem = Math.round(((Runtime.getRuntime().freeMemory() / 1024 / 1024) * 100) / 100) + " MB";
         String totalMem = Math.round(Runtime.getRuntime().maxMemory() / 1073741824) + " GB";
         return "Polls: " + polls + "\n" +
                 "Meetings: " + meetings + "\n" +
                 "Events: " + events + "\n" +
+                "Guilds: " + guilds + "\n" +
                 "Mem: " + freeMem + " / " + totalMem;
     }
     @Override

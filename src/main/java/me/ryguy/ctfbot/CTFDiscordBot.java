@@ -2,6 +2,7 @@ package me.ryguy.ctfbot;
 
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
+import lombok.Getter;
 import me.ryguy.ctfbot.types.Data;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
@@ -35,7 +36,7 @@ public class CTFDiscordBot {
             DATA_FILE = new File("/Shared/data.json");
         }
     }
-
+    @Getter
     private static DiscordBot bot;
 
     public static void main(String[] args) {

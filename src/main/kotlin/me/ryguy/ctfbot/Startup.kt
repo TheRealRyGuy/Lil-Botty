@@ -1,9 +1,6 @@
 package me.ryguy.ctfbot
 
-import me.ryguy.ctfbot.cmds.HelpCommand
-import me.ryguy.ctfbot.cmds.InviteCommand
-import me.ryguy.ctfbot.cmds.MemCommand
-import me.ryguy.ctfbot.cmds.RestartCommand
+import me.ryguy.ctfbot.cmds.*
 import me.ryguy.ctfbot.listeners.MainListener
 import me.ryguy.ctfbot.modules.ctf.BrawlCommand
 import me.ryguy.ctfbot.modules.ctf.CTFGameStatsCommand
@@ -43,6 +40,7 @@ object Startup {
         RockPaperScissorsCommand().register()
         RestartCommand().register()
         ReminderCommand().register()
+        EvalCommand().register()
         //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()

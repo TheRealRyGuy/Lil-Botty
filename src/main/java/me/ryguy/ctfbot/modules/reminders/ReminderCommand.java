@@ -60,9 +60,17 @@ public class ReminderCommand extends Command {
             }).block();
             return null;
         }
+        if(message.getAuthor().get().getPrivateChannel().block() == null || !message.getAuthor().get().getPrivateChannel().blockOptional().isPresent()) {
+            message.getChannel().block().createEmbed(em -> {
+                em.setColor(Color.RED);
+                em.setTitle(":x: Invalid Usage!");
+                em.setDescription("The bot cannot access your dms! Please allow the bot to dm you to use this feature`");
+            }).block();
+            return null;
+        }
         Reminder reminder = new Reminder(message.getAuthor().get().getId().asLong(), message.getAuthor().get().getPrivateChannel().block(),
                 System.currentTimeMillis() + timeUnit.toMillis(length), new DelayedMessage(message.getAuthor().get().getPrivateChannel().block(),
-                ":zap: Reminder!!!!!",
+                ":sunglasses: Lil Botty Reminder",
                 Util.connectArray(args, 1), Color.TAHITI_GOLD));
         reminder.store();
         message.getChannel().block().createEmbed(em -> {

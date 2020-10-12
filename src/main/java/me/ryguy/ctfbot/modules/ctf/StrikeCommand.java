@@ -49,7 +49,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                     }).block();
                     return null;
                 }
-                List<PPMStrike> strikes = StrikeUtil.getStrikes(message.getAuthor().get());
+                List<PPMStrike> strikes = StrikeUtil.getStrikes(DiscordUtil.getUserByMention(args[1]));
                 if(strikes.size() == 0) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setTitle(":zap: Strike Information");

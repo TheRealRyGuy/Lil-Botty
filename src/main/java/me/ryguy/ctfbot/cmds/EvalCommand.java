@@ -33,17 +33,16 @@ public class EvalCommand extends Command {
             message.getChannel().block().createEmbed(em -> {
                 em.setTitle("Eval");
                 em.setColor(Color.GREEN);
-                em.addField(":pencil: Input", Util.connectArray(args, 0), false);
-                em.addField(":pencil: Output", res.toString(), false);
+                em.addField(":pencil: Input", "```java\n" + Util.connectArray(args, 0) + "```", false);
+                em.addField(":white_check_mark: Output", "```xml\n" + res.toString() + "```", false);
             }).block();
         } catch (ScriptException e) {
             message.getChannel().block().createEmbed(em -> {
                 em.setTitle("Eval - " + e.getClass().getSimpleName());
                 em.setColor(Color.RED);
-                em.addField(":pencil: Input", Util.connectArray(args, 0), false);
-                em.addField(":pencil: Error", e.getMessage(), false);
+                em.addField(":pencil: Input", "```java\n" + Util.connectArray(args, 0) + "```", false);
+                em.addField(":x: Error", "```xml\n" + e.getMessage() + "```", false);
             }).block();
-            e.printStackTrace();
         }
         return null;
     }

@@ -15,23 +15,23 @@ public class PollListeners implements Listener {
         if (event.getUser().block().isBot()) {
             return;
         }
-        if(!event.getEmoji().asUnicodeEmoji().isPresent()) {
+        if (!event.getEmoji().asUnicodeEmoji().isPresent()) {
             return;
         }
 
         Poll e = Poll.getPoll(event.getMessage().block());
         boolean shouldHandle = false;
-        for(Poll.Option o : e.getOptions()) {
-            if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
-                if(o.getPlayers().contains(event.getUser().block())) return;
+        for (Poll.Option o : e.getOptions()) {
+            if (event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
+                if (o.getPlayers().contains(event.getUser().block())) return;
                 o.addPlayer(event.getUser().block());
                 shouldHandle = true;
-                if(!e.isShowVotes()) {
+                if (!e.isShowVotes()) {
                     e.getMessage().removeReaction(event.getEmoji(), event.getUserId()).block();
                 }
             }
         }
-        if(shouldHandle) {
+        if (shouldHandle) {
             e.handleReaction();
         }
         CTFDiscordBot.save();
@@ -45,20 +45,20 @@ public class PollListeners implements Listener {
         if (event.getUser().block().isBot()) {
             return;
         }
-        if(!event.getEmoji().asUnicodeEmoji().isPresent()) {
+        if (!event.getEmoji().asUnicodeEmoji().isPresent()) {
             return;
         }
 
         Poll e = Poll.getPoll(event.getMessage().block());
         boolean shouldHandle = false;
-        for(Poll.Option o : e.getOptions()) {
-            if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
-                if(o.getPlayers().contains(event.getUser().block())) return;
+        for (Poll.Option o : e.getOptions()) {
+            if (event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase(o.getEmoji())) {
+                if (o.getPlayers().contains(event.getUser().block())) return;
                 o.removePlayer(event.getUser().block());
                 shouldHandle = true;
             }
         }
-        if(shouldHandle) {
+        if (shouldHandle) {
             e.handleReaction();
         }
         CTFDiscordBot.save();

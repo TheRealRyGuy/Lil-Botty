@@ -1,11 +1,9 @@
 package me.ryguy.ctfbot.modules.ctf
 
 import discord4j.core.`object`.entity.Message
-import me.ryguy.ctfbot.util.replyWithFailure
 import me.ryguy.ctfbot.util.*
 import org.jsoup.nodes.Document
 import reactor.core.publisher.Mono
-import java.lang.NumberFormatException
 
 /**
  * Syntax: !gamestats <id>
@@ -26,9 +24,10 @@ class CTFGameStatsCommand : CTFDiscordOnlyCommand("gamestats", "ppmstats") {
 
         fun getGameDisplay(games: Map<Int, Document>): String {
             return games.entries.sortedBy { it.key }
-                    .map { (id, doc) -> "${CTFGame.FRIENDLY_URL}/$id/" to doc}
-                    .map { (url, doc) -> "**:map: ${doc.map()} | :trophy: ${doc.mvp()}**\n" +
-                            "$url\n"
+                    .map { (id, doc) -> "${CTFGame.FRIENDLY_URL}/$id/" to doc }
+                    .map { (url, doc) ->
+                        "**:map: ${doc.map()} | :trophy: ${doc.mvp()}**\n" +
+                                "$url\n"
                     }
                     .joinToString("\n")
         }
@@ -56,9 +55,9 @@ class CTFGameStatsCommand : CTFDiscordOnlyCommand("gamestats", "ppmstats") {
                 } else
                     it.setDescription(
                             "**__CTF Match 1__**\n" +
-                            "${getGameDisplay(games1)}\n" +
-                            "**__CTF Match 2__**\n" +
-                            getGameDisplay(games2)
+                                    "${getGameDisplay(games1)}\n" +
+                                    "**__CTF Match 2__**\n" +
+                                    getGameDisplay(games2)
                     )
             }?.block()
 

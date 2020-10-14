@@ -14,11 +14,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ReminderCommand extends Command {
-    public ReminderCommand() {
-        super("remind", "reminder", "remindme");
-    }
-
     public static Map<Character, TimeUnit> timeUnits = new HashMap<>();
+
     static {
         timeUnits.put('s', TimeUnit.SECONDS);
         timeUnits.put('m', TimeUnit.MINUTES);
@@ -26,9 +23,13 @@ public class ReminderCommand extends Command {
         timeUnits.put('d', TimeUnit.DAYS);
     }
 
+    public ReminderCommand() {
+        super("remind", "reminder", "remindme");
+    }
+
     @Override
     public Mono<Void> execute(Message message, String s, String[] args) {
-        if(args.length <= 1) {
+        if (args.length <= 1) {
             message.getChannel().block().createEmbed(em -> {
                 em.setColor(Color.RED);
                 em.setTitle(":x: Invalid Usage!");
@@ -36,7 +37,7 @@ public class ReminderCommand extends Command {
             }).block();
             return null;
         }
-        if(!Util.isInteger(args[0].substring(0, args[0].length() - 1))) {
+        if (!Util.isInteger(args[0].substring(0, args[0].length() - 1))) {
             message.getChannel().block().createEmbed(em -> {
                 em.setColor(Color.RED);
                 em.setTitle(":x: Invalid Usage!");
@@ -47,12 +48,12 @@ public class ReminderCommand extends Command {
         Character unit = args[0].charAt(args[0].length() - 1);
         TimeUnit timeUnit = null;
         Integer length = Integer.valueOf(args[0].substring(0, args[0].length() - 1));
-        if(unit.equals('w')) {
+        if (unit.equals('w')) {
             length = length * 7;
             timeUnit = TimeUnit.DAYS;
-        }else if(timeUnits.containsKey(unit)) {
+        } else if (timeUnits.containsKey(unit)) {
             timeUnit = timeUnits.get(unit);
-        }else {
+        } else {
             message.getChannel().block().createEmbed(em -> {
                 em.setColor(Color.RED);
                 em.setTitle(":x: Invalid Usage!");
@@ -60,7 +61,7 @@ public class ReminderCommand extends Command {
             }).block();
             return null;
         }
-        if(message.getAuthor().get().getPrivateChannel().block() == null || !message.getAuthor().get().getPrivateChannel().blockOptional().isPresent()) {
+        if (message.getAuthor().get().getPrivateChannel().block() == null || !message.getAuthor().get().getPrivateChannel().blockOptional().isPresent()) {
             message.getChannel().block().createEmbed(em -> {
                 em.setColor(Color.RED);
                 em.setTitle(":x: Invalid Usage!");

@@ -18,7 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 public class Event {
 
     private String name;
@@ -49,29 +50,44 @@ public class Event {
         this.announcementMessage = null;
         this.listMessage = null;
     }
+
+    public static Event getEvent(Message announcementMessage) {
+        if (CTFDiscordBot.data == null) return null;
+        if (CTFDiscordBot.data.events == null) return null;
+        for (Event e : CTFDiscordBot.data.events) {
+            if (e.getAnnouncementMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
+                return e;
+        }
+        return null;
+    }
+
     public String buildRoleTagString() {
         StringBuilder sb = new StringBuilder();
-        for(Long l : this.getTagRoles()) {
-            if(l == guild.getEveryoneRole().block().getId().asLong()) {
+        for (Long l : this.getTagRoles()) {
+            if (l == guild.getEveryoneRole().block().getId().asLong()) {
                 sb.append("@everyone ");
-            }else {
+            } else {
                 sb.append(this.guild.getRoleById(Snowflake.of(l)).block().getMention() + " ");
             }
         }
         return sb.toString();
     }
+
     public void addPlayer(User user) {
         this.getPlaying().add(user);
         this.handleReaction();
     }
+
     public void removePlayer(User user) {
         this.getPlaying().remove(user);
         this.handleReaction();
     }
+
     public void addNonPlayer(User user) {
         this.getNotPlaying().add(user);
         this.handleReaction();
     }
+
     public void removeNonPlayer(User user) {
         this.getNotPlaying().remove(user);
         this.handleReaction();
@@ -79,21 +95,21 @@ public class Event {
 
     public void init() {
         String desc = this.getDescription() + "\n";
-        if(this.signUpEmoji != null)
+        if (this.signUpEmoji != null)
             desc += "\n React with " + signUpEmoji + " to play";
-        if(this.rejectEmoji != null)
+        if (this.rejectEmoji != null)
             desc += "\n React with " + rejectEmoji + " if you can't play";
 
         String finalDesc = desc;
         this.announcementMessage = ((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(this.announceChannel)).block())
                 .createMessage(m -> {
-                    if(!this.getTagRoles().isEmpty()) {
+                    if (!this.getTagRoles().isEmpty()) {
                         m.setContent(this.buildRoleTagString());
                     }
                     m.setEmbed(e -> {
                         e.setTitle(this.getName());
                         e.setDescription(finalDesc);
-                        if(guild.getIconUrl(Image.Format.UNKNOWN).isPresent()) {
+                        if (guild.getIconUrl(Image.Format.UNKNOWN).isPresent()) {
                             e.setThumbnail(guild.getIconUrl(Image.Format.UNKNOWN).get());
                         }
                     });
@@ -106,22 +122,24 @@ public class Event {
         CTFDiscordBot.data.events.add(this);
         try {
             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void handleReaction() {
         listMessage.edit(m -> {
-           m.setContent("");
-           m.setEmbed(e -> {
-               e.setTitle(this.getName());
-               e.setDescription(this.getDescription());
-               e.addField(this.signUpEmoji + " Players: " + this.getPlaying().size(), Util.buildPlayerList(this.getPlaying()).isEmpty() ? "no one :c :sob:" : Util.buildPlayerList(this.getPlaying()), false);
-               e.addField(this.rejectEmoji + " Can't Play: " + this.getNotPlaying().size(), Util.buildPlayerList(this.getNotPlaying()).isEmpty() ? "NO ONE :tada:" : Util.buildPlayerList(this.getNotPlaying()), false);
-               e.setFooter("love and waffles!", null);
-           });
+            m.setContent("");
+            m.setEmbed(e -> {
+                e.setTitle(this.getName());
+                e.setDescription(this.getDescription());
+                e.addField(this.signUpEmoji + " Players: " + this.getPlaying().size(), Util.buildPlayerList(this.getPlaying()).isEmpty() ? "no one :c :sob:" : Util.buildPlayerList(this.getPlaying()), false);
+                e.addField(this.rejectEmoji + " Can't Play: " + this.getNotPlaying().size(), Util.buildPlayerList(this.getNotPlaying()).isEmpty() ? "NO ONE :tada:" : Util.buildPlayerList(this.getNotPlaying()), false);
+                e.setFooter("love and waffles!", null);
+            });
         }).block();
     }
+
     @Override
     public String toString() {
         return "**Name:** " + this.name + "\n" +
@@ -131,15 +149,6 @@ public class Event {
                 "**Participants list channel:** " + DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(this.listChannel)).block().getMention() + "\n" +
                 "**Sign up emoji:** " + this.signUpEmoji + "\n" +
                 "**Reject emoji:** " + this.rejectEmoji;
-    }
-    public static Event getEvent(Message announcementMessage) {
-        if(CTFDiscordBot.data == null) return null;
-        if(CTFDiscordBot.data.events == null) return null;
-        for (Event e : CTFDiscordBot.data.events) {
-            if (e.getAnnouncementMessage().getId().asString().equalsIgnoreCase(announcementMessage.getId().asString()))
-                return e;
-        }
-        return null;
     }
 
 }

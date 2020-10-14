@@ -25,7 +25,7 @@ public class RestartCommand extends Command {
 
     @Override
     public boolean canExecute(Message e, boolean shouldSendMessage) {
-        if(e.getAuthor().isPresent()) {
+        if (e.getAuthor().isPresent()) {
             return e.getAuthor().get().getId().asLong() == CTFDiscordBot.BOT_OWNER || e.getAuthor().get().getId().asLong() == 200299141438504960L;
         }
         return false;

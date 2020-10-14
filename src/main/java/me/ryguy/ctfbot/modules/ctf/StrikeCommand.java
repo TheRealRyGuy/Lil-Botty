@@ -26,15 +26,15 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
 
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
-        if(args.length == 0) {
+        if (args.length == 0) {
             message.getChannel().block().createEmbed(em -> {
                 em.setColor(Color.RED);
                 em.setTitle(":x: You need to have some arguments!");
                 em.setDescription("Possible Arguments: \n`!strike @user [reason]`\n`!strike listactive`\n`!strike listexpired`\n`!strike info @user`\n`!strike remove [id]`");
             }).block();
-        }else {
-            if(args[0].equalsIgnoreCase("info")) {
-                if(args.length != 2) {
+        } else {
+            if (args[0].equalsIgnoreCase("info")) {
+                if (args.length != 2) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setColor(Color.RED);
                         em.setTitle(":x: Invalid Usage!");
@@ -42,7 +42,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                     }).block();
                     return null;
                 }
-                if(!DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
+                if (!DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setColor(Color.RED);
                         em.setDescription(":x: You need to use a valid user mention!");
@@ -50,61 +50,61 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                     return null;
                 }
                 List<PPMStrike> strikes = StrikeUtil.getStrikes(DiscordUtil.getUserByMention(args[1]));
-                if(strikes.size() == 0) {
+                if (strikes.size() == 0) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setTitle(":zap: Strike Information");
                         em.setDescription("Strike list for user " + DiscordUtil.getUserTag(args[1]));
                         em.addField("Strikes", "This user has never been striked!", false);
                         em.setColor(Color.TAHITI_GOLD);
                     }).block();
-                }else {
+                } else {
                     List<PPMStrike> active = strikes.parallelStream().filter(PPMStrike::isActive).collect(Collectors.toList());
                     List<PPMStrike> inactive = strikes.parallelStream().filter(s -> !s.isActive()).collect(Collectors.toList());
                     message.getChannel().block().createEmbed(em -> {
                         em.setTitle(":zap: Strike Information");
                         em.setDescription("Strike list for user " + DiscordUtil.getUserTag(args[1]));
-                        if(active.size() == 0) {
+                        if (active.size() == 0) {
                             em.addField("Active Strikes", "This user has no active strikes!", false);
-                        }else {
+                        } else {
                             em.addField("Active Strikes", StrikeUtil.buildStrikeList(active), false);
                         }
-                        if(inactive.size() == 0) {
+                        if (inactive.size() == 0) {
                             em.addField("Expired Strikes", "This user has no expired strikes!", false);
-                        }else {
+                        } else {
                             em.addField("Expired Strikes", StrikeUtil.buildStrikeList(inactive), false);
                         }
                     }).block();
                 }
-            }else if(args[0].equalsIgnoreCase("listactive")) {
+            } else if (args[0].equalsIgnoreCase("listactive")) {
                 message.getChannel().block().createEmbed(em -> {
                     em.setTitle(":zap: Active Strikes");
                     em.setColor(Color.TAHITI_GOLD);
-                    if(StrikeUtil.getActiveStrikes().size() == 0) {
+                    if (StrikeUtil.getActiveStrikes().size() == 0) {
                         em.addField("Active Strikes", "There are no active strikes!", false);
-                    }else {
+                    } else {
                         em.addField("Active Strikes", StrikeUtil.buildStrikeList(StrikeUtil.getActiveStrikes()), false);
                     }
                 }).block();
-            }else if(args[0].equalsIgnoreCase("listexpired")) {
+            } else if (args[0].equalsIgnoreCase("listexpired")) {
                 message.getChannel().block().createEmbed(em -> {
                     em.setTitle(":zap: Expired Strikes");
                     em.setColor(Color.TAHITI_GOLD);
-                    if(StrikeUtil.getActiveStrikes().size() == 0) {
+                    if (StrikeUtil.getActiveStrikes().size() == 0) {
                         em.addField("Active Strikes", "There are no expired strikes!", false);
-                    }else {
+                    } else {
                         em.addField("Active Strikes", StrikeUtil.buildStrikeList(StrikeUtil.getExpiredStrikes()), false);
                     }
                 }).block();
-            }else if(args[0].equalsIgnoreCase("remove")) {
-                if(DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
+            } else if (args[0].equalsIgnoreCase("remove")) {
+                if (DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
                     List<PPMStrike> strikes = StrikeUtil.getStrikes(DiscordUtil.getUserByMention(args[1])).parallelStream().filter(PPMStrike::isActive).collect(Collectors.toList());
-                    if(strikes.size() == 0) {
+                    if (strikes.size() == 0) {
                         message.getChannel().block().createEmbed(em -> {
                             em.setColor(Color.RED);
                             em.setTitle(":x: Invalid User!");
                             em.setDescription("Invalid: You cannot remove strikes from this user, as they currently are not striked!`");
                         }).block();
-                    }else {
+                    } else {
                         try {
                             CTFDiscordBot.data.strikes.removeAll(strikes);
                             CTFDiscordBot.data.strikeReminders.removeAll(strikes.stream().map(PPMStrike::getReminder).collect(Collectors.toList()));
@@ -114,13 +114,13 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                                 em.setColor(Color.TAHITI_GOLD);
                                 em.setDescription("Cleared these active strikes for " + args[0] + "!");
                                 int i = 0;
-                                for(PPMStrike strike : strikes) {
+                                for (PPMStrike strike : strikes) {
                                     em.addField("Strike " + i, strike.toString(), false);
                                     i++;
                                 }
                                 em.setTimestamp(Instant.now());
                             }).block();
-                        }catch(IOException e) {
+                        } catch (IOException e) {
                             message.getChannel().block().createEmbed(em -> {
                                 em.setColor(Color.RED);
                                 em.setDescription("yo something broke my bad");
@@ -129,8 +129,8 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                         }
                     }
                 }
-            }else if(DiscordUtil.isValidUserMention(args[0], message.getGuild().block())) {
-                if(args.length == 1) {
+            } else if (DiscordUtil.isValidUserMention(args[0], message.getGuild().block())) {
+                if (args.length == 1) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setColor(Color.RED);
                         em.setTitle(":x: Invalid Usage!");
@@ -142,7 +142,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                 PPMStrike strike = new PPMStrike(StrikeUtil.getNextTier(striked),
                         Util.connectArray(args, 1), striked.getId().asLong(),
                         message.getAuthor().get().getId().asLong());
-                if(StrikeUtil.strikeUser(strike)) {
+                if (StrikeUtil.strikeUser(strike)) {
                     ((MessageChannel) DiscordBot.getBot().getGateway().getChannelById(Snowflake.of(276518289289773067L)).block()).createEmbed(em -> {
                         em.setColor(Color.TAHITI_GOLD);
                         em.setTitle(":zap: Player Striked!");
@@ -155,14 +155,14 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                         em.setDescription("User " + striked.getMention() + " has been striked!");
                         em.setTimestamp(Instant.now());
                     }).block();
-                }else {
+                } else {
                     message.getChannel().block().createEmbed(em -> {
                         em.setColor(Color.RED);
                         em.setDescription("ERROR! Do me a favor and @ RyGuy rn");
                         em.setTimestamp(Instant.now());
                     }).block();
                 }
-            }else {
+            } else {
                 message.getChannel().block().createEmbed(em -> {
                     em.setColor(Color.RED);
                     em.setTitle(":x: Invalid Arguments!");

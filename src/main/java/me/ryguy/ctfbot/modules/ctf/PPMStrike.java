@@ -42,6 +42,16 @@ public class PPMStrike {
         this.reminder.schedule(CTF_GENERAL_CHANNEL);
         this.reminder.store();
     }
+
+    public static void initializeReminders() {
+        CTFDiscordBot.data.strikeReminders.forEach(reminder -> {
+            if (reminder.isSent())
+                CTFDiscordBot.data.strikeReminders.remove(reminder);
+            else
+                reminder.schedule(reminder.getChannel());
+        });
+    }
+
     public boolean isActive() {
         return System.currentTimeMillis() < this.expiration;
     }
@@ -49,37 +59,6 @@ public class PPMStrike {
     @Override
     public String toString() {
         return "(ID: " + this.id + ") " + this.getTier().getEmoji() + " " + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " + DiscordUtil.getUserTag(this.getStrikedBy());
-    }
-
-    public static void initializeReminders() {
-        CTFDiscordBot.data.strikeReminders.forEach(reminder -> {
-            if(reminder.isSent())
-                CTFDiscordBot.data.strikeReminders.remove(reminder);
-            else
-                reminder.schedule(reminder.getChannel());
-        });
-    }
-
-    public class Reminder extends me.ryguy.ctfbot.modules.reminders.Reminder {
-        public Reminder() {
-            super(striked, PPM_HOST_CHANNEL,
-                    (expiration),
-                    new DelayedMessage(PPM_HOST_CHANNEL,
-                            ":zap: Strike expired",
-                            tier.getEmoji() + " <@" + striked + ">, striked by <@" + strikedBy + ">, " + "\n" +
-                                    "Reason: " + reason,
-                            Color.TAHITI_GOLD
-                    ));
-        }
-        @Override
-        public void store() {
-            CTFDiscordBot.data.strikeReminders.add(this);
-            try {
-                CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public enum Tier {
@@ -123,6 +102,29 @@ public class PPMStrike {
                     return FIRST;
             }
             return FIRST;
+        }
+    }
+
+    public class Reminder extends me.ryguy.ctfbot.modules.reminders.Reminder {
+        public Reminder() {
+            super(striked, PPM_HOST_CHANNEL,
+                    (expiration),
+                    new DelayedMessage(PPM_HOST_CHANNEL,
+                            ":zap: Strike expired",
+                            tier.getEmoji() + " <@" + striked + ">, striked by <@" + strikedBy + ">, " + "\n" +
+                                    "Reason: " + reason,
+                            Color.TAHITI_GOLD
+                    ));
+        }
+
+        @Override
+        public void store() {
+            CTFDiscordBot.data.strikeReminders.add(this);
+            try {
+                CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

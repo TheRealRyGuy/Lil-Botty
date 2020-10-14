@@ -10,7 +10,7 @@ class BrawlCountTest {
     @Test
     fun `test brawl count parsing`() {
         val s = URL("https://www.brawl.com/data/playerCount.json").GET()
-        val result = Gson().fromJson<Map<String, String>>(s, object: TypeToken<Map<String, String>>() {}.type)
+        val result = Gson().fromJson<Map<String, String>>(s, object : TypeToken<Map<String, String>>() {}.type)
 
         assertTrue(result.isNotEmpty(), "Obtained empty brawl json")
 

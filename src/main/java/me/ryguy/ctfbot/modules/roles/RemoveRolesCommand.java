@@ -1,6 +1,5 @@
 package me.ryguy.ctfbot.modules.roles;
 
-import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.Role;
@@ -22,13 +21,13 @@ public class RemoveRolesCommand extends Command {
 
     @Override
     public boolean canExecute(Message e, boolean shouldSend) {
-        if(e.getGuildId().isPresent()) {
-            if(e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
-                if(e.getAuthorAsMember().blockOptional().isPresent()) {
-                    if(e.getAuthorAsMember().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
+        if (e.getGuildId().isPresent()) {
+            if (e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
+                if (e.getAuthorAsMember().blockOptional().isPresent()) {
+                    if (e.getAuthorAsMember().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
                         return true;
-                    }else {
-                        if(shouldSend) {
+                    } else {
+                        if (shouldSend) {
                             e.getChannel().block().createEmbed(em -> {
                                 em.setColor(Color.RED);
                                 em.setDescription(":x: You need to have the role `PPM Host` to use this command!");
@@ -37,12 +36,12 @@ public class RemoveRolesCommand extends Command {
                         return false;
                     }
                 }
-            }else {
-                if(e.getAuthorAsMember().blockOptional().isPresent()) {
-                    if(e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
+            } else {
+                if (e.getAuthorAsMember().blockOptional().isPresent()) {
+                    if (e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
                         return true;
-                    }else {
-                        if(shouldSend) {
+                    } else {
+                        if (shouldSend) {
                             e.getChannel().block().createEmbed(em -> {
                                 em.setColor(Color.RED);
                                 em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
@@ -61,8 +60,8 @@ public class RemoveRolesCommand extends Command {
         if (!Util.isPpmHost(message.getAuthorAsMember().block())) return null;
         Map<String, Integer> set = new HashMap<>();
         List<String> skippedLines = new ArrayList<>();
-        if(args.length == 0) {
-            if(message.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) { //CTF Discord specific
+        if (args.length == 0) {
+            if (message.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) { //CTF Discord specific
                 Message msg = message.getChannel().block().createMessage(m -> {
                     m.setEmbed(e -> {
                         e.setColor(Color.TAHITI_GOLD);
@@ -86,17 +85,17 @@ public class RemoveRolesCommand extends Command {
                         e.setColor(Color.GREEN);
                         e.setTitle(":white_check_mark: Success!");
                         StringBuilder sb = new StringBuilder();
-                        for(String string : set.keySet()) {
+                        for (String string : set.keySet()) {
                             sb.append(String.format(" - %s `%s` roles  were removed!\n", set.get(string), string));
                         }
                         e.setDescription(sb.toString());
-                        if(!skippedLines.isEmpty()) {
+                        if (!skippedLines.isEmpty()) {
                             e.addField("Skipped Roles", skippedLines.toString(), false);
                         }
                     });
                 }).block();
                 return null;
-            }else {
+            } else {
                 message.getChannel().block().createMessage(m -> {
                     m.setEmbed(e -> {
                         e.setColor(Color.RED);
@@ -105,8 +104,8 @@ public class RemoveRolesCommand extends Command {
                 }).block();
                 return null;
             }
-        }else {
-            if(message.getRoleMentions().collectList().block().size() == 0) {
+        } else {
+            if (message.getRoleMentions().collectList().block().size() == 0) {
                 message.getChannel().block().createMessage(m -> {
                     m.setEmbed(e -> {
                         e.setColor(Color.RED);
@@ -121,8 +120,8 @@ public class RemoveRolesCommand extends Command {
                     e.setDescription(":arrows_clockwise: Removing Roles!");
                 });
             }).block();
-            for(Role r : message.getRoleMentions().collect(Collectors.toList()).block()) {
-                if(message.getAuthorAsMember().block().hasHigherRoles(Collections.singleton(r.getId())).block()) {
+            for (Role r : message.getRoleMentions().collect(Collectors.toList()).block()) {
+                if (message.getAuthorAsMember().block().hasHigherRoles(Collections.singleton(r.getId())).block()) {
                     int roles = 0;
                     for (Member m : message.getGuild().block().getMembers().toIterable()) {
                         if (m.getRoleIds().contains(r.getId())) {
@@ -132,7 +131,7 @@ public class RemoveRolesCommand extends Command {
                         }
                     }
                     set.put(r.getName(), roles);
-                }else
+                } else
                     skippedLines.add(r.getName());
             }
             msg.edit(m -> {
@@ -140,11 +139,11 @@ public class RemoveRolesCommand extends Command {
                     e.setColor(Color.GREEN);
                     e.setTitle(":white_check_mark: Success!");
                     StringBuilder sb = new StringBuilder();
-                    for(String string : set.keySet()) {
+                    for (String string : set.keySet()) {
                         sb.append(String.format("- %s `%s` roles  were removed!\n", set.get(string), string));
                     }
                     e.setDescription(sb.toString());
-                    if(!skippedLines.isEmpty()) {
+                    if (!skippedLines.isEmpty()) {
                         e.addField("Skipped Roles", skippedLines.toString(), false);
                     }
                 });

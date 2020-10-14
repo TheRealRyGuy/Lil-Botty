@@ -10,7 +10,8 @@ import java.util.*;
 
 public class EightBallCommand extends Command {
 
-    private static Map<String, BallResult> possibilities = new HashMap<>();
+    private static final Map<String, BallResult> possibilities = new HashMap<>();
+
     static {
         possibilities.put("It is certain", BallResult.GOOD);
         possibilities.put("It is decidedly so", BallResult.GOOD);
@@ -41,31 +42,33 @@ public class EightBallCommand extends Command {
 
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
-        if(args.length == 0) {
+        if (args.length == 0) {
             message.getChannel().block().createEmbed(em -> {
                 em.setColor(Color.RED);
                 em.setTitle("8Ball :8ball:");
                 em.setDescription(":x: You need to ask the 8ball something!");
             }).block();
-        }else {
+        } else {
             List<String> toGrab = new ArrayList<>(possibilities.keySet());
             Collections.shuffle(toGrab);
             String res = toGrab.get(0);
             message.getChannel().block().createEmbed(em -> {
-               em.setTitle("8Ball :8ball:");
-               em.addField("You asked: ", String.join(" ", args), false);
-               em.addField("Result", res, false);
-               em.setColor(possibilities.get(res).getColor());
-               em.setThumbnail(message.getAuthorAsMember().block().getAvatarUrl());
-               em.setFooter("hugs and pugs <3", DiscordBot.getBot().getGateway().getSelf().block().getAvatarUrl());
+                em.setTitle("8Ball :8ball:");
+                em.addField("You asked: ", String.join(" ", args), false);
+                em.addField("Result", res, false);
+                em.setColor(possibilities.get(res).getColor());
+                em.setThumbnail(message.getAuthorAsMember().block().getAvatarUrl());
+                em.setFooter("hugs and pugs <3", DiscordBot.getBot().getGateway().getSelf().block().getAvatarUrl());
             }).block();
         }
         return null;
     }
+
     private enum BallResult {
         GOOD, OKAY, BAD;
+
         private Color getColor() {
-            switch(this) {
+            switch (this) {
                 case GOOD:
                     return Color.GREEN;
                 case OKAY:

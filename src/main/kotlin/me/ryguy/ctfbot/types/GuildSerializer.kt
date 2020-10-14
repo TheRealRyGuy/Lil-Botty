@@ -20,6 +20,7 @@ class GuildSerializer : JsonSerializer<Guild> {
 class GuildDeserializer : JsonDeserializer<Guild> {
     override fun deserialize(p0: JsonElement?, p1: Type?, p2: JsonDeserializationContext?): Guild {
         val id = p0?.asLong ?: throw Exception("Null guild in deserialization")
-        return DiscordBot.getBot().gateway.getGuildById(Snowflake.of(id)).block() ?: throw Exception("Could not find user")
+        return DiscordBot.getBot().gateway.getGuildById(Snowflake.of(id)).block()
+                ?: throw Exception("Could not find user")
     }
 }

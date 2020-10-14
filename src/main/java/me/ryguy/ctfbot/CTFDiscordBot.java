@@ -25,20 +25,20 @@ public class CTFDiscordBot {
     public static File SHEETS_CREDENTIALS;
     public static File DATA_FILE;
     public static Data data;
+    @Getter
+    private static DiscordBot bot;
 
     static {
-        if(System.getProperty("os.name").toLowerCase().contains("windows")) {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             SHEETS_CREDENTIALS = new File(System.getProperty("user.dir") + "/src/main/resources/credentials.json");
             MAP_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/maps.json"); //running it locally
             DATA_FILE = new File(System.getProperty("user.dir") + "/src/main/resources/data.json");
-        }else {
+        } else {
             MAP_FILE = new File("/Shared/maps.json"); //running on vps
             SHEETS_CREDENTIALS = new File("/Shared/credentials.json");
             DATA_FILE = new File("/Shared/data.json");
         }
     }
-    @Getter
-    private static DiscordBot bot;
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -74,13 +74,13 @@ public class CTFDiscordBot {
 
         try {
             data = Data.load(DATA_FILE);
-            if(data.reminders != null) {
+            if (data.reminders != null) {
                 Reminder.initialize();
             }
-            if(data.strikeReminders != null) {
+            if (data.strikeReminders != null) {
                 PPMStrike.initializeReminders();
             }
-        }catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
             System.exit(0);
         }
@@ -88,11 +88,14 @@ public class CTFDiscordBot {
         bot.endStartup();
     }
 
-    public static Gson gson() { return TypeSerializer.INSTANCE.getGson(); }
+    public static Gson gson() {
+        return TypeSerializer.INSTANCE.getGson();
+    }
+
     public static void save() {
         try {
             data.save(CTFDiscordBot.DATA_FILE);
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

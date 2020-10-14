@@ -22,20 +22,21 @@ public class Data {
     public List<PPMStrike.Reminder> strikeReminders = new ArrayList<>();
 
     public static Data load(File dataFile) throws IOException {
-        if(!dataFile.exists())
+        if (!dataFile.exists())
             dataFile.createNewFile();
 
         BufferedReader br = new BufferedReader(new FileReader(dataFile));
         Data loadedData = CTFDiscordBot.gson().fromJson(br, Data.class);
         br.close();
-        if(loadedData != null) {
+        if (loadedData != null) {
             return loadedData;
-        }else
+        } else
             return new Data();
 
     }
+
     public void save(File dataFile) throws IOException {
-        if(!dataFile.exists())
+        if (!dataFile.exists())
             dataFile.createNewFile();
 
         BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile));

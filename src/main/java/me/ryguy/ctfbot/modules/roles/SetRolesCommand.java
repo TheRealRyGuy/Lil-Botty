@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,13 +24,13 @@ public class SetRolesCommand extends Command {
 
     @Override
     public boolean canExecute(Message e, boolean shouldSend) {
-        if(e.getGuildId().isPresent()) {
-            if(e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
-                if(e.getAuthorAsMember().blockOptional().isPresent()) {
-                    if(e.getAuthorAsMember().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
+        if (e.getGuildId().isPresent()) {
+            if (e.getGuildId().get().asLong() == CTFDiscordBot.CTF_DISCORD_ID) {
+                if (e.getAuthorAsMember().blockOptional().isPresent()) {
+                    if (e.getAuthorAsMember().block().getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host")) {
                         return true;
-                    }else {
-                        if(shouldSend) {
+                    } else {
+                        if (shouldSend) {
                             e.getChannel().block().createEmbed(em -> {
                                 em.setColor(Color.RED);
                                 em.setDescription(":x: You need to have the role `PPM Host` to use this command!");
@@ -40,12 +39,12 @@ public class SetRolesCommand extends Command {
                         return false;
                     }
                 }
-            }else {
-                if(e.getAuthorAsMember().blockOptional().isPresent()) {
-                    if(e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
+            } else {
+                if (e.getAuthorAsMember().blockOptional().isPresent()) {
+                    if (e.getAuthorAsMember().block().getBasePermissions().block().contains(Permission.MANAGE_ROLES)) {
                         return true;
-                    }else {
-                        if(shouldSend) {
+                    } else {
+                        if (shouldSend) {
                             e.getChannel().block().createEmbed(em -> {
                                 em.setColor(Color.RED);
                                 em.setDescription(":x: You need to have the permission `MANAGE_ROLES` to use this command!");
@@ -89,7 +88,7 @@ public class SetRolesCommand extends Command {
                 continue;
             }
             if (message.getGuild().block().getRoleIds().contains(Snowflake.of(Long.valueOf(Util.parseMention(s))))) {
-                if(message.getAuthorAsMember().block().hasHigherRoles(Collections.singleton(Snowflake.of(Long.valueOf(Util.parseMention(s))))).block())
+                if (message.getAuthorAsMember().block().hasHigherRoles(Collections.singleton(Snowflake.of(Long.valueOf(Util.parseMention(s))))).block())
                     currentRole = message.getGuild().block().getRoleById(Snowflake.of(Long.valueOf(Util.parseMention(s)))).block();
                 else {
                     skippedLines.add(s);

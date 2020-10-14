@@ -27,14 +27,25 @@ public class Reminder {
 
         this.schedule(channel);
     }
+
+    public static void initialize() {
+        CTFDiscordBot.data.reminders.forEach(reminder -> {
+            if (reminder.isSent())
+                CTFDiscordBot.data.reminders.remove(reminder);
+            else
+                reminder.schedule(reminder.getChannel());
+        });
+    }
+
     public void store() {
         CTFDiscordBot.data.reminders.add(this);
         try {
             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void schedule(MessageChannel ch) {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -47,16 +58,8 @@ public class Reminder {
         }, new Date(timestamp));
         try {
             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    public static void initialize() {
-        CTFDiscordBot.data.reminders.forEach(reminder -> {
-           if(reminder.isSent())
-               CTFDiscordBot.data.reminders.remove(reminder);
-           else
-               reminder.schedule(reminder.getChannel());
-        });
     }
 }

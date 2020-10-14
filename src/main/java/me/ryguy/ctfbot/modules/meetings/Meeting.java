@@ -39,8 +39,8 @@ public class Meeting {
     }
 
     public static Meeting getMeeting(Message toCheck) {
-        if(CTFDiscordBot.data == null) return null;
-        if(CTFDiscordBot.data.meetings == null) return null;
+        if (CTFDiscordBot.data == null) return null;
+        if (CTFDiscordBot.data.meetings == null) return null;
         for (Meeting m : CTFDiscordBot.data.meetings) {
             for (Map.Entry<Message, TimeEntry> entry : m.getEntries().entrySet()) {
                 if (entry.getKey().getId().asString().equalsIgnoreCase(toCheck.getId().asString()))
@@ -69,7 +69,7 @@ public class Meeting {
         CTFDiscordBot.data.meetings.add(this);
         try {
             CTFDiscordBot.data.save(CTFDiscordBot.DATA_FILE);
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

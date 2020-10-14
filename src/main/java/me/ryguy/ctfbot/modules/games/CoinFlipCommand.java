@@ -15,14 +15,14 @@ public class CoinFlipCommand extends Command {
 
     @Override
     public Mono<Void> execute(Message message, String s, String[] strings) {
-        if(new Random().nextInt(2) == 0) {
+        if (new Random().nextInt(2) == 0) {
             message.getChannel().block().createEmbed(em -> {
                 em.setTitle("Coinflip :moneybag:");
                 em.setColor(Color.TAHITI_GOLD);
                 em.setDescription("You flipped heads!");
                 em.setFooter("excommunicate mutes", DiscordBot.getBot().getGateway().getSelf().block().getAvatarUrl());
             }).block();
-        }else {
+        } else {
             message.getChannel().block().createEmbed(em -> {
                 em.setTitle("Coinflip :moneybag:");
                 em.setColor(Color.TAHITI_GOLD);

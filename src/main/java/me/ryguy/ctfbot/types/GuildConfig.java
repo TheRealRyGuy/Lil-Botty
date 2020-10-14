@@ -7,7 +7,9 @@ import me.ryguy.ctfbot.modules.Module;
 
 import java.util.List;
 
-@Getter @Setter @Data
+@Getter
+@Setter
+@Data
 public class GuildConfig {
     long guildId;
     List<Module> modules;

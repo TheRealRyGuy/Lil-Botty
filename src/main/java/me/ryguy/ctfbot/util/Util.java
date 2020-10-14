@@ -13,9 +13,8 @@ import me.ryguy.discordapi.listeners.Listener;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
-import java.net.URL;
-
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +23,7 @@ public class Util {
     public static boolean isPpmHost(Member mem) {
         return mem.getRoles().map(Role::getName).collect(Collectors.toList()).block().contains("PPM Host");
     }
+
     public static InputStream requestBrawlURL(String path) throws IOException {
         URL url = new URL(path);
         HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -31,6 +31,7 @@ public class Util {
         conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36");
         return conn.getInputStream();
     }
+
     public static String parseMention(String input) {
         String toCheck = input.replaceAll("\n", "").trim();
         if (toCheck.startsWith("<@") && toCheck.endsWith(">")) { //user or role mentions
@@ -39,7 +40,7 @@ public class Util {
                 mention = mention.substring(1);
             }
             return mention;
-        }else if(toCheck.startsWith("<#") && toCheck.endsWith(">")) { //channels
+        } else if (toCheck.startsWith("<#") && toCheck.endsWith(">")) { //channels
             return toCheck.substring(2, toCheck.length() - 1);
         }
         return null;
@@ -49,6 +50,7 @@ public class Util {
         if (parseMention(input) == null) return false;
         return guild.getRoleById(Snowflake.of(parseMention(input))).blockOptional().isPresent() || guild.getMemberById(Snowflake.of(parseMention(input))).blockOptional().isPresent();
     }
+
     public static List<Role> getRolesToRemove(Guild g) {
         return g.getRoles().filter(role -> CTFDiscordBot.ROLES_TO_REMOVE.contains(role.getName())).collect(Collectors.toList()).block();
     }
@@ -61,21 +63,24 @@ public class Util {
         }
         return null;
     }
+
     public static String buildPlayerList(List<User> users) {
-        synchronized(users) {
+        synchronized (users) {
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < users.size(); i++) {
+            for (int i = 0; i < users.size(); i++) {
                 sb.append((i + 1) + ": " + users.get(i).getMention() + "\n");
             }
             return sb.toString();
         }
     }
+
     public static Boolean getBoolean(String s) {
         return s.equalsIgnoreCase("true") || s.equalsIgnoreCase("yes");
     }
+
     public static String matchStringFragment(Set<String> s, String toCheck) {
-        for(String string : s) {
-            if(string.toLowerCase().contains(toCheck.toLowerCase()))
+        for (String string : s) {
+            if (string.toLowerCase().contains(toCheck.toLowerCase()))
                 return string;
         }
         return null;
@@ -85,26 +90,27 @@ public class Util {
         DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
             e.setColor(Color.RED);
             e.setTitle("Custom Error: " + ex.getClass().getName());
-            if(msg.getChannel().block() instanceof PrivateChannel) {
+            if (msg.getChannel().block() instanceof PrivateChannel) {
                 e.setFooter(msg.getAuthor().get().getTag(), null);
-            }else if(msg.getChannel().block() instanceof MessageChannel){
+            } else if (msg.getChannel().block() instanceof MessageChannel) {
                 e.setFooter(msg.getChannel().block().getMention() + " - " + msg.getGuild().block().getName(), null);
-            }else {
+            } else {
                 e.setFooter("This shouldn't be the footer", null);
             }
-            if(msg.getGuild().block().getIconUrl(Image.Format.JPEG).isPresent()) {
+            if (msg.getGuild().block().getIconUrl(Image.Format.JPEG).isPresent()) {
                 e.setThumbnail(msg.getGuild().block().getIconUrl(Image.Format.JPEG).get());
             }
-            if(msg.getAuthor().isPresent()) {
-                if(msg.getAuthor().get().getAvatarUrl(Image.Format.JPEG).isPresent()) {
+            if (msg.getAuthor().isPresent()) {
+                if (msg.getAuthor().get().getAvatarUrl(Image.Format.JPEG).isPresent()) {
                     e.setAuthor(msg.getAuthor().get().getTag(), null, msg.getAuthor().get().getAvatarUrl(Image.Format.JPEG).get());
-                }else {
+                } else {
                     e.setAuthor(msg.getAuthor().get().getTag(), null, null);
                 }
             }
             e.addField("StackTrace", ":wc: ```" + ex.getLocalizedMessage() + "``` ", false);
         }).block();
     }
+
     public static void sendErrorMessage(Exception ex, Listener listener, Event event) {
         DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
             e.setColor(Color.RED);
@@ -113,36 +119,41 @@ public class Util {
             e.addField("StackTrace", ":wc: ```" + ex.getLocalizedMessage() + "``` ", false);
         }).block();
     }
+
     public static boolean isInteger(String s) {
         try {
             Integer.valueOf(s);
             return true;
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
+
     public static void messageMe(String s) {
         DiscordBot.getBot().getGateway().getUserById(Snowflake.of(CTFDiscordBot.BOT_OWNER)).block().getPrivateChannel().block().createMessage(s).block();
     }
+
     public static String connectArray(String[] array, int start) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < array.length; i++) {
-            if(i >= start) {
+        for (int i = 0; i < array.length; i++) {
+            if (i >= start) {
                 sb.append(array[i]).append(" ");
             }
         }
         sb.delete(sb.length() - 1, sb.length());
         return sb.toString();
     }
+
     public static <E extends Enum<E>> boolean isValidEnumValue(Class<E> enumClass, String enumValue) {
-        if(!enumClass.isEnum()) return false;
-        for(Enum e : (Enum[]) enumClass.getEnumConstants()) {
-            if(e.name().equalsIgnoreCase(enumValue))
+        if (!enumClass.isEnum()) return false;
+        for (Enum e : enumClass.getEnumConstants()) {
+            if (e.name().equalsIgnoreCase(enumValue))
                 return true;
         }
         return false;
     }
-    public static enum Direction {
-        UP, DOWN, LEFT, RIGHT;
+
+    public enum Direction {
+        UP, DOWN, LEFT, RIGHT
     }
 }

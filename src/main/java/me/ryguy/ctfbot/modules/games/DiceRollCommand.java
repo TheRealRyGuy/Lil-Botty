@@ -12,6 +12,7 @@ public class DiceRollCommand extends Command {
     public DiceRollCommand() {
         super("roll", "rolldice", "diceroll");
     }
+
     @Override
     public Mono<Void> execute(Message message, String s, String[] strings) {
         message.getChannel().block().createEmbed(em -> {

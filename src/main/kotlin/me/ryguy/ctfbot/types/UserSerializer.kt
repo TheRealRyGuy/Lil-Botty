@@ -19,6 +19,7 @@ class UserSerializer : JsonSerializer<User> {
 class UserDeserializer : JsonDeserializer<User> {
     override fun deserialize(p0: JsonElement?, p1: Type?, p2: JsonDeserializationContext?): User {
         val id = p0?.asLong ?: throw Exception("Null user in deserialization")
-        return DiscordBot.getBot().gateway.getUserById(Snowflake.of(id)).block() ?: throw Exception("Could not find user $id")
+        return DiscordBot.getBot().gateway.getUserById(Snowflake.of(id)).block()
+                ?: throw Exception("Could not find user $id")
     }
 }

@@ -2,10 +2,6 @@ package me.ryguy.ctfbot
 
 import me.ryguy.ctfbot.cmds.*
 import me.ryguy.ctfbot.listeners.MainListener
-import me.ryguy.ctfbot.modules.ctf.BrawlCommand
-import me.ryguy.ctfbot.modules.ctf.CTFGameStatsCommand
-import me.ryguy.ctfbot.modules.ctf.CTFStatsCommand
-import me.ryguy.ctfbot.modules.ctf.ThreadCommand
 import me.ryguy.ctfbot.modules.ctf.*
 import me.ryguy.ctfbot.modules.events.EventCommand
 import me.ryguy.ctfbot.modules.events.EventReactionsListener

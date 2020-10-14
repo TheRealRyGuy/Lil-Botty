@@ -25,14 +25,13 @@ public class GoogleSheets {
     private static final String APPLICATION_NAME = "Wafflebot";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static HttpTransport HTTP_TRANSPORT;
-
     /**
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final String CREDENTIALS_FILE_PATH = CTFDiscordBot.SHEETS_CREDENTIALS.getAbsolutePath();
+    private static HttpTransport HTTP_TRANSPORT;
 
     static {
         try {
@@ -46,6 +45,7 @@ public class GoogleSheets {
 
     /**
      * Creates an authorized Credential object.
+     *
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
      */
@@ -66,10 +66,11 @@ public class GoogleSheets {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
+
     /**
      * Prints the names and majors of students in a sample spreadsheet:
      * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-     *
+     * <p>
      * Test method pulled directly from https://developers.google.com/sheets/api/quickstart/java, rewritten slightly for ss testing
      */
     public static void main(String... args) throws IOException, GeneralSecurityException {
@@ -93,11 +94,12 @@ public class GoogleSheets {
             }
         }
     }
+
     public static Sheets getSheets() {
         Credential cred = null;
         try {
             cred = getCredentials();
-        }catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, cred)

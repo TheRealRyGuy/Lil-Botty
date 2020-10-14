@@ -15,17 +15,17 @@ public class MeetingListeners implements Listener {
         if (event.getUser().block().isBot()) {
             return;
         }
-        if(!event.getEmoji().asUnicodeEmoji().isPresent()) {
+        if (!event.getEmoji().asUnicodeEmoji().isPresent()) {
             return;
         }
 
         Meeting e = Meeting.getMeeting(event.getMessage().block());
         boolean shouldHandle = false;
-        if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase("✅")) {
+        if (event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase("✅")) {
             e.getTimeEntry(event.getMessage().block()).getSignups().add(event.getUser().block());
             shouldHandle = true;
         }
-        if(shouldHandle) {
+        if (shouldHandle) {
             e.handleReaction();
         }
         CTFDiscordBot.save();
@@ -39,17 +39,17 @@ public class MeetingListeners implements Listener {
         if (event.getUser().block().isBot()) {
             return;
         }
-        if(!event.getEmoji().asUnicodeEmoji().isPresent()) {
+        if (!event.getEmoji().asUnicodeEmoji().isPresent()) {
             return;
         }
 
         Meeting e = Meeting.getMeeting(event.getMessage().block());
         boolean shouldHandle = false;
-        if(event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase("✅")) {
+        if (event.getEmoji().asUnicodeEmoji().get().getRaw().equalsIgnoreCase("✅")) {
             e.getTimeEntry(event.getMessage().block()).getSignups().remove(event.getUser().block());
             shouldHandle = true;
         }
-        if(shouldHandle) {
+        if (shouldHandle) {
             e.handleReaction();
         }
         CTFDiscordBot.save();

@@ -6,14 +6,16 @@ import me.ryguy.ctfbot.CTFDiscordBot;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
-import javax.script.*;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class EvalCommand extends Command {
 
-    private ScriptEngine engine;
+    private final ScriptEngine engine;
 
     public EvalCommand() {
         super("eval");
@@ -25,6 +27,7 @@ public class EvalCommand extends Command {
         this.engine.put("client", CTFDiscordBot.getBot().getClient());
         this.engine.put("dir", new File(System.getProperty("user.dir")));
     }
+
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
         String input = Arrays.stream(Arrays.copyOfRange(args, 0, args.length)).collect(Collectors.joining(" "));
@@ -46,9 +49,10 @@ public class EvalCommand extends Command {
         }
         return null;
     }
+
     @Override
     public boolean canExecute(Message e, boolean asdf) {
-        if(e.getAuthor().isPresent()) {
+        if (e.getAuthor().isPresent()) {
             return e.getAuthor().get().getId().asLong() == CTFDiscordBot.BOT_OWNER;
         }
         return false;

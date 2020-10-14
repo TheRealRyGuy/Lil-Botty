@@ -70,7 +70,7 @@ class ThreadCommand : Command("thread", "teamthread") {
                     message.channel.block()?.createEmbed { em: EmbedCreateSpec ->
                         val possible = res.keys.joinToString(", ") + ", all, *"
                         em.setDescription(
-                            """
+                                """
                                 :x: Invalid Argument `${args[0]}`!
                                 Possible arguments: `$possible`
                             """.trimIndent()
@@ -106,9 +106,9 @@ class ThreadCommand : Command("thread", "teamthread") {
 
             val idx = threadName.indexOfFirst { it.isDigit() || it == '[' || it == '(' } // stop processing after member count
             return (if (idx == -1) threadName else threadName.substring(0 until idx).trim())
-                .split(" ")
-                .filter { it.isNotEmpty() && it[0].isUpperCase() } // get only words that start uppercase
-                .joinToString(" ")
+                    .split(" ")
+                    .filter { it.isNotEmpty() && it[0].isUpperCase() } // get only words that start uppercase
+                    .joinToString(" ")
         }
     }
 }

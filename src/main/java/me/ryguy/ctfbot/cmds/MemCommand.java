@@ -33,9 +33,9 @@ public class MemCommand extends Command {
     }
 
     private String buildMemInfo() {
-        String polls = String.valueOf(CTFDiscordBot.data.polls.size());
-        String meetings = String.valueOf(CTFDiscordBot.data.meetings.size());
-        String events = String.valueOf(CTFDiscordBot.data.events.size());
+        String polls = CTFDiscordBot.data.polls == null ? "Null Polls" : String.valueOf(CTFDiscordBot.data.polls.size());
+        String meetings = CTFDiscordBot.data.meetings == null ? "Null Meetings" : String.valueOf(CTFDiscordBot.data.meetings.size());
+        String events = CTFDiscordBot.data.events == null ? "Null Events" : String.valueOf(CTFDiscordBot.data.events.size());
         String guilds = String.valueOf(DiscordBot.getBot().getClient().getGuilds().collectList().block().size());
         String freeMem = Math.round(((Runtime.getRuntime().freeMemory() / 1024 / 1024) * 100) / 100) + " MB";
         String totalMem = Math.round(Runtime.getRuntime().maxMemory() / 1073741824) + " GB";

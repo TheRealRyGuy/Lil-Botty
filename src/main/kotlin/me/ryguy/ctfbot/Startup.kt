@@ -38,6 +38,8 @@ object Startup {
         ReminderCommand().register()
         EvalCommand().register()
         CleanDataCommand().register()
+        ReportCommand().register()
+        SuggestCommand().register()
         //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()

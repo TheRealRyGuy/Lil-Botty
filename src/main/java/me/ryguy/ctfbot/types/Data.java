@@ -25,9 +25,11 @@ public class Data {
         if (!dataFile.exists())
             dataFile.createNewFile();
 
+        CTFDiscordBot.logger.info("Starting to load data!");
         BufferedReader br = new BufferedReader(new FileReader(dataFile));
         Data loadedData = CTFDiscordBot.gson().fromJson(br, Data.class);
         br.close();
+        CTFDiscordBot.logger.info("Data loaded!");
         if (loadedData != null) {
             return loadedData;
         } else

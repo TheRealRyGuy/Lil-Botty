@@ -1,5 +1,6 @@
 package me.ryguy.ctfbot;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class CTFDiscordBot {
     //List of many many things
@@ -72,21 +74,28 @@ public class CTFDiscordBot {
             }).block();
         });*/
 
+        try {
+            Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("DataLoader").build()).submit(() -> {
+                try {
+                    data = Data.load(DATA_FILE);
+                    if (data.reminders != null) {
+                        Reminder.initialize();
+                    }
+                    if (data.strikeReminders != null) {
+                        PPMStrike.initializeReminders();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    System.exit(0);
+                }
+            });
+        }catch(Exception ex) {
+            logger.error("Something went wrong loading data!", ex);
+            System.exit(-1);
+        }
+
         Startup.INSTANCE.registerCommands();
         Startup.INSTANCE.registerListeners();
-
-        try {
-            data = Data.load(DATA_FILE);
-            if (data.reminders != null) {
-                Reminder.initialize();
-            }
-            if (data.strikeReminders != null) {
-                PPMStrike.initializeReminders();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.exit(0);
-        }
 
         bot.endStartup();
     }

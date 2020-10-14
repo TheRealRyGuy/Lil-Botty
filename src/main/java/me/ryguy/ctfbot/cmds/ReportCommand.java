@@ -32,12 +32,6 @@ public class ReportCommand extends Command {
         }
         String suggestion = Util.connectArray(args, 0);
         ((MessageChannel) CTFDiscordBot.getBot().getGateway().getChannelById(Snowflake.of(channelId)).block()).createEmbed(em -> {
-            em.setColor(Color.GREEN);
-            em.setTimestamp(Instant.now());
-            em.setTitle(":white_check_mark: Success!!");
-            em.setDescription(String.format("Bug Reported: `%s`", suggestion));
-        }).block();
-        message.getChannel().block().createEmbed(em -> {
             em.setColor(Color.BLUE);
             em.setTimestamp(Instant.now());
             em.setTitle(String.format("Bug Report from: %s#%s", message.getAuthor().get().getUsername(), message.getAuthor().get().getDiscriminator()));
@@ -49,6 +43,12 @@ public class ReportCommand extends Command {
                 String channelName = message.getChannel().block().getRestChannel().getData().block().name().isAbsent() ? "Inaccessible Name" : message.getChannel().block().getRestChannel().getData().block().name().get();
                 em.addField("Channel", channelName, true);
             }
+        }).block();
+        message.getChannel().block().createEmbed(em -> {
+            em.setColor(Color.GREEN);
+            em.setTimestamp(Instant.now());
+            em.setTitle(":white_check_mark: Success!!");
+            em.setDescription(String.format("Bug Reported: `%s`", suggestion));
         }).block();
         return null;
     }

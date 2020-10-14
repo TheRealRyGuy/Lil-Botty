@@ -32,11 +32,11 @@ class RoleSerializer : JsonSerializer<Role> {
 
 class RoleDeserializer : JsonDeserializer<Role> {
     override fun deserialize(p0: JsonElement?, p1: Type?, p2: JsonDeserializationContext?): Role {
-        val guildId = p0?.asJsonObject?.getAsJsonPrimitive("guild")?.asLong ?: throw Exception("Null guild")
+        val guildId = p0?.asJsonObject?.getAsJsonPrimitive("guild")?.asLong ?: throw Exception("Null guild id")
 
         val guild = DiscordBot.getBot().gateway.getGuildById(Snowflake.of(guildId)).block()
         val role = guild?.getRoleById(Snowflake.of(p0.asJsonObject.getAsJsonPrimitive("id").asLong))?.block()
 
-        return role ?: throw Exception("Failed to find role")
+        return role ?: throw Exception("Failed to find role for guild id $guildId")
     }
 }

@@ -3,7 +3,7 @@ simple (hoping to make open source) bot to help run and organize the ctf discord
 <br>
 am aware the repo is a mess, i need to clean it up when i'm not half asleep
 <br>
-if you're missing the discordlib, https://github.com/TheRealRyGuy/Discord4JLib/releases/
+if you're missing the discordlib clone, package and install this locally, https://github.com/TheRealRyGuy/Discord4JLib/releases/
 <h5>Todo</h5>
 <li>Add documentation</li>
 <li>add better looking event command</li>

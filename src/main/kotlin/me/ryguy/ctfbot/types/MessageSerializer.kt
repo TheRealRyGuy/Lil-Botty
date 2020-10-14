@@ -16,7 +16,7 @@ import java.lang.reflect.Type
 
 class MessageSerializer : JsonSerializer<Message> {
     override fun serialize(p0: Message?, p1: Type?, p2: JsonSerializationContext?): JsonElement {
-        val id = p0?.id?.asLong() ?: throw Exception("Null message")
+        val id = p0?.id?.asLong() ?: throw Exception("Null Message ID")
         val channelId = p0.channelId.asLong()
 
         val json = JsonObject()

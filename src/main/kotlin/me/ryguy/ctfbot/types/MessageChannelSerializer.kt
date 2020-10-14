@@ -25,12 +25,12 @@ class MessageChannelSerializer : JsonSerializer<MessageChannel> {
 class MessageChannelDeserializer : JsonDeserializer<MessageChannel> {
     override fun deserialize(p0: JsonElement?, p1: Type?, p2: JsonDeserializationContext?): MessageChannel {
         val id = p0?.asJsonObject?.getAsJsonPrimitive("id")?.asLong
-                ?: throw Exception("Null message channel in deserialization")
+                ?: throw Exception("Null ID in deserialization")
         val type = p0.asJsonObject?.getAsJsonPrimitive("type")?.asString
-                ?: throw Exception("Null MessageChannel type in deserialization")
+                ?: throw Exception("Null MessageChannel type in deserialization: $id");
         if (type.contains("DM", true)) {
             val user = DiscordBot.getBot().gateway.getUserById(Snowflake.of(id)).block()
-                    ?: throw Exception("Null User in Private Channel deserialization")
+                    ?: throw Exception("Null User in Private Channel deserialization: $id")
             return user.privateChannel.block() as PrivateChannel
         } else
             return DiscordBot.getBot().gateway.getChannelById(Snowflake.of(id)).block() as MessageChannel

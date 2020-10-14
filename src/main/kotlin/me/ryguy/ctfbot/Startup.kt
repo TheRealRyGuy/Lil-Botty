@@ -37,6 +37,7 @@ object Startup {
         RestartCommand().register()
         ReminderCommand().register()
         EvalCommand().register()
+        CleanDataCommand().register()
         //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()

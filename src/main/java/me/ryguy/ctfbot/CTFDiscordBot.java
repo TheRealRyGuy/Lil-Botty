@@ -3,6 +3,8 @@ package me.ryguy.ctfbot;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import lombok.Getter;
+import me.ryguy.ctfbot.modules.ctf.PPMStrike;
+import me.ryguy.ctfbot.modules.reminders.Reminder;
 import me.ryguy.ctfbot.types.Data;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
@@ -73,8 +75,10 @@ public class CTFDiscordBot {
         try {
             data = Data.load(DATA_FILE);
             if(data.reminders != null) {
-                data.reminders.forEach(r -> r.schedule(r.getChannel()));
-                data.strikeReminders.forEach(r -> r.schedule(r.getChannel()));
+                Reminder.initialize();
+            }
+            if(data.strikeReminders != null) {
+                PPMStrike.initializeReminders();
             }
         }catch(IOException ex) {
             ex.printStackTrace();

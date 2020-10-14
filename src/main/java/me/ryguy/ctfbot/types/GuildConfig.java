@@ -1,16 +1,16 @@
 package me.ryguy.ctfbot.types;
 
-import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import me.ryguy.ctfbot.modules.Module;
 
 import java.util.List;
 
-@Getter @Setter @Builder
+@Getter @Setter @Data
 public class GuildConfig {
     long guildId;
     List<Module> modules;
     String prefix;
-    Data data;
+    me.ryguy.ctfbot.types.Data data;
 }

@@ -51,4 +51,12 @@ public class Reminder {
             e.printStackTrace();
         }
     }
+    public static void initialize() {
+        CTFDiscordBot.data.reminders.forEach(reminder -> {
+           if(reminder.isSent())
+               CTFDiscordBot.data.reminders.remove(reminder);
+           else
+               reminder.schedule(reminder.getChannel());
+        });
+    }
 }

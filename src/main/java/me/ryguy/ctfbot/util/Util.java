@@ -117,7 +117,7 @@ public class Util {
         try {
             Integer.valueOf(s);
             return true;
-        }catch(Exception e) {
+        } catch(NumberFormatException e) {
             return false;
         }
     }

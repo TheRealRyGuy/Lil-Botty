@@ -45,6 +45,21 @@ public class PPMStrike {
     public boolean isActive() {
         return System.currentTimeMillis() < this.expiration;
     }
+
+    @Override
+    public String toString() {
+        return "(ID: " + this.id + ") " + this.getTier().getEmoji() + " " + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " + DiscordUtil.getUserTag(this.getStrikedBy());
+    }
+
+    public static void initializeReminders() {
+        CTFDiscordBot.data.strikeReminders.forEach(reminder -> {
+            if(reminder.isSent())
+                CTFDiscordBot.data.strikeReminders.remove(reminder);
+            else
+                reminder.schedule(reminder.getChannel());
+        });
+    }
+
     public class Reminder extends me.ryguy.ctfbot.modules.reminders.Reminder {
         public Reminder() {
             super(striked, PPM_HOST_CHANNEL,
@@ -56,7 +71,6 @@ public class PPMStrike {
                             Color.TAHITI_GOLD
                     ));
         }
-
         @Override
         public void store() {
             CTFDiscordBot.data.strikeReminders.add(this);
@@ -66,11 +80,6 @@ public class PPMStrike {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "(ID: " + this.id + ") " + this.getTier().getEmoji() + " " + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " + DiscordUtil.getUserTag(this.getStrikedBy());
     }
 
     public enum Tier {

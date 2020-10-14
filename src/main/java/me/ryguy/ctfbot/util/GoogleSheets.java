@@ -86,11 +86,11 @@ public class GoogleSheets {
                 .execute();
         List<List<Object>> values = response.getValues();
         if (values == null || values.isEmpty()) {
-            System.out.println("No data found.");
+            CTFDiscordBot.logger.warn("No data found on Test Sheet");
         } else {
             for (List row : values) {
                 // Print columns A and E, which correspond to indices 0 and 4.
-                System.out.println(((List<String>) row).toString());
+                CTFDiscordBot.logger.debug(((List<String>) row).toString());
             }
         }
     }

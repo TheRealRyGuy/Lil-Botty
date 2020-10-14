@@ -8,6 +8,8 @@ import me.ryguy.ctfbot.modules.reminders.Reminder;
 import me.ryguy.ctfbot.types.Data;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,7 @@ public class CTFDiscordBot {
     public static final long CTF_DISCORD_ID = 276518289289773067L;
     public static final long TEST_GUILD_ID = 433097833080684575L;
     public static final long BOT_OWNER = 151474463550996480L;
+    public static final Logger logger = LoggerFactory.getLogger(CTFDiscordBot.class);
 
     public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
     public static File MAP_FILE;
@@ -42,7 +45,7 @@ public class CTFDiscordBot {
 
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.out.println("You need to include a token in your arguments!");
+            CTFDiscordBot.logger.error("You need to include a token in your arguments!");
             System.exit(0);
             return;
         }

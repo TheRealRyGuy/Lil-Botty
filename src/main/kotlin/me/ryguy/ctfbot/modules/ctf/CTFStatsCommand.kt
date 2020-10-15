@@ -1,12 +1,15 @@
 package me.ryguy.ctfbot.modules.ctf
 
 import discord4j.core.`object`.entity.Message
+import me.ryguy.ctfbot.modules.ModuleCommand
+import me.ryguy.ctfbot.modules.Modules
 import me.ryguy.discordapi.command.Command
 import reactor.core.publisher.Mono
 
 /**
  * Syntax: !ctfstats [player] [class] [comp|casual]
  */
+@ModuleCommand(module = Modules.CTF)
 class CTFStatsCommand : Command("ctfstats") {
     companion object {
         val CTFClasses = listOf("Archer", "Assassin", "Chemist", "Dwarf", "Elf", "Engineer",

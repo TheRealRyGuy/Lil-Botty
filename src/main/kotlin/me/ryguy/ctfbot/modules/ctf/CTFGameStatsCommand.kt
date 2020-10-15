@@ -1,6 +1,8 @@
 package me.ryguy.ctfbot.modules.ctf
 
 import discord4j.core.`object`.entity.Message
+import me.ryguy.ctfbot.modules.ModuleCommand
+import me.ryguy.ctfbot.modules.Modules
 import me.ryguy.ctfbot.util.*
 import org.jsoup.nodes.Document
 import reactor.core.publisher.Mono
@@ -9,6 +11,7 @@ import reactor.core.publisher.Mono
  * Syntax: !gamestats <id>
  * !ppmstats <#>
  */
+@ModuleCommand(module = Modules.CTF)
 class CTFGameStatsCommand : CTFDiscordOnlyCommand("gamestats", "ppmstats") {
     companion object {
         fun parseArgs(args: Array<out String>?): Int {

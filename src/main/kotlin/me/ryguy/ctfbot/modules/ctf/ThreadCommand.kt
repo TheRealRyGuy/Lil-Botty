@@ -3,13 +3,15 @@ package me.ryguy.ctfbot.modules.ctf
 import discord4j.core.`object`.entity.Message
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.rest.util.Color
+import me.ryguy.ctfbot.modules.ModuleCommand
+import me.ryguy.ctfbot.modules.Modules
 import me.ryguy.ctfbot.util.Util
 import me.ryguy.discordapi.command.Command
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import reactor.core.publisher.Mono
 import javax.xml.parsers.DocumentBuilderFactory
-
+@ModuleCommand(module = Modules.CTF)
 class ThreadCommand : Command("thread", "teamthread") {
     override fun execute(message: Message, alias: String, args: Array<String>): Mono<Void> {
         val res: MutableMap<String, String> = HashMap()

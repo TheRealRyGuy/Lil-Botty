@@ -6,12 +6,15 @@ import discord4j.core.`object`.entity.Message
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.core.spec.MessageCreateSpec
 import discord4j.rest.util.Color
+import me.ryguy.ctfbot.modules.ModuleCommand
+import me.ryguy.ctfbot.modules.Modules
 import me.ryguy.ctfbot.util.GET
 import me.ryguy.discordapi.command.Command
 import reactor.core.publisher.Mono
 import java.net.URL
 import java.util.*
 
+@ModuleCommand(module = Modules.CTF)
 class BrawlCommand : Command("brawl", "brool") {
     companion object {
         val servers = mapOf(

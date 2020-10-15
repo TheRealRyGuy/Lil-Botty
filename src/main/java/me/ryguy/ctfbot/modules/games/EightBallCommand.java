@@ -2,12 +2,15 @@ package me.ryguy.ctfbot.modules.games;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
 
+@ModuleCommand(module = Modules.GAMES)
 public class EightBallCommand extends Command {
 
     private static final Map<String, BallResult> possibilities = new HashMap<>();

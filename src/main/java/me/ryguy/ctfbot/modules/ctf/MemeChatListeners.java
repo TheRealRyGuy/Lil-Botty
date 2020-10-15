@@ -1,9 +1,12 @@
 package me.ryguy.ctfbot.modules.ctf;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import me.ryguy.ctfbot.modules.ModuleListener;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.discordapi.listeners.DiscordEvent;
 import me.ryguy.discordapi.listeners.Listener;
 
+@ModuleListener(module = Modules.CTF)
 public class MemeChatListeners implements Listener {
     @DiscordEvent
     public void onChat(MessageCreateEvent e) {

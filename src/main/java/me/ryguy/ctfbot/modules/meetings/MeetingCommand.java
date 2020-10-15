@@ -4,12 +4,14 @@ import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import me.ryguy.discordapi.util.WorkFlow;
 import reactor.core.publisher.Mono;
 
-
+@ModuleCommand(module = Modules.MEETINGS)
 public class MeetingCommand extends Command {
 
     public MeetingCommand() {

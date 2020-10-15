@@ -2,6 +2,8 @@ package me.ryguy.ctfbot.modules.reminders;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.DelayedMessage;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
@@ -13,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@ModuleCommand(module = Modules.REMINDERS)
 public class ReminderCommand extends Command {
     public static Map<Character, TimeUnit> timeUnits = new HashMap<>();
 

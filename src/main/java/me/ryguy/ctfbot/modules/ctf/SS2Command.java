@@ -2,6 +2,8 @@ package me.ryguy.ctfbot.modules.ctf;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.EmbedBuilder;
 import me.ryguy.ctfbot.util.SSHelper;
 import me.ryguy.discordapi.command.Command;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
+@ModuleCommand(module = Modules.CTF)
 public class SS2Command extends Command {
     public SS2Command() {
         super("spreadsheet2", "ss2");

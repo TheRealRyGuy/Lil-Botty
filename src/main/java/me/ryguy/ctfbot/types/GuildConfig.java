@@ -14,5 +14,4 @@ public class GuildConfig {
     long guildId;
     List<Module> modules;
     String prefix;
-    me.ryguy.ctfbot.types.Data data;
 }

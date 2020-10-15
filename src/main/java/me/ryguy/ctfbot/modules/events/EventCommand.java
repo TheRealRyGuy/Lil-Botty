@@ -7,6 +7,8 @@ import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import me.ryguy.discordapi.util.WorkFlow;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ModuleCommand(module = Modules.EVENTS)
 public class EventCommand extends Command {
     public EventCommand() {
         super("event");

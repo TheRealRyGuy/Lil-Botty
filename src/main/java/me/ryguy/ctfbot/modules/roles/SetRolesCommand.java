@@ -7,6 +7,8 @@ import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
@@ -17,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ModuleCommand(module = Modules.ROLES)
 public class SetRolesCommand extends Command {
     public SetRolesCommand() {
         super("setroles", "roles");

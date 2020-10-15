@@ -3,9 +3,12 @@ package me.ryguy.ctfbot.modules.poll;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.event.domain.message.ReactionRemoveEvent;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.modules.ModuleListener;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.discordapi.listeners.DiscordEvent;
 import me.ryguy.discordapi.listeners.Listener;
 
+@ModuleListener(module = Modules.POLLS)
 public class PollListeners implements Listener {
     @DiscordEvent
     public void onReactAdd(ReactionAddEvent event) {

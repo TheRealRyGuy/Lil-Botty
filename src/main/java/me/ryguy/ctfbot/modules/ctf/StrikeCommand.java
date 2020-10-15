@@ -7,6 +7,8 @@ import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.DiscordUtil;
 import me.ryguy.ctfbot.util.StrikeUtil;
 import me.ryguy.ctfbot.util.Util;
@@ -18,6 +20,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ModuleCommand(module = Modules.CTF)
 public class StrikeCommand extends CTFDiscordOnlyCommand {
 
     public StrikeCommand() {

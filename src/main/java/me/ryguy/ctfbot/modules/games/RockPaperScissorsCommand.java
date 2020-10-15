@@ -3,6 +3,8 @@ package me.ryguy.ctfbot.modules.games;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Image;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@ModuleCommand(module = Modules.GAMES)
 public class RockPaperScissorsCommand extends Command {
     public RockPaperScissorsCommand() {
         super("rps", "rockpaperscissors");

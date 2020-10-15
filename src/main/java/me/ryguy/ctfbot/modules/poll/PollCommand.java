@@ -6,6 +6,8 @@ import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import me.ryguy.discordapi.util.WorkFlow;
@@ -14,6 +16,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@ModuleCommand(module = Modules.POLLS)
 public class PollCommand extends Command {
     public PollCommand() {
         super("poll");

@@ -7,6 +7,8 @@ import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.object.reaction.ReactionEmoji;
 import discord4j.rest.util.Permission;
+import me.ryguy.ctfbot.modules.ModuleListener;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.discordapi.listeners.DiscordEvent;
 import me.ryguy.discordapi.listeners.Listener;
 
@@ -14,6 +16,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@ModuleListener(module = Modules.QUOTES)
 public class QuoteListener implements Listener {
     public static final long COOLDOWN = 15 * 1000; // 15 seconds in millis
     private final Map<Snowflake, Long> cooldowns = new HashMap<>();

@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 public class Module {
     public String name;
+    public String description;
     public List<Command> commands;
     public List<Listener> listeners;
 }

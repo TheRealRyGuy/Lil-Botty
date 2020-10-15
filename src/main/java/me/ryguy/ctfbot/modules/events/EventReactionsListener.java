@@ -4,6 +4,8 @@ import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.event.domain.message.ReactionRemoveEvent;
 import discord4j.core.object.entity.Member;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.modules.ModuleListener;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.StrikeUtil;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.listeners.DiscordEvent;
@@ -11,6 +13,7 @@ import me.ryguy.discordapi.listeners.Listener;
 
 import java.util.stream.Collectors;
 
+@ModuleListener(module = Modules.EVENTS)
 public class EventReactionsListener implements Listener {
     @DiscordEvent
     public void onReactAdd(ReactionAddEvent event) {

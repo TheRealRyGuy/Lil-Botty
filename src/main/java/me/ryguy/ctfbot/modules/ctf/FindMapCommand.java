@@ -4,6 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.modules.ModuleCommand;
+import me.ryguy.ctfbot.modules.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
@@ -13,6 +15,7 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ModuleCommand(module = Modules.CTF)
 public class FindMapCommand extends Command {
     public FindMapCommand() {
         super("findmap", "mapfind");

@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import lombok.Getter;
+import me.ryguy.ctfbot.modules.ModuleLoader;
 import me.ryguy.ctfbot.modules.ctf.PPMStrike;
 import me.ryguy.ctfbot.modules.reminders.Reminder;
 import me.ryguy.ctfbot.types.Data;
@@ -53,9 +54,6 @@ public class CTFDiscordBot {
         }
         bot = new DiscordBot(args[0], "!");
         bot.loginBot();
-        bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
-
-
 
         /*bot.setCommandErrorHandler((ex, cmd) -> {
             ex.printStackTrace();
@@ -75,7 +73,7 @@ public class CTFDiscordBot {
         });*/
 
         try {
-            Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("DataLoader").build()).submit(() -> {
+            Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("StartupLoader").build()).submit(() -> {
                 try {
                     data = Data.load(DATA_FILE);
                     if (data.reminders != null) {
@@ -88,16 +86,24 @@ public class CTFDiscordBot {
                     ex.printStackTrace();
                     System.exit(0);
                 }
+
+                logger.info("Beginning to register commands and listeners!");
+                Startup.INSTANCE.registerCommands();
+                Startup.INSTANCE.registerListeners();
+                logger.info("Finished registering commands and listeners!");
+
+                logger.info("Loading modules!");
+                new ModuleLoader();
+                logger.info("Modules loaded!");
+
+                bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
+                logger.info("Startup concluded!");
+                bot.endStartup();
             });
         }catch(Exception ex) {
             logger.error("Something went wrong loading data!", ex);
             System.exit(-1);
         }
-
-        Startup.INSTANCE.registerCommands();
-        Startup.INSTANCE.registerListeners();
-
-        bot.endStartup();
     }
 
     public static Gson gson() {

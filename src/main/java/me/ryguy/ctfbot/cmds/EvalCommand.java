@@ -3,6 +3,7 @@ package me.ryguy.ctfbot.cmds;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
+import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
 
@@ -30,7 +31,7 @@ public class EvalCommand extends Command {
 
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
-        String input = Arrays.stream(Arrays.copyOfRange(args, 0, args.length)).collect(Collectors.joining(" "));
+        String input = Util.connectArray(message.getContent().split(" "), 1);
         try {
             Object res = engine.eval(input);
             message.getChannel().block().createEmbed(em -> {

@@ -44,12 +44,9 @@ public class PPMStrike {
     }
 
     public static void initializeReminders() {
-        CTFDiscordBot.data.strikeReminders.forEach(reminder -> {
-            if (reminder.isSent())
-                CTFDiscordBot.data.strikeReminders.remove(reminder);
-            else
+            CTFDiscordBot.data.strikeReminders.forEach(reminder -> {
                 reminder.schedule(reminder.getChannel());
-        });
+            });
     }
 
     public boolean isActive() {

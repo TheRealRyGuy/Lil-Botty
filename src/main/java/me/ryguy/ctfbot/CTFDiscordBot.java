@@ -73,37 +73,28 @@ public class CTFDiscordBot {
         });*/
 
         try {
-            Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("StartupLoader").build()).submit(() -> {
-                try {
-                    data = Data.load(DATA_FILE);
-                    if (data.reminders != null) {
-                        Reminder.initialize();
-                    }
-                    if (data.strikeReminders != null) {
-                        PPMStrike.initializeReminders();
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    System.exit(0);
-                }
-
-                logger.info("Beginning to register commands and listeners!");
-                Startup.INSTANCE.registerCommands();
-                Startup.INSTANCE.registerListeners();
-                logger.info("Finished registering commands and listeners!");
-
-                logger.info("Loading modules!");
-                new ModuleLoader();
-                logger.info("Modules loaded!");
-
-                bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
-                logger.info("Startup concluded!");
-            });
-        }catch(Exception ex) {
-            logger.error("Something went wrong loading data!", ex);
-            System.exit(-1);
+            data = Data.load(DATA_FILE);
+            if (data.reminders != null) {
+                Reminder.initialize();
+            }
+            if (data.strikeReminders != null) {
+                PPMStrike.initializeReminders();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.exit(0);
         }
+        logger.info("Beginning to register commands and listeners!");
+        Startup.INSTANCE.registerCommands();
+        Startup.INSTANCE.registerListeners();
+        logger.info("Finished registering commands and listeners!");
+
+        bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
+        logger.info("Startup concluded!");
         bot.endStartup();
+        //logger.info("Loading modules!");
+        //new ModuleLoader();
+        //logger.info("Modules loaded!");
     }
 
     public static Gson gson() {

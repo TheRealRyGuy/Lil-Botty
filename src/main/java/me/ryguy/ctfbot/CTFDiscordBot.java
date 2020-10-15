@@ -98,12 +98,12 @@ public class CTFDiscordBot {
 
                 bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
                 logger.info("Startup concluded!");
-                bot.endStartup();
             });
         }catch(Exception ex) {
             logger.error("Something went wrong loading data!", ex);
             System.exit(-1);
         }
+        bot.endStartup();
     }
 
     public static Gson gson() {

@@ -1,15 +1,15 @@
 package me.ryguy.ctfbot;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import discord4j.discordjson.json.gateway.StatusUpdate;
 import lombok.Getter;
-import me.ryguy.ctfbot.modules.ModuleLoader;
+import me.ryguy.ctfbot.module.ModuleLoader;
 import me.ryguy.ctfbot.modules.ctf.PPMStrike;
 import me.ryguy.ctfbot.modules.reminders.Reminder;
 import me.ryguy.ctfbot.types.Data;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
+import me.ryguy.discordapi.util.MultiThreader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Executors;
 
-public class CTFDiscordBot {
+public class CTFDiscordBot implements MultiThreader {
     //List of many many things
     public static final long CTF_DISCORD_ID = 276518289289773067L;
     public static final long TEST_GUILD_ID = 433097833080684575L;
@@ -55,23 +54,6 @@ public class CTFDiscordBot {
         bot = new DiscordBot(args[0], "!");
         bot.loginBot();
 
-        /*bot.setCommandErrorHandler((ex, cmd) -> {
-            ex.printStackTrace();
-            bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
-                e.setColor(Color.RED);
-                e.setTitle("Error using command " + cmd.getName() + " - " + ex.getClass().getName() + "!");
-                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ");
-            }).block();
-        });
-        bot.setEventErrorHandler((ex, event) -> {
-            ex.printStackTrace();
-            bot.getGateway().getUserById(Snowflake.of(BOT_OWNER)).block().getPrivateChannel().block().createEmbed(e -> {
-                e.setColor(Color.RED);
-                e.setTitle("Error running event  " + event.getClass().getName() + " - " + ex.getClass().getName() + "!");
-                e.setDescription(":wc: ```" + ExceptionUtils.getStackTrace(ex.getCause()) + "``` ");
-            }).block();
-        });*/
-
         try {
             data = Data.load(DATA_FILE);
             if (data.reminders != null) {
@@ -89,12 +71,13 @@ public class CTFDiscordBot {
         Startup.INSTANCE.registerListeners();
         logger.info("Finished registering commands and listeners!");
 
+        logger.info("Loading modules!");
+        new ModuleLoader().init();
+        logger.info("Modules loaded!");
+
         bot.getGateway().updatePresence(StatusUpdate.builder().status("Love and Waffles!").afk(false).build());
         logger.info("Startup concluded!");
         bot.endStartup();
-        //logger.info("Loading modules!");
-        //new ModuleLoader();
-        //logger.info("Modules loaded!");
     }
 
     public static Gson gson() {

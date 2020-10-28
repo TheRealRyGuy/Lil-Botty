@@ -4,6 +4,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import lombok.Getter;
 import lombok.Setter;
+import me.ryguy.ctfbot.types.CachedObject;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -29,26 +30,29 @@ public class SSHelper {
     private final String RANGE;
     //handles caching and grabbing spreadsheet information
     private long lastCache;
-    private ValueRange vr;
+    private CachedObject<ValueRange> vr;
 
     public SSHelper(String id, String range) throws IOException {
         this.SHEET_ID = id;
         this.RANGE = range;
-        this.vr = getValueRange();
+        this.vr = new CachedObject<ValueRange>(TimeUnit.MINUTES.toMillis(1), () -> {
+            try {
+                return getValueRange();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return vr.getCached();
+            }
+        });
     }
 
     public ValueRange getValueRange() throws IOException {
-        if (lastCache == 0 || System.currentTimeMillis() - lastCache > TimeUnit.MINUTES.toMillis(1)) {
-            this.vr = SHEETS.spreadsheets().values().get(SHEET_ID, RANGE).execute();
-            lastCache = System.currentTimeMillis();
-        }
-        return this.vr;
+        return SHEETS.spreadsheets().values().get(SHEET_ID, RANGE).execute();
     }
 
     //redslimes cell getters <3
     public List<Cell> getAllCells() throws IOException {
         List<Cell> cells = new ArrayList<>();
-        List<List<Object>> data = this.getValueRange().getValues();
+        List<List<Object>> data = vr.get().getValues();
         for (int rowIndex = 0; rowIndex < MAX_ROW; rowIndex++) {
             for (int columnIndex = 0; columnIndex < MAX_COLUMN; columnIndex++) {
                 if (data.size() > rowIndex) {

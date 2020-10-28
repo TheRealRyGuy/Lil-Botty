@@ -4,8 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
@@ -31,7 +31,7 @@ public class FindMapCommand extends Command {
                     e.setDescription(":x: You need to have some arugments !!");
                 });
             }).block();
-            return null;
+            return Mono.empty();
         }
         try {
             BufferedReader br = new BufferedReader(new FileReader(CTFDiscordBot.MAP_FILE));
@@ -47,7 +47,7 @@ public class FindMapCommand extends Command {
             }).block();
             ex.printStackTrace();
             Util.sendErrorMessage(ex, message);
-            return null;
+            return Mono.empty();
         }
 
         String request = String.join(" ", args);
@@ -106,7 +106,7 @@ public class FindMapCommand extends Command {
                 }).block();
             }
         }
-        return null;
+        return Mono.empty();
     }
 
     class Map {

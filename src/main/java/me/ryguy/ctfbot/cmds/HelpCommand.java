@@ -29,6 +29,6 @@ public class HelpCommand extends Command {
             e.addField("Contributing", "To contribute to WaffleBot, you can contribute at <https://github.com/TheRealRyGuy/CTF-Community-Discord-Bot>! Any contributions are welcome!", false);
             e.addField("Inviting", "To invite the bot to your server, use this invite: <https://discord.com/oauth2/authorize?client_id=749700983105257482&scope=bot&permissions=2146958847>", false);
         }).block();
-        return null;
+        return Mono.empty();
     }
 }

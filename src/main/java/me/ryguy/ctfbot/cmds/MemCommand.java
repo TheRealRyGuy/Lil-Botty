@@ -17,7 +17,7 @@ public class MemCommand extends Command {
     public Mono<Void> execute(Message message, String s, String[] strings) {
         if (CTFDiscordBot.data == null) {
             message.getChannel().block().createMessage(":x: Bot data hasn't been loaded yet, cannot check this!!");
-            return null;
+            return Mono.empty();
         }
         message.getChannel().block().createEmbed(e -> {
             e.setColor(Color.TAHITI_GOLD);
@@ -30,7 +30,7 @@ public class MemCommand extends Command {
                 }
             }
         }).block();
-        return null;
+        return Mono.empty();
     }
 
     private String buildMemInfo() {

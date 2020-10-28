@@ -40,6 +40,7 @@ object Startup {
         CleanDataCommand().register()
         ReportCommand().register()
         SuggestCommand().register()
+        ModuleCommand().register()
         //PPM / CTF Commands
         FindMapCommand().register()
         CTFGameStatsCommand().register()

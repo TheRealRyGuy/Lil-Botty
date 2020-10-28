@@ -7,8 +7,8 @@ import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.CTFDiscordBot;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
@@ -63,14 +63,14 @@ public class SetRolesCommand extends Command {
 
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
-        if (!Util.isPpmHost(message.getAuthorAsMember().block())) return null;
+        if (!Util.isPpmHost(message.getAuthorAsMember().block())) return Mono.empty();
         Role currentRole = null;
         List<String> skippedLines = new ArrayList<>();
         List<String> errors = new ArrayList<>();
 
         if (message.getContent().split("\n").length == 0) {
             message.getChannel().block().createMessage(":x: You need to specify roles or users to set!").block();
-            return null;
+            return Mono.empty();
         }
 
         Message toEdit = message.getChannel().block().createMessage(msg -> {
@@ -133,6 +133,6 @@ public class SetRolesCommand extends Command {
             });
         }).block();
 
-        return null;
+        return Mono.empty();
     }
 }

@@ -20,7 +20,7 @@ public class RestartCommand extends Command {
             em.setFooter("!findmap BOSTON", DiscordBot.getBot().getGateway().getSelf().block().getAvatarUrl());
         }).block();
         System.exit(0);
-        return null;
+        return Mono.empty();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package me.ryguy.ctfbot.modules;
+package me.ryguy.ctfbot.module;
 
 import lombok.Builder;
 import lombok.Data;

@@ -2,8 +2,8 @@ package me.ryguy.ctfbot.modules.ctf;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.ctfbot.util.EmbedBuilder;
 import me.ryguy.ctfbot.util.SSHelper;
 import me.ryguy.discordapi.command.Command;
@@ -29,14 +29,14 @@ public class SSCommand extends Command {
                 e.setColor(Color.RED);
                 e.setDescription(":x: You need some arguments! \nPossible arguments: `upcoming, now, past`");
             }).block();
-            return null;
+            return Mono.empty();
         }
         if (!args[0].equalsIgnoreCase("upcoming") && !args[0].equalsIgnoreCase("now") && !args[0].equalsIgnoreCase("past")) {
             message.getChannel().block().createEmbed(e -> {
                 e.setColor(Color.RED);
                 e.setDescription(String.format(":x: Invalid argument `%s`! \nPossible arguments: `upcoming, now, past`", args[0]));
             }).block();
-            return null;
+            return Mono.empty();
         }
         Message msg = message.getChannel().block().createEmbed(e -> {
             e.setColor(Color.TAHITI_GOLD);
@@ -59,7 +59,7 @@ public class SSCommand extends Command {
                                 em.setDescription("Match Server should currently be empty!");
                             });
                         }).block();
-                        return null;
+                        return Mono.empty();
                     } else {
                         matches.clear();
                         matches.add(current);
@@ -96,7 +96,7 @@ public class SSCommand extends Command {
                             }
                         });
                     }).block();
-                    return null;
+                    return Mono.empty();
                 } else {
                     builder.addField(new EmbedBuilder.Field(match.getName(), match.getDay() + ", " + date.format(match.getBegin()) + "\n" + time.format(match.getBegin()) + " - " + time.format(match.getEnd()) + " EST", false));
                     fields++;
@@ -115,7 +115,7 @@ public class SSCommand extends Command {
                     }
                 });
             }).block();
-            return null;
+            return Mono.empty();
         } catch (Exception e) {
             if (e instanceof NullPointerException) {
                 msg.edit(m -> {
@@ -135,6 +135,6 @@ public class SSCommand extends Command {
                 e.printStackTrace();
             }
         }
-        return null;
+        return Mono.empty();
     }
 }

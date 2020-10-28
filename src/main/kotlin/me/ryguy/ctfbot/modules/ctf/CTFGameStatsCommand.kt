@@ -1,8 +1,8 @@
 package me.ryguy.ctfbot.modules.ctf
 
 import discord4j.core.`object`.entity.Message
-import me.ryguy.ctfbot.modules.ModuleCommand
-import me.ryguy.ctfbot.modules.Modules
+import me.ryguy.ctfbot.module.ModuleCommand
+import me.ryguy.ctfbot.module.Modules
 import me.ryguy.ctfbot.util.*
 import org.jsoup.nodes.Document
 import reactor.core.publisher.Mono

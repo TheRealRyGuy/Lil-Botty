@@ -6,8 +6,8 @@ import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.CTFDiscordBot;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
@@ -60,7 +60,7 @@ public class RemoveRolesCommand extends Command {
 
     @Override
     public Mono<Void> execute(Message message, String alias, String[] args) {
-        if (!Util.isPpmHost(message.getAuthorAsMember().block())) return null;
+        if (!Util.isPpmHost(message.getAuthorAsMember().block())) return Mono.empty();
         Map<String, Integer> set = new HashMap<>();
         List<String> skippedLines = new ArrayList<>();
         if (args.length == 0) {
@@ -97,7 +97,7 @@ public class RemoveRolesCommand extends Command {
                         }
                     });
                 }).block();
-                return null;
+                return Mono.empty();
             } else {
                 message.getChannel().block().createMessage(m -> {
                     m.setEmbed(e -> {
@@ -105,7 +105,7 @@ public class RemoveRolesCommand extends Command {
                         e.setDescription(":x: You need to include some arguments!\ni.e. `!removeroles @role 1 @role2`");
                     });
                 }).block();
-                return null;
+                return Mono.empty();
             }
         } else {
             if (message.getRoleMentions().collectList().block().size() == 0) {
@@ -115,7 +115,7 @@ public class RemoveRolesCommand extends Command {
                         e.setDescription(":x: You need to mention some roles to remove!\ni.e. `!removeroles @role 1 @role2`");
                     });
                 }).block();
-                return null;
+                return Mono.empty();
             }
             Message msg = message.getChannel().block().createMessage(m -> {
                 m.setEmbed(e -> {
@@ -151,7 +151,7 @@ public class RemoveRolesCommand extends Command {
                     }
                 });
             }).block();
-            return null;
+            return Mono.empty();
         }
     }
 }

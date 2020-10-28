@@ -3,7 +3,7 @@ package me.ryguy.ctfbot.types;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import me.ryguy.ctfbot.modules.Module;
+import me.ryguy.ctfbot.module.Module;
 
 import java.util.List;
 

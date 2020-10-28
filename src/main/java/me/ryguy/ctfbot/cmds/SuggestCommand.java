@@ -28,7 +28,7 @@ public class SuggestCommand extends Command {
                 em.setDescription("You need to actually type out text to suggest!\ni.e. `!suggest RyGuy should take a shower`");
                 em.setTimestamp(Instant.now());
             }).block();
-            return null;
+            return Mono.empty();
         }
         String suggestion = Util.connectArray(args, 0);
         ((MessageChannel) CTFDiscordBot.getBot().getGateway().getChannelById(Snowflake.of(channelId)).block()).createEmbed(em -> {
@@ -50,6 +50,6 @@ public class SuggestCommand extends Command {
             em.setTitle(":white_check_mark: Success!!");
             em.setDescription(String.format("Suggestion: `%s`", suggestion));
         }).block();
-        return null;
+        return Mono.empty();
     }
 }

@@ -1,8 +1,8 @@
 package me.ryguy.ctfbot.modules.ctf;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
-import me.ryguy.ctfbot.modules.ModuleListener;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleListener;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.discordapi.listeners.DiscordEvent;
 import me.ryguy.discordapi.listeners.Listener;
 

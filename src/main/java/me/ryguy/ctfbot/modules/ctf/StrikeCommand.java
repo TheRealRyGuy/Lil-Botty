@@ -7,8 +7,8 @@ import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.util.Color;
 import me.ryguy.ctfbot.CTFDiscordBot;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.ctfbot.util.DiscordUtil;
 import me.ryguy.ctfbot.util.StrikeUtil;
 import me.ryguy.ctfbot.util.Util;
@@ -43,14 +43,14 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                         em.setTitle(":x: Invalid Usage!");
                         em.setDescription("Proper Usage: `!strike info @User`");
                     }).block();
-                    return null;
+                    return Mono.empty();
                 }
                 if (!DiscordUtil.isValidUserMention(args[1], message.getGuild().block())) {
                     message.getChannel().block().createEmbed(em -> {
                         em.setColor(Color.RED);
                         em.setDescription(":x: You need to use a valid user mention!");
                     }).block();
-                    return null;
+                    return Mono.empty();
                 }
                 List<PPMStrike> strikes = StrikeUtil.getStrikes(DiscordUtil.getUserByMention(args[1]));
                 if (strikes.size() == 0) {
@@ -139,7 +139,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                         em.setTitle(":x: Invalid Usage!");
                         em.setDescription("Invalid: You need a reason! \n Proper Usage: `!strike @User reason`");
                     }).block();
-                    return null;
+                    return Mono.empty();
                 }
                 User striked = DiscordBot.getBot().getGateway().getUserById(Snowflake.of(args[0])).block();
                 PPMStrike strike = new PPMStrike(StrikeUtil.getNextTier(striked),
@@ -173,7 +173,7 @@ public class StrikeCommand extends CTFDiscordOnlyCommand {
                 }).block();
             }
         }
-        return null;
+        return Mono.empty();
     }
 
     @Override

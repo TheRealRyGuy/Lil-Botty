@@ -48,7 +48,7 @@ public class EvalCommand extends Command {
                 em.addField(":x: Error", "```xml\n" + e.getMessage() + "```", false);
             }).block();
         }
-        return null;
+        return Mono.empty();
     }
 
     @Override

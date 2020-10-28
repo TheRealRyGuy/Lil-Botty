@@ -2,8 +2,8 @@ package me.ryguy.ctfbot.modules.games;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
@@ -24,6 +24,6 @@ public class DiceRollCommand extends Command {
             em.setColor(Color.TAHITI_GOLD);
             em.setFooter("love and waffles :3", DiscordBot.getBot().getGateway().getSelf().block().getAvatarUrl());
         }).block();
-        return null;
+        return Mono.empty();
     }
 }

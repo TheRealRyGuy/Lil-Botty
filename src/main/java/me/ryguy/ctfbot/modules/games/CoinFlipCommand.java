@@ -2,8 +2,8 @@ package me.ryguy.ctfbot.modules.games;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.command.Command;
 import reactor.core.publisher.Mono;
@@ -33,6 +33,6 @@ public class CoinFlipCommand extends Command {
                 em.setFooter("excommunicate mutes", DiscordBot.getBot().getGateway().getSelf().block().getAvatarUrl());
             }).block();
         }
-        return null;
+        return Mono.empty();
     }
 }

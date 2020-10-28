@@ -28,7 +28,7 @@ public class ReportCommand extends Command {
                 em.setDescription("You need to type out a description of the bug you're trying to report!\ni.e. `!report It's not WOO BACK WEDNESDAY :sob:`");
                 em.setTimestamp(Instant.now());
             }).block();
-            return null;
+            return Mono.empty();
         }
         String suggestion = Util.connectArray(args, 0);
         ((MessageChannel) CTFDiscordBot.getBot().getGateway().getChannelById(Snowflake.of(channelId)).block()).createEmbed(em -> {
@@ -50,6 +50,6 @@ public class ReportCommand extends Command {
             em.setTitle(":white_check_mark: Success!!");
             em.setDescription(String.format("Bug Reported: `%s`", suggestion));
         }).block();
-        return null;
+        return Mono.empty();
     }
 }

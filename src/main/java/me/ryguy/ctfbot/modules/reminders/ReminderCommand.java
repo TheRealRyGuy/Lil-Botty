@@ -2,8 +2,8 @@ package me.ryguy.ctfbot.modules.reminders;
 
 import discord4j.core.object.entity.Message;
 import discord4j.rest.util.Color;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.ctfbot.util.DelayedMessage;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
@@ -38,7 +38,7 @@ public class ReminderCommand extends Command {
                 em.setTitle(":x: Invalid Usage!");
                 em.setDescription("Invalid argument length! Proper Usage Examples: \n`!remind 1h I need to do laundry`\n`!remind 30d Reset Discord invites`");
             }).block();
-            return null;
+            return Mono.empty();
         }
         if (!Util.isInteger(args[0].substring(0, args[0].length() - 1))) {
             message.getChannel().block().createEmbed(em -> {
@@ -46,7 +46,7 @@ public class ReminderCommand extends Command {
                 em.setTitle(":x: Invalid Usage!");
                 em.setDescription("You need to use an integer in your time declaration! Usage Examples: \n`!remind 1h I need to do laundry`\n`!remind 30d Reset Discord invites`");
             }).block();
-            return null;
+            return Mono.empty();
         }
         Character unit = args[0].charAt(args[0].length() - 1);
         TimeUnit timeUnit = null;
@@ -62,7 +62,7 @@ public class ReminderCommand extends Command {
                 em.setTitle(":x: Invalid Usage!");
                 em.setDescription("Invalid Time Unit! Usage Examples: \n`!remind 1h I need to do laundry`\n`!remind 30d Reset Discord invites`");
             }).block();
-            return null;
+            return Mono.empty();
         }
         if (message.getAuthor().get().getPrivateChannel().block() == null || !message.getAuthor().get().getPrivateChannel().blockOptional().isPresent()) {
             message.getChannel().block().createEmbed(em -> {
@@ -70,7 +70,7 @@ public class ReminderCommand extends Command {
                 em.setTitle(":x: Invalid Usage!");
                 em.setDescription("The bot cannot access your dms! Please allow the bot to dm you to use this feature`");
             }).block();
-            return null;
+            return Mono.empty();
         }
         Reminder reminder = new Reminder(message.getAuthor().get().getId().asLong(), message.getAuthor().get().getPrivateChannel().block(),
                 System.currentTimeMillis() + timeUnit.toMillis(length), new DelayedMessage(message.getAuthor().get().getPrivateChannel().block(),
@@ -83,6 +83,6 @@ public class ReminderCommand extends Command {
             em.setDescription("Sending you this reminder at " + new Date(reminder.getTimestamp()).toString());
             em.setTimestamp(Instant.now());
         }).block();
-        return null;
+        return Mono.empty();
     }
 }

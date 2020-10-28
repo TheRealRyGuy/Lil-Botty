@@ -7,8 +7,8 @@ import discord4j.core.object.entity.Role;
 import discord4j.rest.util.Color;
 import discord4j.rest.util.Permission;
 import me.ryguy.ctfbot.CTFDiscordBot;
-import me.ryguy.ctfbot.modules.ModuleCommand;
-import me.ryguy.ctfbot.modules.Modules;
+import me.ryguy.ctfbot.module.ModuleCommand;
+import me.ryguy.ctfbot.module.Modules;
 import me.ryguy.ctfbot.util.Util;
 import me.ryguy.discordapi.command.Command;
 import me.ryguy.discordapi.util.WorkFlow;
@@ -308,6 +308,6 @@ public class EventCommand extends Command {
                 }).block();
             }
         })).start();
-        return null;
+        return Mono.empty();
     }
 }

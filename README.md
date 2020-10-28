@@ -1,13 +1,14 @@
-<h1>MCCTF Discord Bot</h1>
-simple (hoping to make open source) bot to help run and organize the ctf discord and it's ppms
+<h1>Lil Botty</h1>
+Simple & Open Source bot originally created for the MCCTF Community (https://www.brawl.com/), then further expand to become a general use bot 
 <br>
-am aware the repo is a mess, i need to clean it up when i'm not half asleep
+Invite Link: https://discord.com/oauth2/authorize?client_id=749700983105257482&scope=bot&permissions=2146958847
 <br>
-if you're missing the discordlib clone, package and install this locally, https://github.com/TheRealRyGuy/Discord4JLib/releases/
-<h5>Todo</h5>
+Prefix: !
+<br>
+<h5>Todo and Future Plans</h5>
 <li>Add documentation</li>
-<li>add better looking event command</li>
-<li>Reimplement strike system</li>
-<li>Reimplement ss helpers</li>
-<li>Allow for multi guild compatibility</li>
-<li>idk someone give me other stuff to do</li>
+<li>Finish Module System</li>
+<li>Eventual Web Gui</li>
+<li>Clean help system and add a welcome message for when bot joins a guild</li>
+<br>
+<i>If you have any features you'd like or any bugs to report, feel free to either contact me on Discord (RyGuy#0001), make a PR or an Issue Report, or use the !suggest and !report commands through the bot!<i>

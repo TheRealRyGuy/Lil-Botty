@@ -10,6 +10,7 @@ import me.ryguy.ctfbot.types.Data;
 import me.ryguy.ctfbot.types.TypeSerializer;
 import me.ryguy.discordapi.DiscordBot;
 import me.ryguy.discordapi.util.MultiThreader;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +25,9 @@ public class CTFDiscordBot implements MultiThreader {
     public static final long TEST_GUILD_ID = 433097833080684575L;
     public static final long BOT_OWNER = 151474463550996480L;
     public static final Logger logger = LoggerFactory.getLogger(CTFDiscordBot.class);
-
+    public static final PrettyTime timeFormatter = new PrettyTime();
     public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
+
     public static File MAP_FILE;
     public static File SHEETS_CREDENTIALS;
     public static File DATA_FILE;

@@ -21,9 +21,14 @@ public class DiscordUtil {
     }
 
     public static boolean isValidUserMention(String input, Guild guild) {
-        if (guild.getMemberById(Snowflake.of(input)).block() != null) return true;
-        String mention = parseMention(input);
-        return guild.getMemberById(Snowflake.of(mention)) != null;
+        try {
+            if (guild.getMemberById(Snowflake.of(input)).block() != null) return true;
+            String mention = parseMention(input);
+            return guild.getMemberById(Snowflake.of(mention)) != null;
+        }catch(NumberFormatException ex) {
+            System.out.println("[DiscordUtil#validUserMention] Failed to parse: " + input);
+            return false;
+        }
     }
 
     public static String parseMention(String input) {

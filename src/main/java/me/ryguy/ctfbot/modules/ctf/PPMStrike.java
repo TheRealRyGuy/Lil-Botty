@@ -12,6 +12,7 @@ import me.ryguy.ctfbot.util.DiscordUtil;
 import me.ryguy.discordapi.DiscordBot;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -55,7 +56,8 @@ public class PPMStrike {
 
     @Override
     public String toString() {
-        return "(ID: " + this.id + ") " + this.getTier().getEmoji() + " " + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " + DiscordUtil.getUserTag(this.getStrikedBy());
+        return "(ID: " + this.id + ") " + this.getTier().getEmoji() + " " + DiscordUtil.getUserTag(this.getStriked()) + "was striked by " +
+                DiscordUtil.getUserTag(this.getStrikedBy()) + " " + CTFDiscordBot.timeFormatter.format(new Date(this.getTimestamp()));
     }
 
     public enum Tier {
@@ -122,6 +124,11 @@ public class PPMStrike {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        public void clear() {
+            CTFDiscordBot.data.strikeReminders.remove(this);
         }
     }
 }

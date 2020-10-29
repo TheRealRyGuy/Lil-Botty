@@ -51,6 +51,7 @@ public class Reminder {
                 toSend.setChannel(ch);
                 toSend.send();
                 sent = true;
+                clear();
             }
         }, new Date(timestamp));
         try {
@@ -58,5 +59,8 @@ public class Reminder {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void clear() {
+        CTFDiscordBot.data.reminders.remove(this);
     }
 }

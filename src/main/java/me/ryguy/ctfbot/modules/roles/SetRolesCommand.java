@@ -82,8 +82,7 @@ public class SetRolesCommand extends Command {
         int rolesSet = 0;
         for (String s : message.getContent().split("\n")) {
             if (s.trim().equalsIgnoreCase(DiscordBot.getBot().getPrefix() + "setroles")) continue;
-            if (s.trim() == "" || s.trim().isEmpty() || s == null) {
-                skippedLines.add(s);
+            if (s.trim().equals("") || s.trim().isEmpty()) {
                 continue;
             }
             if (Util.parseMention(s) == null) {
@@ -123,7 +122,7 @@ public class SetRolesCommand extends Command {
             msg.setEmbed(embed -> {
                 embed.setColor(Color.GREEN);
                 embed.setDescription(String.format(":white_check_mark: %s roles set!", finalRolesSet));
-                if (skippedLines.size() != 0) {
+                if (!skippedLines.isEmpty()) {
                     embed.addField("Skipped Lines", skippedLines.toString(), false);
                 }
                 if (errors.size() != 0) {

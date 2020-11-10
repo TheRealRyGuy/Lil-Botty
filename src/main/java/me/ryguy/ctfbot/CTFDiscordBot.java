@@ -26,7 +26,7 @@ public class CTFDiscordBot implements MultiThreader {
     public static final long BOT_OWNER = 151474463550996480L;
     public static final Logger logger = LoggerFactory.getLogger(CTFDiscordBot.class);
     public static final PrettyTime timeFormatter = new PrettyTime();
-    public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing");
+    public static final List<String> ROLES_TO_REMOVE = Arrays.asList("Red Team", "Blue Team", "playing", "Yellow Team", "Green Team");
 
     public static File MAP_FILE;
     public static File SHEETS_CREDENTIALS;

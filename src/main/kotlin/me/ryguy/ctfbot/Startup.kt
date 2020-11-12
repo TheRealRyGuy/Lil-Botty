@@ -11,6 +11,7 @@ import me.ryguy.ctfbot.modules.games.EightBallCommand
 import me.ryguy.ctfbot.modules.games.RockPaperScissorsCommand
 import me.ryguy.ctfbot.modules.meetings.MeetingCommand
 import me.ryguy.ctfbot.modules.meetings.MeetingListeners
+import me.ryguy.ctfbot.modules.meme.ExcuseCommand
 import me.ryguy.ctfbot.modules.poll.PollCommand
 import me.ryguy.ctfbot.modules.poll.PollListeners
 import me.ryguy.ctfbot.modules.quotes.QuoteListener
@@ -49,6 +50,7 @@ object Startup {
         SSCommand().register()
         SS2Command().register()
         StrikeCommand().register()
+        ExcuseCommand().register()
     }
 
     fun registerListeners() {

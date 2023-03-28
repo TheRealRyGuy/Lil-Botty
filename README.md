@@ -1,4 +1,5 @@
 <h1>Lil Botty</h1>
+<h5>I built the bones to this bot in the span of 12 hours in a rush, made it for function not to look good. It is no longer supported, and would need to be seriously redone to be of any use</h5>
 Simple & Open Source bot originally created for the MCCTF Community (https://www.brawl.com/), then further expand to become a general use bot 
 <br>
 Invite Link: https://discord.com/oauth2/authorize?client_id=749700983105257482&scope=bot&permissions=2146958847
